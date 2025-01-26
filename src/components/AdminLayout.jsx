@@ -1,3 +1,5 @@
+import { Outlet } from "react-router-dom";
+
 export default function AdminLayout(){
   return <>
   <div className="admin__container">
@@ -178,7 +180,7 @@ export default function AdminLayout(){
           </div>
         </header>
         <main className="admin__content">
-         
+          <Outlet/>
         </main>
       </div>
     </div></>

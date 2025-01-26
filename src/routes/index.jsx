@@ -3,10 +3,11 @@ import Home from "../pages/front/Home";
 import ProductList from "../pages/front/ProductList";
 import AdminLogin from "../pages/dashboard/AdminLogin";
 import AdminProducts from "../pages/dashboard/AdminProducts";
-import Dashboard from '../pages/dashboard/Dashboard';
+// import Dashboard from '../pages/dashboard/Dashboard';  是否還需要留著
 import NotFound from "../pages/NotFound";
 import { createHashRouter } from "react-router-dom";
 import App from "../App";
+import AdminLayout from "../components/AdminLayout";
 
 const routes = [
   {
@@ -32,7 +33,7 @@ const routes = [
       },
       {
         path: 'dashboard', 
-        element: <Dashboard />,
+        element: <AdminLayout/>,
         children: [
           {
             index: true,
