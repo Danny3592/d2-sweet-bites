@@ -31,7 +31,7 @@ const routes = [
         element: <AdminLogin />
       },
       {
-        path: 'dashboard',
+        path: 'dashboard', 
         element: <Dashboard />,
         children: [
           {
