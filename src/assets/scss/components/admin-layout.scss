@@ -11,6 +11,7 @@
     ul {
       list-style: none;
       li {
+        
         padding-left: 10px;
         &:not(:last-child) {
           margin-bottom: 2rem;
@@ -30,10 +31,11 @@
             height: 3.5rem;
           }
         }
+        .active{
+          border-left: 2px solid black;
+        }
       }
-      .active{
-        border-left: 2px solid black;
-      }
+      
     }
   }
 
