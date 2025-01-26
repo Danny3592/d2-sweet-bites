@@ -38,7 +38,7 @@ const routes = [
           {
             index: true,
             element: <AdminProducts />,
-            loader:productsLoader
+            // loader:productsLoader
           },
         ]
       },
