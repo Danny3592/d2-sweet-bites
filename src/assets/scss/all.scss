@@ -1,5 +1,5 @@
 @import "bootstrap/scss/_functions";
-@import './helpers/_variables';
+@import './helpers/variables';
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/maps";
 @import "bootstrap/scss/mixins";
@@ -8,9 +8,8 @@
 @import "bootstrap/scss/utilities/api";
 @import "bootstrap/scss/bootstrap";
 
-@import "./base/_base";
-@import "./helpers/_helpers";
-@import "./pages/_home.scss";
-@import "./pages/admin/_admin-products";
-
+@import "./base/base";
+@import "./helpers/helpers";
+@import "./pages/home";
+@import "./pages/admin/admin-products";
 @import "./components/admin-layout";
