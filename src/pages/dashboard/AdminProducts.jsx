@@ -2,8 +2,8 @@ import { getProducts } from '../../../util/http-products';
 import { useNavigation, useLoaderData } from 'react-router-dom';
 
 export default function AdminProducts() {
-  const { products } = useLoaderData();
-  const navigation = useNavigation();
+  // const { products } = useLoaderData();
+  // const navigation = useNavigation();
 
   if (navigation.state === 'error') {
     return <p>Error: 無法載入產品數據。</p>;
@@ -24,7 +24,7 @@ export default function AdminProducts() {
             </tr>
           </thead>
           <tbody>
-            {products.map((product) => {
+            {/* {products.map((product) => {
               return (
                 <tr key={product.title}>
                   <td>{product.category}</td>
@@ -38,7 +38,7 @@ export default function AdminProducts() {
                   </td>
                 </tr>
               );
-            })}
+            })} */}
           </tbody>
         </table>
       </main>
