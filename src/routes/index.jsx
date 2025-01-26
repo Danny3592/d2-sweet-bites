@@ -2,11 +2,12 @@ import FrontLayout from "../pages/front/FrontLayout";
 import Home from "../pages/front/Home";
 import ProductList from "../pages/front/ProductList";
 import AdminLogin from "../pages/dashboard/AdminLogin";
-import AdminProducts from "../pages/dashboard/AdminProducts";
-import Dashboard from '../pages/dashboard/Dashboard';
+import AdminProducts,{loader as productsLoader}  from "../pages/dashboard/AdminProducts";
+// import Dashboard from '../pages/dashboard/Dashboard';  是否還需要留著
 import NotFound from "../pages/NotFound";
 import { createHashRouter } from "react-router-dom";
 import App from "../App";
+import AdminLayout from "../components/AdminLayout";
 
 const routes = [
   {
@@ -31,12 +32,13 @@ const routes = [
         element: <AdminLogin />
       },
       {
-        path: 'dashboard',
-        element: <Dashboard />,
+        path: 'dashboard', 
+        element: <AdminLayout/>,
         children: [
           {
             index: true,
-            element: <AdminProducts />
+            element: <AdminProducts />,
+            loader:productsLoader
           },
         ]
       },
