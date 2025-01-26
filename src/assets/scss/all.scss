@@ -1,16 +1,16 @@
-@import "bootstrap/scss/functions";
-@import './helpers//variables';
+@import "bootstrap/scss/_functions";
+@import './helpers/_variables';
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/maps";
 @import "bootstrap/scss/mixins";
 @import "bootstrap/scss/utilities";
-@import './helpers/utilities';
+@import './helpers/_utilities';
 @import "bootstrap/scss/utilities/api";
 @import "bootstrap/scss/bootstrap";
 
-@import "./base/base";
-@import "./helpers/helpers";
-@import "./pages/home.scss";
-@import "./pages/admin/admin-products";
+@import "./base/_base";
+@import "./helpers/_helpers";
+@import "./pages/_home.scss";
+@import "./pages/admin/_admin-products";
 
 @import "./components/admin-layout";
