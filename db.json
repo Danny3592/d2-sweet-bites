@@ -1,4 +1,28 @@
 {
+  "users": [
+    {
+      "email": "Jay@gmail.com",
+      "password": "$2a$10$jTC74FPpbnDD22ZPt1dUH.003mgaUp8rixMFaxMXQXaVz0poSxssq",
+      "username": "Jay",
+      "role": ["admin"],
+      "id": 1
+    },
+    {
+      "email": "johnny@gmail.com",
+      "password": "$2a$10$xMA05aA8Zgz2UZkybdo04..xlDr3Pe0En/MhPlSaNQ1y.R149MxCG",
+      "username": "Johnny",
+      "role": ["admin"],
+      "id": 2
+    },
+
+    {
+      "email": "kattie@gmail.com",
+      "password": "$2a$10$KxTj148S6MGSzHIHoNRk3eJpLApTeVwMToFQFV1UVrj7LPmZrzT4O",
+      "username": "kattie",
+      "role": ["admin"],
+      "id": 3
+    }
+  ],
   "products": [
     {
       "id": 1,
