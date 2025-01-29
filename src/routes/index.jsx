@@ -2,6 +2,7 @@ import FrontLayout from "../pages/front/FrontLayout";
 import Home from "../pages/front/Home";
 import ProductList from "../pages/front/ProductList";
 import AdminLogin from "../pages/dashboard/AdminLogin";
+import AdminRegister from "../pages/dashboard/AdminRegister";
 import AdminProducts, {
   loader as productsLoader,
 } from "../pages/dashboard/AdminProducts";
@@ -32,6 +33,10 @@ const routes = [
       {
         path: "admin-login",
         element: <AdminLogin />,
+      },
+      {
+        path: "admin-register",
+        element: <AdminRegister />,
       },
       {
         path: "dashboard",

@@ -56,7 +56,7 @@ function AdminLogin() {
           </div>
           <div className="row justify-content-center w-100">
             <div className="col-md-4 col-10">
-              <h2 className="text-center mb-4">管理者後台登入</h2>
+              <h2 className="text- mb-4">管理者後台登入</h2>
               <form onSubmit={handleLogin}>
                 <div className="mb-3">
                   <label htmlFor="username" className="form-label">
