@@ -1,7 +1,21 @@
 export default function Home() {
   return (
-    <div className="py-20 text-center">
-      這是首頁
-    </div>
+    <main>
+      <section className="index-banner">
+
+      </section>
+      <section className="index-recommend">
+
+      </section>
+      <section className="index-news">
+
+      </section>
+      <section className="index-charity">
+
+      </section>
+      <section className="index-banner-font">
+
+      </section>
+    </main>
   )
 }
