@@ -4,8 +4,8 @@ export default function AdminLayout(){
   return <>
   <div className="admin__container">
       <aside className="admin__sidebar">
-        <h2 className="m-dec-left">幸享屋</h2>
-        <ul>
+        <h2 className="m-dec-left mb-10">幸享屋</h2>
+        <ul className="ps-0">
           <li className="active">
             <a href="#">
               <div className="menu-item">

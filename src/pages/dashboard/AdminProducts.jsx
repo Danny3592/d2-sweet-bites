@@ -15,16 +15,16 @@ export default function AdminProducts() {
         <table>
           <thead>
             <tr>
-              <th>分類</th>
-              <th>名稱</th>
-              <th>內容</th>
-              <th>售價</th>
-              <th>狀態</th>
-              <th>操作</th>
+              <th className='py-3'>分類</th>
+              <th className='py-3'>名稱</th>
+              <th className='py-3'>內容</th>
+              <th className='py-3'>售價</th>
+              <th className='py-3'>狀態</th>
+              <th className='py-3'>操作</th>
             </tr>
           </thead>
           <tbody>
-            {/* {products.map((product) => {
+            {products.map((product) => {
               return (
                 <tr key={product.title}>
                   <td>{product.category}</td>
@@ -38,7 +38,7 @@ export default function AdminProducts() {
                   </td>
                 </tr>
               );
-            })} */}
+            })}
           </tbody>
         </table>
       </main>
