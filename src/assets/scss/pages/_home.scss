@@ -1,0 +1,16 @@
+.index-news {
+  background-image: url('../images/index-news/index-news-bg-1.svg');
+  background-position: top right;
+  background-repeat: no-repeat;
+  background-size: 231px 131px;
+  @include media-breakpoint-up(lg) {
+    background-size: 435px 247px;
+  }
+  &__card h3 {
+    color: $dark;
+    transition: $transition-base;
+  }
+  &__card:hover h3 {
+    color: $primary;
+  }
+}

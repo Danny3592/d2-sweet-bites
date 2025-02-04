@@ -150,6 +150,7 @@ $utilities: map-merge(
       )
     ),
     "border-bottom": (
+      responsive: true,
       property: border-bottom,
       values: (
         null: var(--#{$prefix}border-width) var(--#{$prefix}border-style) var(--#{$prefix}border-color),
@@ -223,6 +224,7 @@ $utilities: map-merge(
       values: (100: 100vw)
     ),
     "height": (
+      responsive: true,
       property: height,
       class: h,
       values: (
@@ -230,6 +232,7 @@ $utilities: map-merge(
         50: 50%,
         75: 75%,
         100: 100%,
+        472px: 472px,
         auto: auto
       )
     ),
