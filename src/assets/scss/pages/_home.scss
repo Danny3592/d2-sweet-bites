@@ -1,0 +1,207 @@
+.index-recommend {
+  width: 100%;
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url("../../assets/images/index-recommend/section02_background_mobile.png");
+
+  @include media-breakpoint-up(md) {
+    background-image: url("../../assets/images/index-recommend/section02_background_desktop.png");
+  }
+
+  .recommend-row-title {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 0;
+    padding: 0 12px;
+
+    @include media-breakpoint-up(md) {
+      justify-content: space-between;
+    }
+
+    @include media-breakpoint-up(lg) {
+      justify-content: space-between;
+    }
+
+    .recommend-col {
+      width: 351px;
+      padding: 0;
+
+      @include media-breakpoint-up(md) {
+        width: auto;
+        display: flex;
+        flex-flow: column;
+        margin: auto;
+      }
+
+      .recommend-main-title {
+        font-size: 2rem;
+        font-weight: bold;
+        text-align: left;
+        width: 100%;
+        color: $primary-800;
+        margin-bottom: 1rem;
+        padding-top: 4.5rem;
+
+        @include media-breakpoint-up(md) {
+          padding-top: 9rem;
+          font-size: 2.5rem;
+          text-align: center;
+        }
+
+        .recommend-line1,
+        .recommend-line2 {
+          display: block;
+
+          @include media-breakpoint-up(md) {
+            display: inline;
+          }
+        }
+
+        .recommend-comma {
+          display: none;
+
+          @include media-breakpoint-up(md) {
+            display: inline;
+          }
+        }
+      }
+
+      .recommend-sub-title {
+        font-size: 0.875rem;
+        text-align: left;
+        width: 100%;
+        color: $gray-600;
+        margin-bottom: 3rem;
+
+        @include media-breakpoint-up(md) {
+          font-size: 1rem;
+          text-align: center;
+          margin-bottom: 8rem;
+        }
+      }
+    }
+  }
+
+  .recommend-row-image {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 0;
+
+    @include media-breakpoint-up(md) {
+      justify-content: space-between;
+      padding-bottom: 8.75rem;
+    }
+
+    @include media-breakpoint-up(lg) {
+      justify-content: space-between;
+      padding-bottom: 188px;
+    }
+
+    .recommend-product-card {
+      position: relative;
+      text-align: center;
+      margin-bottom: 3rem;
+      overflow: hidden;
+
+      @include media-breakpoint-up(md) {
+        margin-bottom: 3rem;
+      }
+
+      @include media-breakpoint-up(lg) {
+        margin-bottom: 0;
+      }
+
+      .image-wrapper {
+        position: relative;
+        margin: 0 auto;
+        margin-bottom: 1rem;
+        height: 357px;
+        width: 100%;
+        width: 351px;
+
+        @include media-breakpoint-up(sm) {
+          width: 351px;
+        }
+
+        @include media-breakpoint-up(md) {
+          max-width: 306px;
+        }
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        &:hover .recommend-btn-cart {
+          opacity: 1;
+        }
+      }
+
+      .recommend-btn-cart {
+        padding: 16px 0;
+        background-color: #d4a58e;
+        color: $white;
+        border: none;
+        font-size: 1rem;
+        text-align: center;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        opacity: 1;
+
+        @include media-breakpoint-up(md) {
+          opacity: 0;
+          transition: opacity 0.3s ease;
+
+          @media (hover: hover) {
+            opacity: 0;
+          }
+        }
+
+        &:hover {
+          background-color: #d4a58e;
+        }
+      }
+
+      .recommend-product-info {
+        padding: 0 16px;
+
+        .recommend-product-name {
+          font-size: 1.25rem;
+          font-weight: bold;
+          color: $dark;
+          margin-bottom: 12px;
+        }
+
+        .recommend-product-description {
+          font-size: 0.875rem;
+          margin-bottom: 0.75rem;
+          color: $gray-600;
+
+          @include media-breakpoint-up(md) {
+            font-size: 1rem;
+          }
+        }
+
+        .recommend-product-price {
+          color: $primary-800;
+
+          .recommend-currency {
+            font-size: 1rem;
+          }
+
+          .recommend-amount {
+            font-size: 1.25rem;
+          }
+        }
+      }
+    }
+  }
+}
