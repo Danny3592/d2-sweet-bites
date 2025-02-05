@@ -170,14 +170,9 @@ export default function AdminLayout(){
           </li>
         </ul>
       </aside>
-
       <div className="admin__box">
         <header className="admin__header">
           <div className="logout-box"><button className="btn-logout">登出</button></div>
-          <div className="header-box">
-            <h2>管理商品</h2>
-             <button className="btn btn-fn btn-dark">建立新商品</button>
-          </div>
         </header>
         <main className="admin__content">
           <Outlet/>
