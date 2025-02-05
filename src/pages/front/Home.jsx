@@ -15,21 +15,23 @@ export default function Home() {
       <section className="index-banner"></section>
       <section className="index-recommend">
         <div className="container ">
-          <div class="row recommend-row-title">
-            <div class="col-12 recommend-col">
-              <h1 className="recommend-main-title">
+          <div className="row recommend-row-title">
+            <div className="col-12 recommend-col">
+              <h2 className="recommend-main-title">
                 {/* 手機版顯示三行 */}
                 <span className="d-block d-md-none">
-                  <span className="recommend-line1">甜蜜推薦</span>
-                  <span className="recommend-comma">，</span>
-                  <span className="recommend-line2">讓心動更靠近</span>
+                  <span className="recommend-line1 fw-medium">甜蜜推薦</span>
+                  <span className="recommend-comma fw-medium">，</span>
+                  <span className="recommend-line2 fw-medium">
+                    讓心動更靠近
+                  </span>
                 </span>
 
                 {/* 桌面版顯示單行 */}
-                <span className="d-none d-md-block">
+                <span className="d-none d-md-block fw-medium">
                   甜蜜推薦，讓心動更靠近!
                 </span>
-              </h1>
+              </h2>
 
               <p className="recommend-sub-title d-block d-md-none">
                 <span className="d-block">嚴選美味，專屬您的甜點時光！</span>
@@ -60,10 +62,10 @@ export default function Home() {
                   <button className="recommend-btn-cart">加入購物車</button>
                 </div>
                 <div className="recommend-product-info">
-                  <div className="recommend-product-name">莓好時光</div>
-                  <div className="recommend-product-description">
+                  <h3 className="recommend-product-name">莓好時光</h3>
+                  <p className="recommend-product-description">
                     主打草莓搭配綿密口感的鮮奶油，傳遞甜蜜美好。
-                  </div>
+                  </p>
                   <div className="recommend-product-price">
                     <span className="recommend-currency">NT$</span>
                     <span className="recommend-amount">600</span>
@@ -79,10 +81,10 @@ export default function Home() {
                   <button className="recommend-btn-cart">加入購物車</button>
                 </div>
                 <div className="recommend-product-info">
-                  <div className="recommend-product-name">蜜桃初戀</div>
-                  <div className="recommend-product-description">
+                  <h3 className="recommend-product-name">蜜桃初戀</h3>
+                  <p className="recommend-product-description">
                     適合喜歡果味或果粒口感的甜點，柔美而帶點驚喜。
-                  </div>
+                  </p>
                   <div className="recommend-product-price">
                     <span className="recommend-currency">NT$</span>
                     <span className="recommend-amount">560</span>
@@ -98,10 +100,10 @@ export default function Home() {
                   <button className="recommend-btn-cart">加入購物車</button>
                 </div>
                 <div className="recommend-product-info">
-                  <div className="recommend-product-name">榛心醇意</div>
-                  <div className="recommend-product-description">
+                  <h3 className="recommend-product-name">榛心醇意</h3>
+                  <p className="recommend-product-description">
                     榛果與濃郁純巧克力的搭配，濃郁又帶一點微醺的香氣。
-                  </div>
+                  </p>
                   <div className="recommend-product-price">
                     <span className="recommend-currency">NT$</span>
                     <span className="recommend-amount">800</span>
@@ -117,10 +119,10 @@ export default function Home() {
                   <button className="recommend-btn-cart">加入購物車</button>
                 </div>
                 <div className="recommend-product-info mb-6">
-                  <div className="recommend-product-name">檸檬輕舞</div>
-                  <div className="recommend-product-description">
+                  <h3 className="recommend-product-name">檸檬輕舞</h3>
+                  <p className="recommend-product-description">
                     適合清新系甜點，如檸檬塔或檸檬蛋糕，清爽又怡人。
-                  </div>
+                  </p>
                   <div className="recommend-product-price">
                     <span className="recommend-currency">NT$</span>
                     <span className="recommend-amount">500</span>

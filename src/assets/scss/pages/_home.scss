@@ -53,6 +53,7 @@
         .recommend-line1,
         .recommend-line2 {
           display: block;
+          font-family: "Noto Serif TC";
 
           @include media-breakpoint-up(md) {
             display: inline;
@@ -61,6 +62,7 @@
 
         .recommend-comma {
           display: none;
+          font-family: "Noto Serif TC";
 
           @include media-breakpoint-up(md) {
             display: inline;
@@ -172,6 +174,8 @@
           font-weight: bold;
           color: $dark;
           margin-bottom: 12px;
+          font-family: "Noto Serif TC";
+          font-weight: 500;
         }
 
         .recommend-product-description {
@@ -189,10 +193,12 @@
 
           .recommend-currency {
             font-size: 1rem;
+            font-family: "Noto Serif TC";
           }
 
           .recommend-amount {
             font-size: 1.25rem;
+            font-family: "Noto Serif TC";
           }
         }
       }
