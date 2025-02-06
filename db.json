@@ -1,7 +1,45 @@
 {
+  "users": [
+    {
+      "email": "Jay@gmail.com",
+      "password": "$2a$10$jTC74FPpbnDD22ZPt1dUH.003mgaUp8rixMFaxMXQXaVz0poSxssq",
+      "username": "Jay",
+      "role": [
+        "admin"
+      ],
+      "id": "1"
+    },
+    {
+      "email": "johnny@gmail.com",
+      "password": "$2a$10$xMA05aA8Zgz2UZkybdo04..xlDr3Pe0En/MhPlSaNQ1y.R149MxCG",
+      "username": "Johnny",
+      "role": [
+        "admin"
+      ],
+      "id": "2"
+    },
+    {
+      "email": "kattie@gmail.com",
+      "password": "$2a$10$KxTj148S6MGSzHIHoNRk3eJpLApTeVwMToFQFV1UVrj7LPmZrzT4O",
+      "username": "kattie",
+      "role": [
+        "admin"
+      ],
+      "id": "3"
+    },
+    {
+      "email": "Jin@gmail.com",
+      "password": "$2a$10$VTq5z8ChSPnpVsP/pdVmSO0hlb5rUIPy09EC88kDRtQnt75cGBL2O",
+      "username": "Jin",
+      "role": [
+        "admin"
+      ],
+      "id": "4"
+    }
+  ],
   "products": [
     {
-      "id": 1,
+      "id": "1",
       "title": "蜜桃初戀",
       "category": "派",
       "origin_price": 200,
@@ -13,10 +51,13 @@
       "stock": 10,
       "status": "上架中",
       "imageUrl": "圖片主要網址",
-      "imagesUrl": ["圖片網址", "圖片網址"]
+      "imagesUrl": [
+        "圖片網址",
+        "圖片網址"
+      ]
     },
     {
-      "id": 2,
+      "id": "2",
       "title": "莓好時光",
       "category": "蛋糕",
       "origin_price": 480,
@@ -28,10 +69,13 @@
       "stock": 2,
       "status": "上架中",
       "imageUrl": "圖片主要網址",
-      "imagesUrl": ["圖片網址", "圖片網址"]
+      "imagesUrl": [
+        "圖片網址",
+        "圖片網址"
+      ]
     },
     {
-      "id": 3,
+      "id": "3",
       "title": "棗心如意",
       "category": "蛋糕",
       "origin_price": 200,
@@ -43,10 +87,13 @@
       "stock": 10,
       "status": "上架中",
       "imageUrl": "圖片主要網址",
-      "imagesUrl": ["圖片網址", "圖片網址"]
+      "imagesUrl": [
+        "圖片網址",
+        "圖片網址"
+      ]
     },
     {
-      "id": 4,
+      "id": "4",
       "title": "檸檬舞律",
       "category": "派",
       "origin_price": 200,
@@ -58,10 +105,13 @@
       "stock": 10,
       "status": "上架中",
       "imageUrl": "圖片主要網址",
-      "imagesUrl": ["圖片網址", "圖片網址"]
+      "imagesUrl": [
+        "圖片網址",
+        "圖片網址"
+      ]
     },
     {
-      "id": 5,
+      "id": "5",
       "title": "抹茶心語",
       "category": "蛋糕",
       "origin_price": 250,
@@ -73,10 +123,13 @@
       "stock": 10,
       "status": "上架中",
       "imageUrl": "圖片主要網址",
-      "imagesUrl": ["圖片網址", "圖片網址"]
+      "imagesUrl": [
+        "圖片網址",
+        "圖片網址"
+      ]
     },
     {
-      "id": 6,
+      "id": "6",
       "title": "杏仁微光",
       "category": "餅乾",
       "origin_price": 150,
@@ -88,10 +141,13 @@
       "stock": 0,
       "status": "下架",
       "imageUrl": "圖片主要網址",
-      "imagesUrl": ["圖片網址", "圖片網址"]
+      "imagesUrl": [
+        "圖片網址",
+        "圖片網址"
+      ]
     },
     {
-      "id": 7,
+      "id": "7",
       "title": "幻彩柔情",
       "category": "馬卡龍",
       "origin_price": 250,
@@ -103,10 +159,13 @@
       "stock": 0,
       "status": "即將推出",
       "imageUrl": "圖片主要網址",
-      "imagesUrl": ["圖片網址", "圖片網址"]
+      "imagesUrl": [
+        "圖片網址",
+        "圖片網址"
+      ]
     },
     {
-      "id": 8,
+      "id": "8",
       "title": "焦糖能量",
       "category": "蛋捲",
       "origin_price": 150,
@@ -118,7 +177,48 @@
       "stock": 0,
       "status": "告罄",
       "imageUrl": "圖片主要網址",
-      "imagesUrl": ["圖片網址", "圖片網址"]
+      "imagesUrl": [
+        "圖片網址",
+        "圖片網址"
+      ]
+    },
+    {
+      "id": "7098",
+      "title": "巧克力冰淇淋",
+      "category": "冰淇淋",
+      "origin_price": 100,
+      "price": 300,
+      "unit": "個",
+      "description": "冰淇淋",
+      "content": "這是內容",
+      "is_enabled": 1,
+      "imageUrl": "主圖網址",
+      "imagesUrl": [
+        "圖片網址一",
+        "圖片網址二",
+        "圖片網址三",
+        "圖片網址四",
+        "圖片網址五"
+      ]
+    },
+    {
+      "id": "33cf",
+      "title": "巧克力冰淇淋",
+      "category": "冰淇淋",
+      "origin_price": 100,
+      "price": 300,
+      "unit": "個",
+      "description": "冰淇淋",
+      "content": "這是內容",
+      "is_enabled": 1,
+      "imageUrl": "主圖網址",
+      "imagesUrl": [
+        "圖片網址一",
+        "圖片網址二",
+        "圖片網址三",
+        "圖片網址四",
+        "圖片網址五"
+      ]
     }
   ]
 }
