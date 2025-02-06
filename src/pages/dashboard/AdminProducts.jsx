@@ -2,23 +2,27 @@ import { useEffect, useRef, useState } from 'react';
 import { Modal } from 'bootstrap';
 import { alertDeleteConfirm, toastAlert, alertError } from '../../../util/sweetAlert';
 import AdminProductModal from '../../components/dashboard/AdminProductModal';
+import Pagination from '../../components/Pagination';
 import axios from 'axios';
 
 export default function AdminProducts() {
   const [products, setProducts] = useState([]);
   const [type, setType] = useState('create'); // edit
   const [tempProduct, setTempProduct] = useState({});
-  const getProducts = async () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const getProducts = async (page = 1) => {
     try {
-      const res = await axios.get(`/products`);
+      const res = await axios.get(`/products?_page=${page}&_limit=10`);
+      setTotalPages(Math.ceil(res.headers.get("X-Total-Count") / 10));
       setProducts(res.data);
     } catch(error) {
       alertError(error.message);
     }
   }
   useEffect(() => {
-    getProducts();
-  }, []);
+    getProducts(currentPage);
+  }, [currentPage]);
 
   const productModal = useRef(null);
   const modalRef = useRef(null);
@@ -109,6 +113,11 @@ export default function AdminProducts() {
             }
           </tbody>
         </table>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          setCurrentPage={setCurrentPage}
+        />
       </main>
     </>
   );
