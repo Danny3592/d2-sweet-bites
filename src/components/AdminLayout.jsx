@@ -4,8 +4,8 @@ export default function AdminLayout(){
   return <>
   <div className="admin__container">
       <aside className="admin__sidebar">
-        <h2 className="m-dec-left">幸享屋</h2>
-        <ul>
+        <h2 className="m-dec-left mb-10">幸享屋</h2>
+        <ul className="ps-0">
           <li className="active">
             <a href="#">
               <div className="menu-item">
@@ -170,14 +170,9 @@ export default function AdminLayout(){
           </li>
         </ul>
       </aside>
-
       <div className="admin__box">
         <header className="admin__header">
           <div className="logout-box"><button className="btn-logout">登出</button></div>
-          <div className="header-box">
-            <h2>管理商品</h2>
-             <button className="btn btn-fn btn-dark">建立新商品</button>
-          </div>
         </header>
         <main className="admin__content">
           <Outlet/>

@@ -3,7 +3,7 @@ import FrontLayout from "../pages/front/FrontLayout";
 import Home from "../pages/front/Home";
 import ProductList from "../pages/front/ProductList";
 import AdminLogin from "../pages/dashboard/AdminLogin";
-import AdminProducts,{loader as productsLoader}  from "../pages/dashboard/AdminProducts";
+import AdminProducts  from "../pages/dashboard/AdminProducts";
 // import Dashboard from '../pages/dashboard/Dashboard';  是否還需要留著
 import NotFound from "../pages/NotFound";
 import { createHashRouter } from "react-router-dom";
