@@ -5,21 +5,21 @@
 
 .login-container {
   width: 360px;
-  padding: 20px;
+  padding: 1.25rem;
   border: none;
-  border-radius: 8px;
+  border-radius: $border-radius-lg;
 }
 
 .login-title {
-  color: #000;
-  font-weight: 500;
+  color: $dark;
+  font-weight: $font-weight-medium;
 }
 
 .top-right-link {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  color: #555;
+  top: 1.25rem;
+  right: 1.25rem;
+  color: $gray-600;
   text-decoration: none;
 }
 
@@ -28,9 +28,9 @@
 }
 
 .forgot-password-link {
-  color: #555;
+  color: $gray-600;
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
 }
 
 .forgot-password-link:hover {
@@ -38,11 +38,11 @@
 }
 
 .form-control {
-  height: 36px;
-  padding: 6px 12px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  height: 2.25rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  border: 1px solid #6c757d;
+  border-radius: $border-radius-sm;
   transition: border-color 0.3s;
 }
 
@@ -51,14 +51,15 @@
   outline: none;
 }
 
-.btn {
-  height: 40px;
-  padding: 6px 12px;
-  font-size: 16px;
-  font-weight: 500;
+.btn-login {
+  height: 2.5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  font-weight: $font-weight-medium;
   width: 100%;
+  border-radius: $border-radius-sm;
 }
 
 .alert {
-  font-size: 14px;
+  font-size: 0.875rem;
 }

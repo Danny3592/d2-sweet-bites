@@ -88,7 +88,7 @@ export default function AdminLogin() {
 
           <button
             type="submit"
-            className="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-2"
+            className="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-2 btn-login"
             disabled={isLoading}
           >
             登入
