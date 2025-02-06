@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { toastAlert, alertError } from "../../../util/sweetAlert";
 export default function AdminProductModal({ modalRef, closeProductModal, getProducts, type, tempProduct }) {
   const [tempData, setTempData] = useState({
     title: "", //商品名稱
@@ -16,7 +17,6 @@ export default function AdminProductModal({ modalRef, closeProductModal, getProd
   });
 
   useEffect(() => {
-    console.log(type, tempProduct)
     if(type === 'create') {
       setTempData({
         title: "", 
@@ -64,7 +64,6 @@ export default function AdminProductModal({ modalRef, closeProductModal, getProd
       ...tempData,
       imagesUrl: newImages,
     })
-    console.log(tempData)
   }
 
   const handleAddImage = () => {
@@ -87,17 +86,19 @@ export default function AdminProductModal({ modalRef, closeProductModal, getProd
   const submit = async () => {
     let apiPath = '/products';
     let apiMethod = 'post';
+    let message = '新增產品成功';
     if (type === 'edit') {
       apiPath = `/products/${tempData.id}`;
       apiMethod = 'put';
+      message = '編輯產品成功';
     }
     try {
-      const res = await axios[apiMethod](apiPath, tempData);
-      console.log(res.data);
+      await axios[apiMethod](apiPath, tempData);
+      toastAlert(message);
       closeProductModal();
       getProducts();
     } catch (error) {
-      console.error('Error:', error.response?.data || error.message);
+      alertError(error.message);
     }
   }
 

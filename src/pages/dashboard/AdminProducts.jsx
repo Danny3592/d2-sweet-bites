@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Modal } from 'bootstrap';
+import { alertDeleteConfirm, toastAlert, alertError } from '../../../util/sweetAlert';
 import AdminProductModal from '../../components/dashboard/AdminProductModal';
 import axios from 'axios';
 
@@ -12,7 +13,7 @@ export default function AdminProducts() {
       const res = await axios.get(`/products`);
       setProducts(res.data);
     } catch(error) {
-      console.log(error);
+      alertError(error.message);
     }
   }
   useEffect(() => {
@@ -38,13 +39,15 @@ export default function AdminProducts() {
     productModal.current.hide();
   }
 
-  const deleteProduct = async (productId) => {
+  const deleteProduct = async (product) => {
+    const res = await alertDeleteConfirm(`確認刪除 ${product.title} 嗎?`);
+    if (!res.isConfirmed) return;
     try {
-      const res = await axios.delete(`/products/${productId}`);
-      console.log(res.data);
+      await axios.delete(`/products/${product.id}`);
+      toastAlert('商品刪除成功');
       getProducts();
     } catch (error) {
-      console.log(error);
+      alertError(error.message);
     }
   }
 
@@ -95,7 +98,7 @@ export default function AdminProducts() {
                       <button
                         type="button"
                         className="btn btn-outline-danger btn-sm ms-2"
-                        onClick={() => deleteProduct(product.id)}
+                        onClick={() => deleteProduct(product)}
                       >
                         刪除
                       </button>
