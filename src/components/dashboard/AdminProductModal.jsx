@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { toastAlert, alertError } from "../../../util/sweetAlert";
-export default function AdminProductModal({ modalRef, closeProductModal, getProducts, type, tempProduct }) {
+export default function AdminProductModal({ modalRef, closeProductModal, getProducts, type, tempProduct, currentPage }) {
   const [tempData, setTempData] = useState({
     title: "", //商品名稱
     category: "", //商品種類
@@ -96,7 +96,7 @@ export default function AdminProductModal({ modalRef, closeProductModal, getProd
       await axios[apiMethod](apiPath, tempData);
       toastAlert(message);
       closeProductModal();
-      getProducts();
+      getProducts(currentPage);
     } catch (error) {
       alertError(error.message);
     }
