@@ -1,124 +1,30 @@
 {
-  "products": [
+  "users": [
     {
-      "id": 1,
-      "title": "蜜桃初戀",
-      "category": "派",
-      "origin_price": 200,
-      "price": 200,
-      "unit": "個",
-      "description": "適合蜜桃或水果風味的甜點，柔和而帶點浪漫。",
-      "content": "適合蜜桃或水果風味的甜點，柔和而帶點浪漫。",
-      "is_enabled": 1,
-      "stock": 10,
-      "status": "上架中",
-      "imageUrl": "圖片主要網址",
-      "imagesUrl": ["圖片網址", "圖片網址"]
+      "email": "newuser@gmail.com",
+      "password": "$2a$10$1QNLyy0bx3OwvyRoeVsU2Ownhh.vpBv4J6DIzDCPLRIaH1rN/m4/i",
+      "username": "newusername",
+      "role": [
+        "admin"
+      ],
+      "id": 1
     },
     {
-      "id": 2,
-      "title": "莓好時光",
-      "category": "蛋糕",
-      "origin_price": 480,
-      "price": 400,
-      "unit": "個",
-      "description": "酸甜的草莓與多種莓果調和，彷彿置身春日花園",
-      "content": "採用當季草莓與藍莓製成，層層堆疊於鬆軟的蛋糕體上，覆蓋香甜奶霜，帶來清新與幸福的滋味。提供 6 吋尺寸",
-      "is_enabled": 1,
-      "stock": 2,
-      "status": "上架中",
-      "imageUrl": "圖片主要網址",
-      "imagesUrl": ["圖片網址", "圖片網址"]
+      "email": "jay@gmail.com",
+      "password": "$2a$10$2NWvwHYv9ezKHCNlENejuOKtMk6BSVKRscB89aysZamfe5oM8KIrq",
+      "username": "jay123",
+      "role": [
+        "admin"
+      ],
+      "id": 2
     },
     {
-      "id": 3,
-      "title": "棗心如意",
-      "category": "蛋糕",
-      "origin_price": 200,
-      "price": 180,
-      "unit": "個",
-      "description": "棗果與咖啡或巧克力的搭配，濃郁又帶一絲溫暖的驚喜。",
-      "content": "棗果與咖啡或巧克力的搭配，濃郁又帶一絲溫暖的驚喜。",
-      "is_enabled": 1,
-      "stock": 10,
-      "status": "上架中",
-      "imageUrl": "圖片主要網址",
-      "imagesUrl": ["圖片網址", "圖片網址"]
-    },
-    {
-      "id": 4,
-      "title": "檸檬舞律",
-      "category": "派",
-      "origin_price": 200,
-      "price": 170,
-      "unit": "個",
-      "description": "適合清新檸檬類，均衡的酸甜搭配，清爽又愉悅。",
-      "content": "適合清新檸檬類，均衡的酸甜搭配，清爽又愉悅。",
-      "is_enabled": 1,
-      "stock": 10,
-      "status": "上架中",
-      "imageUrl": "圖片主要網址",
-      "imagesUrl": ["圖片網址", "圖片網址"]
-    },
-    {
-      "id": 5,
-      "title": "抹茶心語",
-      "category": "蛋糕",
-      "origin_price": 250,
-      "price": 210,
-      "unit": "個",
-      "description": "採用日本宇治抹茶製成，微苦甘甜，宛如細語入心。",
-      "content": "採用日本宇治抹茶製成，微苦甘甜，宛如細語入心。",
-      "is_enabled": 1,
-      "stock": 10,
-      "status": "上架中",
-      "imageUrl": "圖片主要網址",
-      "imagesUrl": ["圖片網址", "圖片網址"]
-    },
-    {
-      "id": 6,
-      "title": "杏仁微光",
-      "category": "餅乾",
-      "origin_price": 150,
-      "price": 120,
-      "unit": "個",
-      "description": "精選杏仁片，搭配巧妙香料，口感層次豐富。",
-      "content": "精選杏仁片，搭配巧妙香料，口感層次豐富。",
-      "is_enabled": 0,
-      "stock": 0,
-      "status": "下架",
-      "imageUrl": "圖片主要網址",
-      "imagesUrl": ["圖片網址", "圖片網址"]
-    },
-    {
-      "id": 7,
-      "title": "幻彩柔情",
-      "category": "馬卡龍",
-      "origin_price": 250,
-      "price": 220,
-      "unit": "盒",
-      "description": "五種繽紛口味馬卡龍，每一口帶來愛與情意。",
-      "content": "五種繽紛口味馬卡龍，每一口帶來愛與情意。",
-      "is_enabled": 0,
-      "stock": 0,
-      "status": "即將推出",
-      "imageUrl": "圖片主要網址",
-      "imagesUrl": ["圖片網址", "圖片網址"]
-    },
-    {
-      "id": 8,
-      "title": "焦糖能量",
-      "category": "蛋捲",
-      "origin_price": 150,
-      "price": 140,
-      "unit": "個",
-      "description": "在傳統蛋捲基底上加入焦糖層次，帶來全新味覺享受。",
-      "content": "在傳統蛋捲基底上加入焦糖層次，帶來全新味覺享受。",
-      "is_enabled": 0,
-      "stock": 0,
-      "status": "告罄",
-      "imageUrl": "圖片主要網址",
-      "imagesUrl": ["圖片網址", "圖片網址"]
+      "email": "jack@gmail.com",
+      "password": "$2a$10$sm1w/ACqX8qPYx/knRknzOWjzOWltmIJHE24SnL0jRzD.EcnVTblW",
+      "name": "jack",
+      "confirmPassword": "123456",
+      "terms": true,
+      "id": 3
     }
   ]
 }
