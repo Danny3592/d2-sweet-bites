@@ -16,7 +16,7 @@ export default function AdminProducts() {
   const getProducts = async (page = 1) => {
     setIsLoading(true);
     try {
-      const res = await axios.get(`/products?_page=${page}&_limit=10&_sort=id&_order=desc`);
+      const res = await axios.get(`/products?_page=${page}&_limit=10`);
       setTotalPages(Math.ceil(res.headers.get("X-Total-Count") / 10));
       setProducts(res.data);
     } catch(error) {
@@ -87,7 +87,9 @@ export default function AdminProducts() {
             <tr>
               <th>分類</th>
               <th>名稱</th>
+              <th className='px-5'>內容</th>
               <th>售價</th>
+              <th>庫存</th>
               <th>啟用狀態</th>
               <th>編輯</th>
             </tr>
@@ -99,7 +101,9 @@ export default function AdminProducts() {
                   <tr key={product.title}>
                     <td>{product.category}</td>
                     <td>{product.title}</td>
+                    <td className='px-5' width={400}>{product.content}</td>
                     <td>{product.price}</td>
+                    <td>{product.stock}</td>
                     <td>{product.is_enabled ? '啟用' : '未啟用'}</td>
                     <td>
                       <button
