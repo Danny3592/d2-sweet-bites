@@ -19,28 +19,12 @@
       "id": 2
     },
     {
-      "email": "jack@gmail.com",
-      "password": "$2a$10$sm1w/ACqX8qPYx/knRknzOWjzOWltmIJHE24SnL0jRzD.EcnVTblW",
-      "name": "jack",
-      "confirmPassword": "123456",
+      "email": "kimico@gmail.com",
+      "password": "$2a$10$z2hz9txX9WPNxsZx7tsJde3D2Ymur6A8AdGPQaHY9fqrPzgyo7L/u",
+      "name": "kimico",
+      "confirmPassword": "1234567",
       "terms": true,
       "id": 3
-    },
-    {
-      "email": "timi@gmail.com",
-      "password": "$2a$10$AvX0gfhfFG/Yjc9/7J0Piu2VGGgqDmm6pD4UtQgzXEwoRwxIjFQpq",
-      "name": "timi",
-      "confirmPassword": "123456",
-      "terms": true,
-      "id": 4
-    },
-    {
-      "email": "kimi@gmail.com",
-      "password": "$2a$10$nfgl2RZOUT9A6gk5Esbug.Z.JB5VEvudlaKHec1tw04h/jlTN3Hnu",
-      "name": "kimi",
-      "confirmPassword": "123456",
-      "terms": true,
-      "id": 5
     }
   ]
 }
