@@ -19,7 +19,14 @@ export default function AdminLogin() {
   const handleLogin = async (data) => {
     setIsLoading(true);
     try {
-      await axios.post("http://localhost:3000/login", data);
+      const res = await axios.post("http://localhost:3000/login", data);
+      const { accessToken, user } = res.data;
+
+      if (user.role[0] !== "admin") {
+        return setErrorMessage("登入失敗，請確認是否為後台人員帳號");
+      }
+
+      document.cookie = `dessertToken=${accessToken}; max-age=86400;`;
       reset();
       navigate("/dashboard");
     } catch (error) {
