@@ -25,6 +25,17 @@
       "confirmPassword": "1234567",
       "terms": true,
       "id": 3
+    },
+    {
+      "email": "ken@gmail.com",
+      "password": "$2a$10$0fgcE/MA1R8hCLS.YhjOveNWNLn5CBKu4x4dN2n7XlP25OSxFhHQe",
+      "name": "ken",
+      "confirmPassword": "098765",
+      "terms": true,
+      "role": [
+        "admin"
+      ],
+      "id": 4
     }
   ]
 }

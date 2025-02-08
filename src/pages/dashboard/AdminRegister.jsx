@@ -20,7 +20,10 @@ export default function AdminRegister() {
   const handleRegister = async (data) => {
     setIsLoading(true);
     try {
-      await axios.post("http://localhost:3000/register", data);
+      await axios.post("http://localhost:3000/register", {
+        ...data,
+        role: ["admin"],
+      });
       setIsRegistered(true);
       reset();
       setTimeout(() => {
