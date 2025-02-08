@@ -1,6 +1,5 @@
 .admin__container {
   display: flex;
-  font-size: 1.5rem;
 
   ////////////////////////SIDEBAR////////////////////////////
 
@@ -8,7 +7,10 @@
     height: 100vh;
     background-color: #f0f0f3;
     text-align: center;
-    padding: 5rem 14rem 0rem 3rem;
+    padding: 3rem;
+    position: fixed;
+    top: 0;
+    left: 0;
     ul {
       list-style: none;
       li {
@@ -21,6 +23,10 @@
         a:visited {
           text-decoration: none;
           color: inherit;
+        }
+        a:hover {
+          color: $primary;
+          transition: $transition-base;
         }
         .menu-item {
           text-align: start;
@@ -44,7 +50,8 @@
 
   .admin__box {
     flex: 1;
-    ////////////////////////HEADER////////////////////////////
+    margin-left: 264px;
+    /////////////px///////////HEADER////////////////////////////
     .admin__header {
       .logout-box {
         text-align: end;
