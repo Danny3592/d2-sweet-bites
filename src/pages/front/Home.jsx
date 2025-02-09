@@ -1,18 +1,46 @@
-import strawberryImg from "../../assets/images/index-recommend/cake01_berry.png";
-import peachImg from "../../assets/images/index-recommend/cake02_peach.png";
-import chocolateImg from "../../assets/images/index-recommend/cake03_chocolate.png";
-import lemonImg from "../../assets/images/index-recommend/cake04_lemon.png";
+import strawberryImg from '../../assets/images/index-recommend/cake01_berry.png';
+import peachImg from '../../assets/images/index-recommend/cake02_peach.png';
+import chocolateImg from '../../assets/images/index-recommend/cake03_chocolate.png';
+import lemonImg from '../../assets/images/index-recommend/cake04_lemon.png';
 
-import newsImages1 from "../../assets/images/index-news/news01_cakes.png";
-import newsImages2 from "../../assets/images/index-news/news02_pets.png";
-import newsImages3 from "../../assets/images/index-news/news03_trees.png";
-import buttonIconBrown from "../../assets/images/icons/button-arrow-brown.png";
+import newsImages1 from '../../assets/images/index-news/news01_cakes.png';
+import newsImages2 from '../../assets/images/index-news/news02_pets.png';
+import newsImages3 from '../../assets/images/index-news/news03_trees.png';
+
+import buttonIconBrown from '../../assets/images/icons/button-arrow-brown.png';
+import buttonIconWhite from '../../assets/images/icons/button-arrow-white.png';
+
 export default function Home() {
   return (
     <main>
-      <section className="index-banner"></section>
-
-      <section className="index-banner"></section>
+      <section className="index-banner d-flex justify-content-center flex-column  w-100">
+        <div className="container banner-container">
+          <div className="row">
+            <div className="col-10 col-sm-12">
+              <h1 className="heading fs-lg-1 fs-3">
+                <span>甜點，</span>幸福的起點
+              </h1>
+              <h4 className="sub-heading mt-6 fs-7">
+                讓每一份甜點，成為傳遞幸福的橋樑 ——— 幸福，也可以共享
+              </h4>
+              <div className="mt-18 mt-8 btn-container">
+                <button className="btn bg-primary-600 me-sm-5 px-sm-11">
+                  開啟幸福之旅
+                  <img
+                    src={buttonIconWhite}
+                    alt="buttonIconWhie"
+                    className="ms-4"
+                  />
+                </button>
+                <button className="btn  border border-primary px-sm-11 ">
+                  一起改變世界
+                  <img src={buttonIconWhite} alt="buttonIconWhie" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       <section className="index-recommend">
         <div className="container ">
           <div className="row recommend-row-title">
@@ -216,9 +244,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       <section className="index-charity"></section>
-
       <section className="index-banner-font"></section>
     </main>
   );
