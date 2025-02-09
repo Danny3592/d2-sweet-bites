@@ -10,9 +10,14 @@
 @import "bootstrap/scss/utilities/api";
 @import "bootstrap/scss/bootstrap";
 
-@import "./base/base";
-@import "./helpers/helpers";
-@import "./components/buttons";
+
+@import 'bootstrap/scss/utilities/api';
+@import 'bootstrap/scss/bootstrap';
+
+@import './base/base';
+@import './helpers/helpers';
+@import './components/buttons';
+
 @import "./pages/home";
 @import "./pages/admin/admin-products";
 @import "./pages/admin/admin-register";
