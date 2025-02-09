@@ -3,7 +3,7 @@ import Home from "../pages/front/Home";
 import ProductList from "../pages/front/ProductList";
 import AdminLogin from "../pages/dashboard/AdminLogin";
 import AdminRegister from "../pages/dashboard/AdminRegister";
-
+import AdminProducts from "../pages/dashboard/AdminProducts";
 import NotFound from "../pages/NotFound";
 import { createHashRouter } from "react-router-dom";
 import App from "../App";
@@ -38,7 +38,12 @@ const routes = [
       {
         path: "dashboard",
         element: <AdminLayout />,
-        children: [],
+        children: [
+          {
+            index: true,
+            element: <AdminProducts />,
+          },
+        ],
       },
       {
         path: "*",
