@@ -1,3 +1,44 @@
+.index-banner {
+  background-image: url('../images/index-bannner/banner.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  @media (max-width: 842px) {
+    background-position: top;
+    height: 70vh;
+  }
+  @include media-breakpoint-down(sm) {
+    justify-content: start;
+    background-image: url('../images/index-bannner/banner-sm.jpg');
+    height: 85vh;
+    span {
+      display: block;
+    }
+
+    .banner-container {
+      padding: 0 2rem;
+    }
+    .btn-container {
+      .btn {
+        padding: 0.75rem 2px;
+      }
+      margin-bottom: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      letter-spacing: 0.46;
+      // transform: translateX(-2rem);
+    }
+  }
+  animation: bannerBackgroundZoom 5s ease-out forwards;
+  color: #fff;
+  .btn {
+    color: #fff;
+    border-radius: 0rem 16px 0rem 16px;
+  }
+}
+
 .index-recommend {
   width: 100%;
   min-height: 100vh;

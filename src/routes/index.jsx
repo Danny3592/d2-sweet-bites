@@ -1,8 +1,12 @@
+/* eslint-disable no-unused-vars */
 import FrontLayout from "../pages/front/FrontLayout";
 import Home from "../pages/front/Home";
 import ProductList from "../pages/front/ProductList";
 import AdminLogin from "../pages/dashboard/AdminLogin";
-import AdminProducts  from "../pages/dashboard/AdminProducts";
+import AdminRegister from "../pages/dashboard/AdminRegister";
+import AdminProducts, {
+  loader as productsLoader,
+} from "../pages/dashboard/AdminProducts";
 // import Dashboard from '../pages/dashboard/Dashboard';  是否還需要留著
 import NotFound from "../pages/NotFound";
 import { createHashRouter } from "react-router-dom";
@@ -11,7 +15,7 @@ import AdminLayout from "../components/AdminLayout";
 
 const routes = [
   {
-    path: '/',
+    path: "/",
     element: <App />,
     children: [
       {
@@ -19,35 +23,39 @@ const routes = [
         children: [
           {
             index: true,
-            element: <Home />
+            element: <Home />,
           },
           {
-            path: 'product-list',
-            element: <ProductList />
+            path: "product-list",
+            element: <ProductList />,
           },
-        ]
+        ],
       },
       {
-        path: 'admin-login',
-        element: <AdminLogin />
+        path: "admin-login",
+        element: <AdminLogin />,
       },
       {
-        path: 'dashboard', 
-        element: <AdminLayout/>,
+        path: "admin-register",
+        element: <AdminRegister />,
+      },
+      {
+        path: "dashboard",
+        element: <AdminLayout />,
         children: [
           {
             index: true,
             element: <AdminProducts />,
             // loader:productsLoader
           },
-        ]
+        ],
       },
       {
-        path: '*',
-        element: <NotFound />
+        path: "*",
+        element: <NotFound />,
       },
-    ]
-  }
+    ],
+  },
 ];
 
 const router = createHashRouter(routes);
