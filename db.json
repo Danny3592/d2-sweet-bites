@@ -35,6 +35,14 @@
         "admin"
       ],
       "id": "4"
+    },
+    {
+      "email": "kimi@gmail.com",
+      "password": "$2a$10$gnOV9kFOVWxfU4aMoaCSg.7Yu1Alacn2oPsT9uG9HDx51.KIAiMo6",
+      "name": "kimi",
+      "confirmPassword": "123456",
+      "terms": true,
+      "id": "4A-PI_Z"
     }
   ],
   "products": [
