@@ -15,13 +15,24 @@ export default function AdminRegister() {
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
   } = useForm();
 
+  const password = watch("password"); //檢查密碼
+
   const handleRegister = async (data) => {
+    if (data.password !== data.confirmPassword) {
+      setErrorMessage("兩次輸入密碼不一致");
+      return;
+    }
+
     setIsLoading(true);
+    setErrorMessage(""); // 清空之前的錯誤訊息
+
+    const { confirmPassword, ...requestData } = data; // 移除確認密碼
     try {
       await axios.post("/register", {
-        ...data,
+        ...requestData,
         role: ["admin"],
       });
       setIsRegistered(true);
@@ -129,8 +140,7 @@ export default function AdminRegister() {
                 {...register("confirmPassword", {
                   required: "請再次輸入密碼",
                   validate: (value) =>
-                    value === document.getElementById("password").value ||
-                    "兩次輸入的密碼不一致",
+                    value === password || "兩次輸入的密碼不一致",
                 })}
                 id="confirmPassword"
                 type="password"

@@ -43,6 +43,16 @@
       "confirmPassword": "123456",
       "terms": true,
       "id": "4A-PI_Z"
+    },
+    {
+      "email": "kate@gmail.com",
+      "password": "$2a$10$T/5kFyPTaYqYCVysvYPGHeY3Elto4PVknj6TQKgXtSbUjddOl1Xq6",
+      "name": "kate",
+      "terms": true,
+      "role": [
+        "admin"
+      ],
+      "id": "binaR3V"
     }
   ],
   "products": [
