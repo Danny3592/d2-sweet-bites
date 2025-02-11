@@ -1,4 +1,3 @@
- 
 import FrontLayout from "../pages/front/FrontLayout";
 import Home from "../pages/front/Home";
 import ProductList from "../pages/front/ProductList";

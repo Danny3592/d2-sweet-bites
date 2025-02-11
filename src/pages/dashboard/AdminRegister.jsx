@@ -15,13 +15,24 @@ export default function AdminRegister() {
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
   } = useForm();
 
+  const password = watch("password"); //檢查密碼
+
   const handleRegister = async (data) => {
+    if (data.password !== data.confirmPassword) {
+      setErrorMessage("兩次輸入密碼不一致");
+      return;
+    }
+
     setIsLoading(true);
+    setErrorMessage(""); // 清空之前的錯誤訊息
+
+    const { confirmPassword, ...requestData } = data; // 移除確認密碼
     try {
-      await axios.post("http://localhost:3000/register", {
-        ...data,
+      await axios.post("/register", {
+        ...requestData,
         role: ["admin"],
       });
       setIsRegistered(true);
@@ -121,7 +132,7 @@ export default function AdminRegister() {
               )}
             </div>
 
-            <div className="mb-10">
+            <div className="mb-3">
               <label htmlFor="confirmPassword" className="form-label">
                 確認密碼
               </label>
@@ -129,20 +140,36 @@ export default function AdminRegister() {
                 {...register("confirmPassword", {
                   required: "請再次輸入密碼",
                   validate: (value) =>
-                    value === document.getElementById("password").value ||
-                    "兩次輸入的密碼不一致",
+                    value === password || "兩次輸入的密碼不一致",
                 })}
                 id="confirmPassword"
                 type="password"
                 className={`form-control ${
                   errors.confirmPassword ? "is-invalid" : ""
                 }`}
-                placeholder="******************"
+                placeholder="再次輸入密碼"
               />
               {errors.confirmPassword && (
                 <p className="text-danger my-2">
                   {errors.confirmPassword.message}
                 </p>
+              )}
+            </div>
+
+            <div className="mb-3 form-check">
+              <input
+                {...register("terms", {
+                  required: "請勾選以同意隱私政策與條款",
+                })}
+                type="checkbox"
+                className="form-check-input"
+                id="terms"
+              />
+              <label htmlFor="terms" className="form-check-label">
+                我同意 隱私政策與條款
+              </label>
+              {errors.terms && (
+                <p className="text-danger my-2">{errors.terms.message}</p>
               )}
             </div>
 
@@ -163,29 +190,9 @@ export default function AdminRegister() {
             </button>
 
             <div className="d-flex justify-content-start mt-2">
-              <div className="form-check">
-                <input
-                  {...register("terms", {
-                    required: "請勾選以同意隱私政策與條款",
-                  })}
-                  type="checkbox"
-                  className="form-check-input"
-                  id="terms"
-                />
-                <label htmlFor="terms" className="form-check-label fs-8">
-                  我同意
-                  <a
-                    href="#/privacy-policy"
-                    target="_blank"
-                    className="text-dark"
-                  >
-                    隱私政策與條款
-                  </a>
-                </label>
-                {errors.terms && (
-                  <p className="text-danger my-2">{errors.terms.message}</p>
-                )}
-              </div>
+              <a href="#/forgot-password" className="forgot-password-link">
+                忘記密碼？
+              </a>
             </div>
           </form>
         )}
