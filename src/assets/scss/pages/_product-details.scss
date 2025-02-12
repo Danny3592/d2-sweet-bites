@@ -1,0 +1,88 @@
+.product-details {
+
+  background-color: #fcf7f6;
+  padding: 0;
+  margin: 0;
+  .arrow {
+    width: 36px;
+    height: 60px;
+    background: #343a40;
+    color: #fff;
+    &-left {
+      transform: translate(65%);
+    }
+    &-right {
+      transform: translate(-65%);
+    }
+  }
+  .heart {
+    color: #bf0e46;
+    width: 30px;
+    height: 25px;
+    top: 32px;
+    right: 60px;
+  }
+
+  li {
+    list-style: none;
+  }
+  .price {
+    color: #bf0e46;
+  }
+  .count-container {
+    align-items: center;
+    height: 48px;
+    .count {
+      border: 1px solid #ced4da;
+    }
+    .btn-count {
+      border: 1px solid #ced4da;
+      width: 48px;
+      height: 100%;
+      background: #f3f4f5;
+    }
+  }
+  .charity-container {
+    width: 100%;
+    .charity-title {
+      border: 1px solid #ced4da;
+      height: 48px;
+      span {
+        display: flex;
+        align-items: center;
+      }
+    }
+    .check-box {
+      width: 24px;
+      height: 24px;
+      border: 1px solid #adb5bd;
+    }
+    .charity-img {
+      max-width: 144px;
+    }
+  }
+
+  .btn-action {
+    &-1,
+    &-2 {
+      background: transparent;
+      border: 1px solid #bf0e46;
+      color: #bf0e46;
+    }
+    &-2,
+    &-3 {
+      flex-grow: 1;
+    }
+    &-3 {
+      background: #bf0e46;
+      color: #fff;
+    }
+  }
+
+  .similar-items {
+    background-color: #f0e1da;
+    .title {
+      color: $primary-800;
+    }
+  }
+}

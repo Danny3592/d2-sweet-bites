@@ -1,15 +1,15 @@
-.register-page {
+.login-page {
   position: relative;
   height: 100vh;
 
-  .register-container {
+  .login-container {
     width: 360px;
     padding: 1.25rem;
     border: none;
     border-radius: $border-radius-lg;
   }
 
-  .register-title {
+  .login-title {
     color: $dark;
     font-weight: $font-weight-medium;
   }
@@ -46,11 +46,11 @@
   }
 
   .form-control:focus {
-    border-color: $dark;
+    border-color: #000;
     outline: none;
   }
 
-  .btn-register {
+  .btn-login {
     height: 2.5rem;
     padding: 0.5rem 0.75rem;
     font-size: 1rem;
@@ -61,10 +61,5 @@
 
   .alert {
     font-size: 0.875rem;
-  }
-
-  .success-message {
-    font-size: 1rem;
-    color: green;
   }
 }
