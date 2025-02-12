@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { alertError } from '../../../util/sweetAlert';
+import Pagination from "../../components/Pagination";
 import axios from "axios";
 export default function ProductList() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -151,7 +152,7 @@ export default function ProductList() {
       </div>
       <div className="container">
         <div className="pt-6 pb-18 py-md-18">
-          <div className="row">
+          <div className="row mb-18">
             <div className="col-md-3 mb-6 mb-md-0">
               <div className="d-flex overflow-x-scroll d-md-none">
                 <button type="button"
@@ -205,29 +206,36 @@ export default function ProductList() {
                 { (!products.length && searchText) ? (
                   <p className="text-center fs-4">您搜尋的商品不存在</p>
                 ) : (
-                  products.map(product => (
-                    <div className="col-md-6 col-lg-4"
-                      key={product.id}>
-                      <div className="card-product position-relative">
-                        <a href="#" className="stretched-link"></a>
-                        <div className="card-product__image mb-4 position-relative overflow-hidden">
-                          <img
-                            className="w-100 object-fit-cover object-position-center"    
-                            src={product.imageUrl}
-                            alt={product.title} />
-                          <button
-                            type="button"
-                            className="btn btn-primary-500 w-100 card-product__button text-light">
-                            加入購物車
-                          </button>
+                  <>
+                    {products.map(product => (
+                      <div className="col-md-6 col-lg-4"
+                        key={product.id}>
+                        <div className="card-product position-relative">
+                          <a href="#" className="stretched-link"></a>
+                          <div className="card-product__image mb-4 position-relative overflow-hidden">
+                            <img
+                              className="w-100 object-fit-cover object-position-center"    
+                              src={product.imageUrl}
+                              alt={product.title} />
+                            <button
+                              type="button"
+                              className="btn btn-primary-500 w-100 card-product__button text-light">
+                              加入購物車
+                            </button>
+                          </div>
+                          <h2 className="text-center fs-6 text-dark mb-3">{product.title}</h2>
+                          <p className="text-center text-primary-800 noto-serif-tc">
+                            NT$ <span className="fs-6">{product.price}</span>
+                          </p>
                         </div>
-                        <h2 className="text-center fs-6 text-dark mb-3">{product.title}</h2>
-                        <p className="text-center text-primary-800 noto-serif-tc">
-                          NT$ <span className="fs-6">{product.price}</span>
-                        </p>
                       </div>
-                    </div>
-                  ))
+                    ))}
+                    <Pagination
+                      currentPage={currentPage}
+                      totalPages={totalPages}
+                      setCurrentPage={setCurrentPage}
+                    />
+                  </>
                 )}
               </div>
             </div>
