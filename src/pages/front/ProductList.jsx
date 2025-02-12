@@ -50,7 +50,6 @@ export default function ProductList() {
     setIsLoading(true);
     try {
       const res = await axios.get(`/products`);
-      console.log(res.data)
       const categoryCount = res.data.reduce((count, product) => {
         if (!count[product.category]) {
           count[product.category] = 1;
@@ -116,8 +115,7 @@ export default function ProductList() {
                   placeholder="搜尋商品"
                   value={searchText}
                   onChange={(e) => setSearchText(e.target.value.trim())}
-                  onKeyDown={(e) => e.key === 'Enter' && searchProducts()}
-                  onBlur={(e) => searchProducts(e)}/>
+                  onKeyDown={(e) => e.key === 'Enter' && searchProducts()}/>
               </div>
             </div>
           )}
@@ -126,9 +124,9 @@ export default function ProductList() {
               type="text"
               className="form-control rounded-0 d-md-none"
               placeholder="搜尋商品"
+              value={searchText}
               onChange={(e) => setSearchText(e.target.value.trim())}
-              onKeyDown={(e) => e.key === 'Enter' && searchProducts()}
-              onBlur={(e) => searchProducts(e)}/>
+              onKeyDown={(e) => e.key === 'Enter' && searchProducts()}/>
           )}
         </div>
         <div className="container">
@@ -145,7 +143,7 @@ export default function ProductList() {
                     productCategories.map(category => (
                       <button type="button"
                         key={category[0]}
-                        className={`btn py-2 px-4 border-gray-400 flex-shrink-0 me-4 ${currentCategory === category ? 'btn-primary-700' : 'btn-light'}`}
+                        className={`btn py-2 px-4 border-gray-400 flex-shrink-0 me-4 ${currentCategory === category[0] ? 'btn-primary-700' : 'btn-light'}`}
                         onClick={(e) => setCategory(e, category[0])}>
                         {category[0]}
                       </button>

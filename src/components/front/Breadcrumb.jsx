@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Fragment } from "react";
 export default function Breadcrumb({ currentCategory, breadcrumbPath }) {
   return (
     <nav aria-label="breadcrumb">
@@ -11,7 +12,7 @@ export default function Breadcrumb({ currentCategory, breadcrumbPath }) {
         </li>
         {
           breadcrumbPath.map(path => (
-            <>
+            <Fragment key={path.name}>
               <svg xmlns="http://www.w3.org/2000/svg" 
                 viewBox="0 0 24 24"
                 fill="currentColor"
@@ -28,7 +29,7 @@ export default function Breadcrumb({ currentCategory, breadcrumbPath }) {
                   {path.name}
                 </Link>
               </li>
-            </>
+            </Fragment>
           ))
         }
         {currentCategory && (
