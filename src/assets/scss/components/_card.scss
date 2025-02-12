@@ -1,6 +1,12 @@
 .card-product {
   &__image img{
     height: 358px;
+    @include media-breakpoint-up(md) {
+      height: 240px;
+    }
+    @include media-breakpoint-up(lg) {
+      height: 358px;
+    }
   }
   &__button {
     position: absolute;
