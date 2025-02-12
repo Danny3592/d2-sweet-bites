@@ -580,6 +580,7 @@ $utilities: map-merge(
     "color": (
       property: color,
       class: text,
+      state: hover,
       local-vars: (
         "text-opacity": 1
       ),
@@ -803,6 +804,13 @@ $utilities: map-merge(
       property: z-index,
       class: z,
       values: $zindex-levels,
+    ),
+    "transition": (
+      property: transition,
+      class: transition,
+      values: (
+        base: $transition-base,
+      )
     )
     // scss-docs-end utils-zindex
   ),
