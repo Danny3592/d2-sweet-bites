@@ -5,7 +5,6 @@ import axios from "axios";
 export default function ProductList() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [currentCategory, setCurrentCategory] = useState('');
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -28,6 +27,12 @@ export default function ProductList() {
   }
 
   const [productCategories, setProductCategories] = useState([]);
+  const [currentCategory, setCurrentCategory] = useState('');
+  const setCategory = (event, category) => {
+    event.preventDefault();
+    setCurrentPage(1);
+    setCurrentCategory(category);
+  }
   const getAllProducts = async () => {
     setIsLoading(true);
     try {
@@ -75,19 +80,23 @@ export default function ProductList() {
                       全部商品
                     </Link>
                   </li>
-                  <svg xmlns="http://www.w3.org/2000/svg" 
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    className="size-6 mx-1"
-                    style={{
-                      width: '20px',
-                      height: '20px',
-                    }}>
-                    <path fillRule="evenodd" d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z" clipRule="evenodd" />
-                  </svg>
-                  <li className="breadcrumb-item py-2 py-md-4 active" aria-current="page">
-                    人氣蛋糕
-                  </li>
+                  {currentCategory && (
+                    <>
+                      <svg xmlns="http://www.w3.org/2000/svg" 
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="size-6 mx-1"
+                        style={{
+                          width: '20px',
+                          height: '20px',
+                        }}>
+                        <path fillRule="evenodd" d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z" clipRule="evenodd" />
+                      </svg>
+                      <li className="breadcrumb-item py-2 py-md-4 active" aria-current="page">
+                        { currentCategory }
+                      </li>
+                    </>
+                  )}
                 </ol>
               </nav>
             </div>
@@ -127,14 +136,16 @@ export default function ProductList() {
             <div className="col-md-3 mb-6 mb-md-0">
               <div className="d-flex overflow-x-scroll d-md-none">
                 <button type="button"
-                  className={`btn py-2 px-4 flex-shrink-0 me-4 ${currentCategory === '全部商品' ? 'btn-primary-700' : 'btn-light border-gray-400'}`}>
+                  className={`btn py-2 px-4 flex-shrink-0 me-4 ${currentCategory ? 'btn-light border-gray-400' : 'btn-primary-700'}`}
+                  onClick={(e) => setCategory(e, '')}>
                   全部商品
                 </button>
                 {
                   productCategories.map(category => (
                     <button type="button"
                       key={category}
-                      className={`btn btn-light py-2 px-4 border-gray-400 flex-shrink-0 me-4 ${currentCategory === category ? 'btn-primary-700' : 'btn-light'}`}>
+                      className={`btn py-2 px-4 border-gray-400 flex-shrink-0 me-4 ${currentCategory === category ? 'btn-primary-700' : 'btn-light'}`}
+                      onClick={(e) => setCategory(e, category)}>
                       {category}
                     </button>
                   ))
@@ -143,7 +154,8 @@ export default function ProductList() {
               <ul className="d-none d-md-block list-unstyled">
                 <li className="mb-4">
                   <a href="#"
-                    className={`${currentCategory ? 'text-dark' : 'text-danger'}`} >
+                    className={`${currentCategory ? 'text-dark' : 'text-danger'}`}
+                    onClick={(e) => setCategory(e, '')}>
                     全部商品
                   </a>
                 </li>
@@ -152,7 +164,8 @@ export default function ProductList() {
                     <li className="mb-4"
                       key={category}>
                       <a href="#"
-                        className={`${category === currentCategory ? 'text-danger' : 'text-dark'} outline-none`}>
+                        className={`${category === currentCategory ? 'text-danger' : 'text-dark'} outline-none`}
+                        onClick={(e) => setCategory(e, category)}>
                         {category}
                         <span className="text-gray-600 ms-1">(22)</span>
                       </a>
@@ -162,7 +175,9 @@ export default function ProductList() {
               </ul>
             </div>
             <div className="col-md-9">
-              <h1 className="text-dark d-none d-md-block fs-5 mb-md-18">人氣蛋糕</h1>
+              <h1 className="text-dark d-none d-md-block fs-5 mb-md-18">
+                { currentCategory ? currentCategory : '全部商品' }
+              </h1>
               <div className="row row-gap-12 row-gap-md-18">
                   { products.map(product => (
                     <div className="col-md-6 col-lg-4"
