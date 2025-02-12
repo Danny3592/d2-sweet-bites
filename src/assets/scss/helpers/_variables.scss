@@ -299,6 +299,7 @@ $cyans: (
 
 // scss-docs-start theme-color-variables
 $primary: #D4A58E;
+$primary-50: #FCF7F6;
 $primary-100: #F0E1DA;
 $primary-500: #D4A58E;
 $primary-600: #B68A76;
@@ -325,6 +326,7 @@ $warning:       $yellow !default;
 // scss-docs-start theme-colors-map
 $theme-colors: (
   "primary":       $primary,
+  "primary-50":    $primary-50,
   "primary-100":   $primary-100,
   "primary-500":   $primary-500,
   "primary-600":   $primary-600,

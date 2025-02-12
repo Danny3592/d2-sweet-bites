@@ -7,14 +7,18 @@ export default function ProductList() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
-
+  
+  // 商品列表
   const [products, setProducts] = useState([]);
-  const getProducts = async (page = 1, category) => {
+  const getProducts = async ({ page, category, searchText }) => {
     setIsLoading(true);
     try {
       let url = `/products?_page=${page}&_limit=6`;
       if (category) {
         url += `&category=${category}`;
+      }
+      if (searchText) {
+        url = `/products?title_like=${searchText}`;
       }
       const res = await axios.get(url);
       setTotalPages(Math.ceil(res.headers.get("X-Total-Count") / 6));
@@ -25,11 +29,13 @@ export default function ProductList() {
       setIsLoading(false);
     }
   }
-
+  
+  // 商品類別
   const [productCategories, setProductCategories] = useState([]);
   const [currentCategory, setCurrentCategory] = useState('');
   const setCategory = (event, category) => {
     event.preventDefault();
+    setSearchText('');
     setCurrentPage(1);
     setCurrentCategory(category);
   }
@@ -45,13 +51,19 @@ export default function ProductList() {
     }
   }
 
+  // 搜尋商品
+  const [searchText, setSearchText] = useState('');
+  const searchProducts = () => {
+    getProducts({ page: null, category: null, searchText });
+  }
+
   useEffect(() => {
-    getProducts(currentPage, currentCategory);
+    getProducts({ page: currentPage, category: currentCategory });
     getAllProducts();
   }, [currentPage, currentCategory]);
 
   return (
-    <>
+    <div className="bg-primary-50">
       <div className="container py-4 py-md-15">
         { !isSearchOpen && (
           <div className="row align-items-center justify-content-between">
@@ -119,7 +131,11 @@ export default function ProductList() {
               <input
                 type="text"
                 className="form-control rounded-0 d-none d-md-block"
-                placeholder="搜尋商品" />
+                placeholder="搜尋商品"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value.trim())}
+                onKeyDown={(e) => e.key === 'Enter' && searchProducts()}
+                onBlur={(e) => searchProducts(e)}/>
             </div>
           </div>
         )}
@@ -127,7 +143,10 @@ export default function ProductList() {
           <input
             type="text"
             className="form-control rounded-0 d-md-none"
-            placeholder="搜尋商品" />
+            placeholder="搜尋商品"
+            onChange={(e) => setSearchText(e.target.value.trim())}
+            onKeyDown={(e) => e.key === 'Enter' && searchProducts()}
+            onBlur={(e) => searchProducts(e)}/>
         )}
       </div>
       <div className="container">
@@ -175,11 +194,18 @@ export default function ProductList() {
               </ul>
             </div>
             <div className="col-md-9">
-              <h1 className="text-dark d-none d-md-block fs-5 mb-md-18">
-                { currentCategory ? currentCategory : '全部商品' }
-              </h1>
+              { searchText ? (
+                <p className="text-dark d-none d-md-block fs-5 mb-md-18">篩選結果</p>
+              ) : (
+                <h1 className="text-dark d-none d-md-block fs-5 mb-md-18">
+                  { currentCategory ? currentCategory : '全部商品' }
+                </h1>
+              )}
               <div className="row row-gap-12 row-gap-md-18">
-                  { products.map(product => (
+                { (!products.length && searchText) ? (
+                  <p className="text-center fs-4">您搜尋的商品不存在</p>
+                ) : (
+                  products.map(product => (
                     <div className="col-md-6 col-lg-4"
                       key={product.id}>
                       <div className="card-product position-relative">
@@ -201,12 +227,13 @@ export default function ProductList() {
                         </p>
                       </div>
                     </div>
-                  ))}
+                  ))
+                )}
               </div>
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }
