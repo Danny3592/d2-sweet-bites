@@ -1,0 +1,18 @@
+.pagination {
+  .page-link {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    color: $dark;
+  }
+
+  .page-link.active {
+    border-radius: 100%;
+    background-color: $primary-600;
+    color: $light;
+  }
+}
