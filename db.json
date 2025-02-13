@@ -1,242 +1,55 @@
 {
   "users": [
     {
-      "email": "Jay@gmail.com",
-      "password": "$2a$10$jTC74FPpbnDD22ZPt1dUH.003mgaUp8rixMFaxMXQXaVz0poSxssq",
-      "username": "Jay",
-      "role": [
-        "admin"
-      ],
-      "id": "1"
+      "id": "1",
+      "name": "Testuser"
+    }
+  ],
+  "carts": [
+    {
+      "id": "8234",
+      "productId": "3",
+      "title": "甜蜜助學計畫",
+      "price": 300,
+      "quantity": 3,
+      "imageUrl": "https://plus.unsplash.com/premium_photo-1709901922284-67eb36dae7d1?w=800",
+      "userId": "1"
     },
     {
-      "email": "johnny@gmail.com",
-      "password": "$2a$10$xMA05aA8Zgz2UZkybdo04..xlDr3Pe0En/MhPlSaNQ1y.R149MxCG",
-      "username": "Johnny",
-      "role": [
-        "admin"
-      ],
-      "id": "2"
+      "id": "1234",
+      "productId": "2",
+      "title": "莓好時光",
+      "price": 300,
+      "quantity": 2,
+      "imageUrl": "https://images.unsplash.com/photo-1602683503944-af7ef3bc7369?w=800",
+      "userId": "1"
     },
     {
-      "email": "kattie@gmail.com",
-      "password": "$2a$10$KxTj148S6MGSzHIHoNRk3eJpLApTeVwMToFQFV1UVrj7LPmZrzT4O",
-      "username": "kattie",
-      "role": [
-        "admin"
-      ],
-      "id": "3"
-    },
-    {
-      "email": "Jin@gmail.com",
-      "password": "$2a$10$VTq5z8ChSPnpVsP/pdVmSO0hlb5rUIPy09EC88kDRtQnt75cGBL2O",
-      "username": "Jin",
-      "role": [
-        "admin"
-      ],
-      "id": "4"
-    },
-    {
-      "email": "kimi@gmail.com",
-      "password": "$2a$10$gnOV9kFOVWxfU4aMoaCSg.7Yu1Alacn2oPsT9uG9HDx51.KIAiMo6",
-      "name": "kimi",
-      "confirmPassword": "123456",
-      "terms": true,
-      "id": "4A-PI_Z"
-    },
-    {
-      "email": "kate@gmail.com",
-      "password": "$2a$10$T/5kFyPTaYqYCVysvYPGHeY3Elto4PVknj6TQKgXtSbUjddOl1Xq6",
-      "name": "kate",
-      "terms": true,
-      "role": [
-        "admin"
-      ],
-      "id": "binaR3V"
+      "id": "e3fd",
+      "productId": "4",
+      "title": "幸福愛寵行動",
+      "price": 300,
+      "quantity": 3,
+      "imageUrl": "https://images.unsplash.com/photo-1602979677071-1781b7f40023?q=80&w=3024",
+      "userId": "1"
     }
   ],
   "products": [
     {
-      "id": "1",
-      "title": "蜜桃初戀",
-      "category": "派",
-      "origin_price": 200,
-      "price": 200,
-      "unit": "個",
-      "description": "適合蜜桃或水果風味的甜點，柔和而帶點浪漫。",
-      "content": "適合蜜桃或水果風味的甜點，柔和而帶點浪漫。",
-      "is_enabled": 1,
-      "stock": 10,
-      "status": "上架中",
-      "imageUrl": "圖片主要網址",
-      "imagesUrl": [
-        "圖片網址",
-        "圖片網址"
-      ]
-    },
-    {
-      "id": "2",
-      "title": "莓好時光",
-      "category": "蛋糕",
-      "origin_price": 480,
-      "price": 400,
-      "unit": "個",
-      "description": "酸甜的草莓與多種莓果調和，彷彿置身春日花園",
-      "content": "採用當季草莓與藍莓製成，層層堆疊於鬆軟的蛋糕體上，覆蓋香甜奶霜，帶來清新與幸福的滋味。提供 6 吋尺寸",
-      "is_enabled": 1,
-      "stock": 2,
-      "status": "上架中",
-      "imageUrl": "圖片主要網址",
-      "imagesUrl": [
-        "圖片網址",
-        "圖片網址"
-      ]
-    },
-    {
       "id": "3",
-      "title": "棗心如意",
-      "category": "蛋糕",
-      "origin_price": 200,
-      "price": 180,
-      "unit": "個",
-      "description": "棗果與咖啡或巧克力的搭配，濃郁又帶一絲溫暖的驚喜。",
-      "content": "棗果與咖啡或巧克力的搭配，濃郁又帶一絲溫暖的驚喜。",
-      "is_enabled": 1,
-      "stock": 10,
-      "status": "上架中",
-      "imageUrl": "圖片主要網址",
-      "imagesUrl": [
-        "圖片網址",
-        "圖片網址"
-      ]
+      "title": "甜蜜助學計畫",
+      "category": "慈善",
+      "price": 300,
+      "imageUrl": "https://plus.unsplash.com/premium_photo-1709901922284-67eb36dae7d1?w=800",
+      "is_enabled": 1
     },
     {
       "id": "4",
-      "title": "檸檬舞律",
-      "category": "派",
-      "origin_price": 200,
-      "price": 170,
-      "unit": "個",
-      "description": "適合清新檸檬類，均衡的酸甜搭配，清爽又愉悅。",
-      "content": "適合清新檸檬類，均衡的酸甜搭配，清爽又愉悅。",
-      "is_enabled": 1,
-      "stock": 10,
-      "status": "上架中",
-      "imageUrl": "圖片主要網址",
-      "imagesUrl": [
-        "圖片網址",
-        "圖片網址"
-      ]
-    },
-    {
-      "id": "5",
-      "title": "抹茶心語",
-      "category": "蛋糕",
-      "origin_price": 250,
-      "price": 210,
-      "unit": "個",
-      "description": "採用日本宇治抹茶製成，微苦甘甜，宛如細語入心。",
-      "content": "採用日本宇治抹茶製成，微苦甘甜，宛如細語入心。",
-      "is_enabled": 1,
-      "stock": 10,
-      "status": "上架中",
-      "imageUrl": "圖片主要網址",
-      "imagesUrl": [
-        "圖片網址",
-        "圖片網址"
-      ]
-    },
-    {
-      "id": "6",
-      "title": "杏仁微光",
-      "category": "餅乾",
-      "origin_price": 150,
-      "price": 120,
-      "unit": "個",
-      "description": "精選杏仁片，搭配巧妙香料，口感層次豐富。",
-      "content": "精選杏仁片，搭配巧妙香料，口感層次豐富。",
-      "is_enabled": 0,
-      "stock": 0,
-      "status": "下架",
-      "imageUrl": "圖片主要網址",
-      "imagesUrl": [
-        "圖片網址",
-        "圖片網址"
-      ]
-    },
-    {
-      "id": "7",
-      "title": "幻彩柔情",
-      "category": "馬卡龍",
-      "origin_price": 250,
-      "price": 220,
-      "unit": "盒",
-      "description": "五種繽紛口味馬卡龍，每一口帶來愛與情意。",
-      "content": "五種繽紛口味馬卡龍，每一口帶來愛與情意。",
-      "is_enabled": 0,
-      "stock": 0,
-      "status": "即將推出",
-      "imageUrl": "圖片主要網址",
-      "imagesUrl": [
-        "圖片網址",
-        "圖片網址"
-      ]
-    },
-    {
-      "id": "8",
-      "title": "焦糖能量",
-      "category": "蛋捲",
-      "origin_price": 150,
-      "price": 140,
-      "unit": "個",
-      "description": "在傳統蛋捲基底上加入焦糖層次，帶來全新味覺享受。",
-      "content": "在傳統蛋捲基底上加入焦糖層次，帶來全新味覺享受。",
-      "is_enabled": 0,
-      "stock": 0,
-      "status": "告罄",
-      "imageUrl": "圖片主要網址",
-      "imagesUrl": [
-        "圖片網址",
-        "圖片網址"
-      ]
-    },
-    {
-      "id": "7098",
-      "title": "巧克力冰淇淋",
-      "category": "冰淇淋",
-      "origin_price": 100,
+      "title": "幸福愛寵行動",
+      "category": "慈善",
       "price": 300,
-      "unit": "個",
-      "description": "冰淇淋",
-      "content": "這是內容",
-      "is_enabled": 1,
-      "imageUrl": "主圖網址",
-      "imagesUrl": [
-        "圖片網址一",
-        "圖片網址二",
-        "圖片網址三",
-        "圖片網址四",
-        "圖片網址五"
-      ]
-    },
-    {
-      "id": "33cf",
-      "title": "巧克力冰淇淋",
-      "category": "冰淇淋",
-      "origin_price": 100,
-      "price": 300,
-      "unit": "個",
-      "description": "冰淇淋",
-      "content": "這是內容",
-      "is_enabled": 1,
-      "imageUrl": "主圖網址",
-      "imagesUrl": [
-        "圖片網址一",
-        "圖片網址二",
-        "圖片網址三",
-        "圖片網址四",
-        "圖片網址五"
-      ]
+      "imageUrl": "https://images.unsplash.com/photo-1602979677071-1781b7f40023?q=80&w=3024",
+      "is_enabled": 1
     }
   ]
 }

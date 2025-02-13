@@ -1,5 +1,6 @@
 import FrontLayout from "../pages/front/FrontLayout";
 import Home from "../pages/front/Home";
+import Cart from "../pages/front/Cart";
 import ProductList from "../pages/front/ProductList";
 import AdminLogin from "../pages/dashboard/AdminLogin";
 import AdminRegister from "../pages/dashboard/AdminRegister";
@@ -24,6 +25,10 @@ const routes = [
           {
             path: "product-list",
             element: <ProductList />,
+          },
+          {
+            path: "cart",
+            element: <Cart />,
           },
         ],
       },
