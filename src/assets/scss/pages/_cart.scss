@@ -5,7 +5,7 @@
     display: block;
     margin-bottom: 1rem;
     font-size: 16px;
-    color: #007bff;
+    color: $gray-600;
     text-decoration: none;
     &:hover {
       text-decoration: underline;
@@ -20,28 +20,13 @@
     border-radius: 5px;
   }
 
-  .product-section {
-    margin-bottom: 16px;
-  }
-
   .cart-section,
   .donation-section {
     margin-bottom: 0;
   }
 
-  .product-card {
-    padding: 15px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-  }
-
   .cart-summary {
     margin-top: 0;
-  }
-
-  .product-image {
-    width: 100%;
   }
 
   .custom-button:active {

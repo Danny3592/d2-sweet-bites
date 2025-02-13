@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import ReactLoading from "react-loading";
+import { alertError } from "../../../util/sweetAlert";
+import Loading from "../../components/Loading";
 
 import continueshopping from "../../assets/images/icons/chevron-left.svg";
 import shoppingCartIcon from "../../assets/images/icons/shopping-cart.svg";
@@ -10,70 +11,43 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 export default function CartPage() {
   const [cartItems, setCartItems] = useState([]);
   const [charityProducts, setCharityProducts] = useState([]); //慈善商品
-  const [isScreenLoading, setIsScreenLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
   // 取得當前登入者 ID
   const USER_ID = localStorage.getItem("userId");
 
   useEffect(() => {
     if (!USER_ID) {
-      Navigate("/login");
+      navigate("/login");
       return; // 如果沒登入，就不請求 API
     }
     getCart();
     getCharityProducts();
   }, [USER_ID]);
 
-  //取得所有慈善商品
-  const getCharityProducts = async () => {
-    setIsScreenLoading(true);
+  // 取得購物車列表
+  const getCart = async () => {
+    setIsLoading(true);
     try {
-      const res = await axios.get(`${BASE_URL}/products?category=慈善`);
-      const charityOnly = res.data.map((product) => ({
-        id: product.id,
-        title: product.title,
-        category: product.category,
-        description: product.description,
-        content: product.content,
-        price: product.price,
-        origin_price: product.origin_price,
-        imageUrl: product.imageUrl,
-        imagesUrl: product.imagesUrl,
-        is_enabled: product.is_enabled,
-        unit: product.unit,
-      }));
+      const res = await axios.get(`/users/${USER_ID}/carts?_expand=product`);
 
-      setCharityProducts(charityOnly);
+      setCartItems(res.data);
     } catch (error) {
-      alert("取得慈善商品失敗");
+      alertError("取得購物車失敗");
     } finally {
-      setIsScreenLoading(false);
+      setIsLoading(false);
     }
   };
 
-  // 取得購物車列表
-  const getCart = async () => {
-    setIsScreenLoading(true);
+  //取得所有慈善商品
+  const getCharityProducts = async () => {
+    setIsLoading(true);
     try {
-      const res = await axios.get(
-        `${BASE_URL}/carts?userId=${USER_ID}&_expand=product`
-      );
-
-      const cartData = res.data.map((item) => ({
-        id: item.id,
-        productId: item.productId,
-        title: item.title,
-        price: item.price,
-        quantity: item.quantity,
-        imageUrl: item.imageUrl,
-      }));
-
-      setCartItems(cartData);
+      const res = await axios.get(`/products?category=慈善`);
+      setCharityProducts(res.data);
     } catch (error) {
-      alert("取得購物車失敗");
+      alertError("取得慈善商品失敗");
     } finally {
-      setIsScreenLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -82,30 +56,32 @@ export default function CartPage() {
     setIsLoading(true);
 
     try {
-      const res = await axios.get(`${BASE_URL}/products/${productId}`);
+      const res = await axios.get(`/products/${productId}`);
       const product = res.data;
 
       const currentItem = cartItems.find(
-        (item) => item.productId === productId
+        (item) => item.title === product.title
       );
 
       if (currentItem) {
-        await updateCartItem(currentItem.id, currentItem.quantity + 1);
+        await updateCartItem(
+          currentItem.id,
+          currentItem.productId,
+          currentItem.qty + 1
+        );
       } else {
-        await axios.post(`${BASE_URL}/carts`, {
+        await axios.post(`/users/${USER_ID}/carts`, {
           productId: product.id,
           title: product.title,
           price: product.price,
-          quantity: 1,
+          qty: 1,
           imageUrl: product.imageUrl,
-          userId: USER_ID,
         });
 
-        alert("成功加入購物車");
         await getCart(); // 確保購物車刷新完成
       }
     } catch (error) {
-      alert(`加入購物車失敗: ${error.message}`);
+      alertError(`加入購物車失敗: ${error.message}`);
     } finally {
       setIsLoading(false);
     }
@@ -113,58 +89,57 @@ export default function CartPage() {
 
   //清空全部購物車
   const removeCart = async () => {
-    setIsScreenLoading(true);
+    setIsLoading(true);
     try {
       // 逐一刪除購物車內的每個商品
       for (const item of cartItems) {
-        await axios.delete(`${BASE_URL}/carts/${item.id}`);
+        await axios.delete(`/carts/${item.id}`);
       }
       setCartItems([]); // 清空前端狀態
-      alert("購物車已清空");
+      alertError("購物車已清空");
     } catch (error) {
-      alert(`清空購物車失敗: ${error.message}`);
+      alertError(`清空購物車失敗: ${error.message}`);
     } finally {
-      setIsScreenLoading(false);
+      setIsLoading(false);
     }
   };
 
   //清空單一購物車
   const removeCartItem = async (cartId) => {
-    setIsScreenLoading(true);
+    setIsLoading(true);
     try {
       // 發送正確的 DELETE 請求
-      await axios.delete(`${BASE_URL}/carts/${cartId}`);
+      await axios.delete(`/carts/${cartId}`);
 
       // 移除前端狀態中對應的項目
       setCartItems((prevItems) =>
         prevItems.filter((item) => item.id !== cartId)
       );
-      alert("刪除購物車品項成功");
+      alertError("刪除購物車品項成功");
     } catch (error) {
-      alert(`刪除購物車品項失敗: ${error.message}`);
+      alertError(`刪除購物車品項失敗: ${error.message}`);
     } finally {
-      setIsScreenLoading(false);
+      setIsLoading(false);
     }
   };
 
   // 更新購物車數量
-  const updateCartItem = async (cartId, newQty) => {
+  const updateCartItem = async (cartId, productId, newQty) => {
     if (newQty < 1) return; // 防止數量小於 1
 
-    setIsScreenLoading(true);
+    setIsLoading(true);
 
     try {
-      await axios.patch(`${BASE_URL}/carts/${cartId}`, {
-        quantity: newQty,
+      await axios.patch(`/carts/${cartId}`, {
+        productId: String(productId),
+        qty: newQty,
       });
 
       await getCart();
-
-      alert("更新購物車成功");
     } catch (error) {
-      alert(`更新購物車失敗: ${error.message}`);
+      alertError(`更新購物車失敗: ${error.message}`);
     } finally {
-      setIsScreenLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -229,12 +204,16 @@ export default function CartPage() {
                               <button
                                 type="button"
                                 className={`btn btn-outline-gray-400 ${
-                                  item.quantity === 1
+                                  item.qty === 1
                                     ? "bg-gray-100 text-gray-400"
                                     : "text-dark"
                                 } quantity-btn`}
                                 onClick={() =>
-                                  updateCartItem(item.id, item.quantity - 1)
+                                  updateCartItem(
+                                    item.id,
+                                    item.productId,
+                                    item.qty - 1
+                                  )
                                 }
                               >
                                 -
@@ -242,14 +221,18 @@ export default function CartPage() {
                               <input
                                 type="number"
                                 className="form-control text-center"
-                                value={item.quantity}
+                                value={item.qty}
                                 readOnly
                               />
                               <button
                                 type="button"
                                 className="btn btn-outline-gray-400 text-dark quantity-btn"
                                 onClick={() =>
-                                  updateCartItem(item.id, item.quantity + 1)
+                                  updateCartItem(
+                                    item.id,
+                                    item.productId,
+                                    item.qty + 1
+                                  )
                                 }
                               >
                                 +
@@ -259,7 +242,7 @@ export default function CartPage() {
                         </div>
                         <div className="text-end">
                           <h6 className="mb-3 text-primary-800">
-                            NT${item.price * item.quantity}
+                            NT${item.price * item.qty}
                           </h6>
                           <button
                             className="btn btn-link text-danger btn-sm"
@@ -320,14 +303,6 @@ export default function CartPage() {
                             className="me-2 red-icon"
                           />
                           放入購物車
-                          {isLoading && (
-                            <ReactLoading
-                              type={"spin"}
-                              color={"#000"}
-                              height={"1.5rem"}
-                              width={"1.5rem"}
-                            />
-                          )}
                         </button>
                       </div>
                     </div>
@@ -350,7 +325,7 @@ export default function CartPage() {
                         <span className="fs-7 text-primary-800">NT$</span>
                         <span className="fs-6 text-primary-800">
                           {cartItems.reduce(
-                            (total, item) => total + item.price * item.quantity,
+                            (total, item) => total + item.price * item.qty,
                             0
                           )}
                         </span>
@@ -371,7 +346,7 @@ export default function CartPage() {
 
                         <span className="fs-3 text-primary-800">
                           {cartItems.reduce(
-                            (total, item) => total + item.price * item.quantity,
+                            (total, item) => total + item.price * item.qty,
                             0
                           )}
                         </span>
@@ -389,24 +364,7 @@ export default function CartPage() {
             </div>
           </div>
         </div>
-        {isScreenLoading && (
-          <div
-            className="d-flex justify-content-center align-items-center"
-            style={{
-              position: "fixed",
-              inset: 0,
-              backgroundColor: "rgba(255,255,255,0.3)",
-              zIndex: 999,
-            }}
-          >
-            <ReactLoading
-              type="spin"
-              color="black"
-              width="4rem"
-              height="4rem"
-            />
-          </div>
-        )}
+        {isLoading && <Loading type="spin" color="#D4A58E" />}
       </div>
     </div>
   );
