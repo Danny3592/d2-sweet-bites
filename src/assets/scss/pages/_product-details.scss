@@ -1,8 +1,75 @@
+.notification-desktop {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  .notification-box {
+    @include items-center;
+    height: 20rem;
+    width: 30rem;
+    background-color: rgba(black, 0.75);
+    flex-direction: column;
+    .circle {
+      @include items-center;
+      width: 100px;
+      height: 100px;
+      background-color: $primary-600;
+      border-radius: 100%;
+      .tick {
+        @include items-center;
+        color: #fff;
+        font-size: 40px;
+      }
+    }
+    .text {
+      color: #fff;
+      margin-top: 48px;
+    }
+  }
+}
+
+.notification-phone{
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  width: 100%;
+  .notification-box {
+    @include items-center;
+    height: 5rem;
+    
+    background-color: rgba(black, 0.75);
+    justify-content: space-evenly;
+    .circle {
+      @include items-center;
+      width: 30px;
+      height: 30px;
+      background-color: $primary-600;
+      border-radius: 100%;
+      .tick {
+        @include items-center;
+        color: #fff;
+        font-size: 40px;
+      }
+    }
+    .text {
+      color: #fff;
+    }
+  }
+}
+
+
+
+
+
 .product-details {
   background-color: #fcf7f6;
   padding: 0;
   margin: 0;
   .arrow {
+    cursor: pointer;
     width: 36px;
     height: 60px;
     background: #343a40;
@@ -20,6 +87,12 @@
     height: 25px;
     top: 32px;
     right: 60px;
+  }
+  .products-imgs {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    column-gap: 20px;
+    place-items: center;
   }
 
   li {
@@ -41,6 +114,37 @@
       background: #f3f4f5;
     }
   }
+
+  .similar-container {
+    overflow-x: hidden;
+    position: relative;
+    .arrow {
+      position: absolute;
+      top: 35%;
+      z-index: 50;
+      &-left {
+        left: 0;
+      }
+      &-right {
+        right: 0;
+      }
+    }
+  }
+  .swiper-slide {
+    width: 300px !important; /* 強制設定每個 Slide 的寬度 */
+    height: auto !important;
+  }
+
+  .similar-products-imgs {
+    img {
+      width: 100%;
+      height: 306px; /* ✅ 強制設為 306px，確保所有圖片一致 */
+      object-fit: cover;
+    }
+    li {
+      white-space: wrap;
+    }
+  }
   .charity-container {
     width: 100%;
     .charity-title {
@@ -57,7 +161,9 @@
       border: 1px solid #adb5bd;
     }
     .charity-img {
-      max-width: 144px;
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
     }
   }
 
