@@ -5,67 +5,15 @@ import { useParams } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import CharityCard from '../../components/front/product-detail/CharityCard';
 import { CHARITY_DATA } from '../../../util/charityData';
 import Notification from '../../components/front/product-detail/Notification';
-// import {
-//   mainProdImgStyle,
-//   similarProdsImgStyle,
-// } from '../../components/front/product-detail/product-detail-style';
+import {
+  mainProdImgStyle,
+  similarProdsImgStyle,
+} from '../../components/front/product-detail/product-detail-style';
 
-
-
-const mainProdImgStyle = (width, height, isCover = true) => {
-  return {
-    width: width ? width : '100%',
-    maxHeight: height ? height : '635px',
-    objectFit: isCover ? 'cover' : undefined,
-  };
-};
-
-const similarProdsImgStyle = (productLength) => {
-  return {
-    left: '0px',
-    display: 'grid',
-    gridTemplateColumns: `repeat(${productLength}, 306px)`,
-    columnGap: '24px',
-    whiteSpace: 'nowrap',
-    transitionDuration: '0.5s',
-  };
-};
-
-//============負責處理類似商品區的輪播效果============
-
-const handleSlideImg = (direction, length) => {
-  const moveRange = 400;
-  const imgList = document.querySelector('.get-slide');
-  const limit = (length - 4) * 330; //滾動極限位置 (一次會顯示四組商品所以減4)
-
-  if (imgList) {
-    const currentLeft = parseInt(imgList.style.left || '0');
-
-    if (direction === 'right') {
-      if (Math.abs(currentLeft) > limit) {
-        //若到達極限位置回到起始點
-        imgList.style.left = `${0}px`;
-      } else {
-        imgList.style.left = `${currentLeft - moveRange}px`;
-      }
-      return;
-    }
-    if (direction === 'left') {
-      if (Math.abs(currentLeft) <= 0) {
-        imgList.style.left = `${0}px`;
-      } else {
-        imgList.style.left = `${currentLeft + moveRange}px`;
-      }
-      return;
-    }
-  }
-};
-
-//============負責處理類似商品區的輪播效果============
 const ProductDetail = () => {
   const { productId } = useParams();
   const [productDetails, setProductDetails] = useState({});
@@ -75,7 +23,30 @@ const ProductDetail = () => {
     productQty: 1,
     charityPlan: [],
   });
-  const [isNotification,setIsNotification] = useState(null)
+  const [notification, setNotification] = useState(null);
+  const imgListRef = useRef(null);
+  const [position, setPosition] = useState(0);
+
+  //============負責處理類似商品區的輪播效果============
+
+  const handleSlideImg = (direction, length) => {
+    const moveRange = 400;
+    const limit = (length - 4) * 330; // 最右邊界
+
+    setPosition((prev) => {
+      if (direction === 'right') return prev > -limit ? prev - moveRange : 0;
+      if (direction === 'left') return prev < 0 ? prev + moveRange : 0;
+      return prev;
+    });
+  };
+
+  useEffect(() => {
+    if (imgListRef.current) {
+      imgListRef.current.style.left = `${position}px`;
+    }
+  }, [position]);
+
+  //============負責處理類似商品區的輪播效果============
 
   useEffect(() => {
     async function getProductDetails(id) {
@@ -101,20 +72,20 @@ const ProductDetail = () => {
   }, [productId]);
 
   function handleCheckout() {
-    console.log(order)
+    console.log(order);
   }
   function handleAddToCart() {
-    console.log(order)
-    setIsNotification('商品已加入購物車')
+    console.log(order);
+    setNotification('商品已加入購物車');
     setTimeout(() => {
-      setIsNotification(null)
+      setNotification(null);
     }, 1500);
   }
   function handleAddToFavorite() {
-    console.log(productDetails.id)
-    setIsNotification('商品已保存至您的收藏清單')
+    console.log(productDetails.id);
+    setNotification('商品已保存至您的收藏清單');
     setTimeout(() => {
-      setIsNotification(null)
+      setNotification(null);
     }, 1500);
   }
 
@@ -123,18 +94,17 @@ const ProductDetail = () => {
       ...prevOrder,
       productQty: Math.min(
         Math.max(prevOrder.productQty + countState, 1),
-        productDetails.stock
+        productDetails.stock,
       ),
     }));
   }
 
   return (
     <div className="product-details">
-      {isNotification!==null && <Notification />}
-
+      {notification !== null && <Notification text={notification}/>}
       <div className="container mt-4 p-0 ">
         <div className="row d-flex gx-lg-12 gx-0">
-          <div className="col-12 col-lg-6 position-relative">
+          <div className="product-img-list col-12 col-lg-6 position-relative ">
             {/* ==============手機板product-img-list-START=========================== */}
             <div className="d-block d-lg-none">
               <div
@@ -208,9 +178,6 @@ const ProductDetail = () => {
                       key={img}
                       className="d-flex justify-content-center align-items-center overflow-hidden"
                       style={{ width: '100px', height: '100px' }}
-                      onClick={() => {
-                        setMainImage(img);
-                      }}
                     >
                       <img
                         src={img}
@@ -229,7 +196,7 @@ const ProductDetail = () => {
             {/* ==============電腦板product-img-list-END=========================== */}
           </div>
           <div className="col-12 col-lg-6 px-lg-8 px-11 py-lg-0 py-6 position-relative">
-            <FiHeart className="d-block d-lg-none position-absolute heart " />
+            <FiHeart className="d-block d-lg-none position-absolute heart "  onClick={handleAddToFavorite}/>
             <h3 className="text-primary fw-medium mb-6 fs-2">
               {productDetails.title}
             </h3>
@@ -264,7 +231,7 @@ const ProductDetail = () => {
             <div className="charity-container">
               <div className="charity-title d-flex ailgn-items-center">
                 <span className="charity-icon fs-6 mx-3 ">+</span>
-                <span className="fs-7 ">加購公益專案</span>
+                <span className="fs-7 bg-">加購公益專案</span>
               </div>
               <ul className="d-flex flex-column p-0">
                 {CHARITY_DATA.map((item) => {
@@ -288,7 +255,10 @@ const ProductDetail = () => {
             </div>
 
             <div className="mt-18 d-flex gap-4 mb-33">
-              <button className="d-none d-lg-flex btn btn-action-1 py-4 px-10" onClick={handleAddToFavorite}>
+              <button
+                className="d-none d-lg-flex btn btn-action-1 py-4 px-10"
+                onClick={handleAddToFavorite}
+              >
                 收藏
               </button>
               <button
@@ -360,6 +330,7 @@ const ProductDetail = () => {
                 <ul
                   className="similar-products-imgs mb-32 position-relative get-slide"
                   style={similarProdsImgStyle(similarProducts.length)}
+                  ref={imgListRef}
                 >
                   {similarProducts?.map((product) => {
                     return (
