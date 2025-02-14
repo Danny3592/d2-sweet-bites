@@ -16,7 +16,7 @@ export default function AdminProducts() {
   const getProducts = async (page = 1) => {
     setIsLoading(true);
     try {
-      const res = await axios.get(`/products?_page=${page}&_limit=10`);
+      const res = await axios.get(`/660/products?_page=${page}&_limit=10`);
       setTotalPages(Math.ceil(res.headers.get("X-Total-Count") / 10));
       setProducts(res.data);
     } catch(error) {
@@ -53,7 +53,7 @@ export default function AdminProducts() {
     if (!res.isConfirmed) return;
     setIsLoading(true);
     try {
-      await axios.delete(`/products/${product.id}`);
+      await axios.delete(`/660/products/${product.id}`);
       toastAlert('商品刪除成功');
       getProducts(currentPage);
     } catch (error) {

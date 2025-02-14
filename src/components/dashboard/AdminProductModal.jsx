@@ -84,11 +84,11 @@ export default function AdminProductModal({ modalRef, closeProductModal, getProd
   }
 
   const submit = async () => {
-    let apiPath = '/products';
+    let apiPath = '/660/products';
     let apiMethod = 'post';
     let message = '新增產品成功';
     if (type === 'edit') {
-      apiPath = `/products/${tempData.id}`;
+      apiPath = `/660/products/${tempData.id}`;
       apiMethod = 'put';
       message = '編輯產品成功';
     }
