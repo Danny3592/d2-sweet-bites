@@ -1,6 +1,7 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useEffect } from "react";
+import { NavLink } from "react-router-dom";
 
 export default function AdminLayout(){
   const navigate = useNavigate();
@@ -26,8 +27,9 @@ export default function AdminLayout(){
         <aside className="admin__sidebar">
           <h2 className="m-dec-left mb-10">幸享屋</h2>
           <ul className="ps-0">
-            <li className="active">
-              <a href="#">
+            <li className="active0">
+              <NavLink to="/dashboard"
+                className="border-0">
                 <div className="menu-item">
                   <svg
                     enableBackground="new 0 0 64 64"
@@ -51,10 +53,11 @@ export default function AdminLayout(){
                   </svg>
                   <span className="menu-text">管理訂單</span>
                 </div>
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a href="#">
+              <NavLink to="/dashboard"
+                className="border-0">
                 <div className="menu-item">
                   <svg
                     enableBackground="new 0 0 64 64"
@@ -78,10 +81,11 @@ export default function AdminLayout(){
                   </svg>
                   <span className="menu-text">管理商品</span>
                 </div>
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a href="#">
+              <NavLink to="/dashboard"
+                className="border-0">
                 <div className="menu-item">
                   <svg
                     enableBackground="new 0 0 64 64"
@@ -105,10 +109,11 @@ export default function AdminLayout(){
                   </svg>
                   <span className="menu-text">管理使用者</span>
                 </div>
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a href="#">
+              <NavLink to="/dashboard/coupon"
+                className="border-0">
                 <div className="menu-item">
                   <svg
                     enableBackground="new 0 0 64 64"
@@ -132,10 +137,11 @@ export default function AdminLayout(){
                   </svg>
                   <span className="menu-text">管理優惠券</span>
                 </div>
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a href="#">
+              <NavLink to="/dashboard/news"
+                className="border-0">
                 <div className="menu-item">
                   <svg
                     enableBackground="new 0 0 64 64"
@@ -159,10 +165,11 @@ export default function AdminLayout(){
                   </svg>
                   <span className="menu-text">管理最新消息</span>
                 </div>
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a href="#">
+              <NavLink to="/dashboard"
+                className="border-0">
                 <div className="menu-item">
                   <svg
                     enableBackground="new 0 0 64 64"
@@ -186,7 +193,7 @@ export default function AdminLayout(){
                   </svg>
                   <span className="menu-text">查看捐款</span>
                 </div>
-              </a>
+              </NavLink>
             </li>
           </ul>
         </aside>
