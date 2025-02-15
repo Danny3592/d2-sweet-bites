@@ -17,6 +17,7 @@ import {
 import { useDispatch } from 'react-redux';
 
 
+
 const ProductDetail = () => {
   const dispatch = useDispatch()
   
@@ -316,7 +317,7 @@ const ProductDetail = () => {
 
                 {/* ========手機版similar-products-list-START====== */}
                 <div className="d-block d-lg-none text-center ">
-                  <Swiper spaceBetween={25} slidesPerView={3}>
+                  <Swiper spaceBetween={25} slidesPerView={3}  loop={true}>
                     {similarProducts?.map((item) => {
                       return (
                         <SwiperSlide
