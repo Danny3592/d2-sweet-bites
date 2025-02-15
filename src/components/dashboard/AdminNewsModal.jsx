@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { toastAlert, alertError } from "../../../util/sweetAlert";
-import { getToday } from '../../../util/tools';
+import { getToday, checkInputFill } from '../../../util/tools';
 export default function AdminNewsModal({ modalRef, closeNewsModal, getNews, type, tempNews, currentPage }) {
   const [tempData, setTempData] = useState({
     title: "", // 文章名稱
@@ -29,7 +29,15 @@ export default function AdminNewsModal({ modalRef, closeNewsModal, getNews, type
     } else if (type === 'edit') {
       setTempData(tempNews);
     }
-  }, [type, tempNews])
+  }, [type, tempNews]);
+
+  const isInputFilled = checkInputFill(tempData, [
+    'title',
+    'description',
+    'image',
+    'author',
+    'content'
+  ]);
 
   const handleChange = (e) => {
     const { value, name } = e.target;
@@ -107,7 +115,7 @@ export default function AdminNewsModal({ modalRef, closeNewsModal, getNews, type
               <div className='col-sm-4'>
                 <div className='form-group mb-2'>
                   <label className='w-100 mb-3' htmlFor='image'>
-                    輸入圖片網址
+                    輸入圖片網址 <span className="text-danger">(必填)</span>
                     <input
                       type='text'
                       name='image'
@@ -130,7 +138,7 @@ export default function AdminNewsModal({ modalRef, closeNewsModal, getNews, type
               <div className='col-sm-8'>
                 <div className='form-group mb-2'>
                   <label className='w-100 mb-3' htmlFor='title'>
-                    標題
+                    標題 <span className="text-danger">(必填)</span>
                     <input
                       type='text'
                       id='title'
@@ -145,7 +153,7 @@ export default function AdminNewsModal({ modalRef, closeNewsModal, getNews, type
                 <div className='row'>
                   <div className='form-group mb-2 col-md-6'>
                     <label className='w-100 mb-3' htmlFor='author'>
-                      作者
+                      作者 <span className="text-danger">(必填)</span>
                       <input
                         type='text'
                         id='author'
@@ -181,7 +189,7 @@ export default function AdminNewsModal({ modalRef, closeNewsModal, getNews, type
                 <hr />
                 <div className='form-group mb-2'>
                   <label className='w-100 mb-3' htmlFor='description'>
-                    最新消息內容簡介
+                    最新消息內容簡介 <span className="text-danger">(必填)</span>
                     <textarea
                       rows="4"
                       type='text'
@@ -196,7 +204,7 @@ export default function AdminNewsModal({ modalRef, closeNewsModal, getNews, type
                 </div>
                 <div className='form-group mb-2'>
                   <label className='w-100 mb-3' htmlFor='content'>
-                    最新消息內容
+                    最新消息內容 <span className="text-danger">(必填)</span>
                     <textarea
                       rows="4"
                       type='text'
@@ -238,6 +246,7 @@ export default function AdminNewsModal({ modalRef, closeNewsModal, getNews, type
             </button>
             <button type='button'
               className='btn btn-primary py-2'
+              disabled={!isInputFilled}
               onClick={submit}>
               儲存
             </button>

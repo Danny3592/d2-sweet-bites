@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { toastAlert, alertError } from "../../../util/sweetAlert";
-export default function AdminProductModal({ modalRef, closeCouponModal, getCoupons, type, tempCoupon, currentPage }) {
+import { checkInputFill } from "../../../util/tools";
+export default function AdminCouponModal({ modalRef, closeCouponModal, getCoupons, type, tempCoupon, currentPage }) {
   const [tempData, setTempData] = useState({
     title: "", //優惠券名稱
     is_enabled: 1, // 是否啟用
@@ -10,7 +11,7 @@ export default function AdminProductModal({ modalRef, closeCouponModal, getCoupo
     code: "", // 折扣碼
   });
 
-  const [date, setDate] = useState(new Date());
+  const isInputFilled = checkInputFill(tempData, ['title', 'percent', 'due_date', 'code']);
 
   useEffect(() => {
     if(type === 'create') {
@@ -91,7 +92,7 @@ export default function AdminProductModal({ modalRef, closeCouponModal, getCoupo
               <div className='col-md-6 mb-2'>
                 <div className='form-group'>
                   <label className='w-100 mb-3' htmlFor='title'>
-                    名稱
+                    名稱 <span className="text-danger">(必填)</span>
                     <input
                       type='text'
                       id='title'
@@ -107,7 +108,7 @@ export default function AdminProductModal({ modalRef, closeCouponModal, getCoupo
               <div className='col-md-6 mb-2'>
                 <div className='form-group'>
                   <label className='w-100 mb-3' htmlFor='code'>
-                    折扣碼
+                    折扣碼 <span className="text-danger">(必填)</span>
                     <input
                       type='text'
                       id='code'
@@ -123,7 +124,7 @@ export default function AdminProductModal({ modalRef, closeCouponModal, getCoupo
               <div className='col-md-6 mb-2'>
                 <div className='form-group'>
                   <label className='w-100 mb-3' htmlFor='percent'>
-                    折扣比率
+                    折扣比率 <span className="text-danger">(必填)</span>
                     <input
                       type='number'
                       id='percent'
@@ -139,11 +140,12 @@ export default function AdminProductModal({ modalRef, closeCouponModal, getCoupo
               <div className='col-md-6 mb-2'>
                 <div className='form-group'>
                   <label className='w-100 mb-3' htmlFor='due_date'>
-                    到期日
+                    到期日 <span className="text-danger">(必填)</span>
                     <input
                       type='date'
                       id='due_date'
                       name='due_date'
+                      min={new Date().toISOString().split('T')[0]}
                       placeholder='請輸入優惠券到期日'
                       className='form-control'
                       onChange={handleChange}
@@ -180,6 +182,7 @@ export default function AdminProductModal({ modalRef, closeCouponModal, getCoupo
             </button>
             <button type='button'
               className='btn btn-primary py-2'
+              disabled={!isInputFilled}
               onClick={submit}>
               儲存
             </button>
