@@ -14,15 +14,9 @@ import {
   mainProdImgStyle,
   similarProdsImgStyle,
 } from '../../components/front/product-detail/product-detail-style';
-import { useDispatch } from 'react-redux';
-
-
 
 const ProductDetail = () => {
-  const dispatch = useDispatch()
-  
-
-  const { productId } = useParams();
+const { productId } = useParams();
   const [productDetails, setProductDetails] = useState({});
   const [similarProducts, setSimilarProducts] = useState([]);
   const [order, setOrder] = useState({

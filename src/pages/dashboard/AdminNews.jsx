@@ -1,24 +1,24 @@
 import { useEffect, useRef, useState } from 'react';
 import { Modal } from 'bootstrap';
 import { alertDeleteConfirm, toastAlert, alertError } from '../../../util/sweetAlert';
-import AdminProductModal from '../../components/dashboard/AdminProductModal';
+import AdminNewsModal from '../../components/dashboard/AdminNewsModal';
 import Pagination from '../../components/Pagination';
 import Loading from '../../components/Loading';
 import axios from 'axios';
 
 export default function AdminProducts() {
-  const [products, setProducts] = useState([]);
+  const [news, setNews] = useState([]);
   const [type, setType] = useState('create'); // edit
-  const [tempProduct, setTempProduct] = useState({});
+  const [tempNews, setTempNews] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
-  const getProducts = async (page = 1) => {
+  const getNews = async (page = 1) => {
     setIsLoading(true);
     try {
-      const res = await axios.get(`/660/products?_page=${page}&_limit=10`);
+      const res = await axios.get(`/660/news?_page=${page}&_limit=10`);
       setTotalPages(Math.ceil(res.headers.get("X-Total-Count") / 10));
-      setProducts(res.data);
+      setNews(res.data);
     } catch(error) {
       alertError(error.message);
     } finally {
@@ -26,36 +26,36 @@ export default function AdminProducts() {
     }
   }
   useEffect(() => {
-    getProducts(currentPage);
+    getNews(currentPage);
   }, [currentPage]);
 
-  const productModal = useRef(null);
+  const newsModal = useRef(null);
   const modalRef = useRef(null);
 
   useEffect(() => {
-    productModal.current = new Modal(modalRef.current, {
+    newsModal.current = new Modal(modalRef.current, {
       backdrop: 'static'
     });
   }, []);
 
-  const openProductModal = (type, product) => {
+  const openNewsModal = (type, news) => {
     setType(type);
-    setTempProduct(product);
-    productModal.current.show();
+    setTempNews(news);
+    newsModal.current.show();
   }
 
-  const closeProductModal = () => {
-    productModal.current.hide();
+  const closeNewsModal = () => {
+    newsModal.current.hide();
   }
 
-  const deleteProduct = async (product) => {
-    const res = await alertDeleteConfirm(`確認刪除 ${product.title} 嗎?`);
+  const deleteNews = async (news) => {
+    const res = await alertDeleteConfirm(`確認刪除 ${news.title} 嗎?`);
     if (!res.isConfirmed) return;
     setIsLoading(true);
     try {
-      await axios.delete(`/660/products/${product.id}`);
-      toastAlert('商品刪除成功');
-      getProducts(currentPage);
+      await axios.delete(`/660/news/${news.id}`);
+      toastAlert('最新消息刪除成功');
+      getNews(currentPage);
     } catch (error) {
       alertError(error.message);
     } finally {
@@ -66,57 +66,61 @@ export default function AdminProducts() {
   return (
     <>
       { isLoading && <Loading type="spin" color="#D4A58E"/> }
-      <AdminProductModal
+      <AdminNewsModal
         modalRef={modalRef}
-        closeProductModal={closeProductModal}
-        getProducts={getProducts}
+        closeNewsModal={closeNewsModal}
+        getNews={getNews}
         currentPage={currentPage}
-        tempProduct={tempProduct}
+        tempNews={tempNews}
         type={type}
       />
       <div className="d-flex justify-content-between align-items-center px-20">
-        <h2>管理商品</h2>
+        <h2>管理最新消息</h2>
         <button className="btn btn-primary"
-          onClick={() => openProductModal('create', {})}>
-          建立新商品
+          onClick={() => openNewsModal('create', {})}>
+          建立新消息
         </button>
       </div>
       <main className="admin__content">
         <table>
           <thead>
             <tr>
-              <th>分類</th>
-              <th>名稱</th>
-              <th className='px-5'>內容</th>
-              <th>售價</th>
-              <th>庫存</th>
+              <th>標題</th>
+              <th className='px-5'>作者</th>
+              <th>標籤</th>
+              <th>建立日期</th>
               <th>啟用狀態</th>
               <th>編輯</th>
             </tr>
           </thead>
           <tbody>
             {
-              products.map(product => {
+              news.map(item => {
                 return (
-                  <tr key={product.title}>
-                    <td>{product.category}</td>
-                    <td>{product.title}</td>
-                    <td className='px-5' width={400}>{product.content}</td>
-                    <td>{product.price}</td>
-                    <td>{product.stock}</td>
-                    <td>{product.is_enabled ? '啟用' : '未啟用'}</td>
+                  <tr key={item.title}>
+                    <td>{item.title}</td>
+                    <td>{item.author}</td>
+                    <td>{item.tag.map(tag =>
+                      (<span
+                        className='badge rounded-pill bg-danger mx-1'
+                        key={tag}>
+                          {tag}
+                       </span>)
+                    )}</td>
+                    <td>{item.create_at}</td>
+                    <td>{item.isPublic ? '公開' : '非公開'}</td>
                     <td>
                       <button
                         type="button"
                         className="btn btn-primary btn-sm"
-                        onClick={() => openProductModal('edit', product)}
+                        onClick={() => openNewsModal('edit', item)}
                       >
                         編輯
                       </button>
                       <button
                         type="button"
                         className="btn btn-outline-danger btn-sm ms-2"
-                        onClick={() => deleteProduct(product)}
+                        onClick={() => deleteNews(item)}
                       >
                         刪除
                       </button>
