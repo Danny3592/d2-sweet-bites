@@ -31,17 +31,21 @@ const ProductDetail = () => {
   });
   const [notification, setNotification] = useState(null);
   const imgListRef = useRef(null);
-  const [position, setPosition] = useState(0);
+  const [position, setPosition] = useState(-20);
 
   //============負責處理類似商品區的輪播效果============
 
   const handleSlideImg = (direction, length) => {
-    const moveRange = 400;
-    const limit = (length - 4) * 330; // 最右邊界
+    const moveRange = 330;
+    let limit = (length - 4) * 330; // 最右邊界
+    if(window.innerWidth<=1362){
+      console.log(window.innerWidth);
+      limit = (length - 3) * 330;
+    }
 
     setPosition((prev) => {
-      if (direction === 'right') return prev > -limit ? prev - moveRange : 0;
-      if (direction === 'left') return prev < 0 ? prev + moveRange : 0;
+      if (direction === 'right') return prev > -limit ? prev - moveRange : -20;
+      if (direction === 'left') return prev < -20 ? prev + moveRange : -20;
       return prev;
     });
   };
@@ -76,6 +80,8 @@ const ProductDetail = () => {
     }
     getProductDetails(productId);
   }, [productId]);
+
+
 
   function handleCheckout() {
     //待串接中
@@ -310,7 +316,7 @@ const ProductDetail = () => {
 
                 {/* ========手機版similar-products-list-START====== */}
                 <div className="d-block d-lg-none text-center ">
-                  <Swiper spaceBetween={25} slidesPerView={1}>
+                  <Swiper spaceBetween={25} slidesPerView={3}>
                     {similarProducts?.map((item) => {
                       return (
                         <SwiperSlide

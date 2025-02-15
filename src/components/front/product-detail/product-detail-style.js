@@ -8,7 +8,7 @@ export const mainProdImgStyle = (width, height, isCover = true) => {
 
 export const similarProdsImgStyle = (productLength) => {
   return {
-    left: '0px',
+    left: '-20px',
     display: 'grid',
     gridTemplateColumns: `repeat(${productLength}, 306px)`,
     columnGap: '24px',
