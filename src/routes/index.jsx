@@ -4,6 +4,8 @@ import ProductList from "../pages/front/ProductList";
 import AdminLogin from "../pages/dashboard/AdminLogin";
 import AdminRegister from "../pages/dashboard/AdminRegister";
 import AdminProducts from "../pages/dashboard/AdminProducts";
+import AdminCoupon from '../pages/dashboard/AdminCoupon';
+import AdminNews from '../pages/dashboard/AdminNews';
 import NotFound from "../pages/NotFound";
 import { createHashRouter } from "react-router-dom";
 import App from "../App";
@@ -42,6 +44,14 @@ const routes = [
           {
             index: true,
             element: <AdminProducts />,
+          },
+          {
+            path: "coupon",
+            element: <AdminCoupon />,
+          },
+          {
+            path: "news",
+            element: <AdminNews />,
           },
         ],
       },
