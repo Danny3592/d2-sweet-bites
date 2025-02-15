@@ -317,7 +317,7 @@ const ProductDetail = () => {
 
                 {/* ========手機版similar-products-list-START====== */}
                 <div className="d-block d-lg-none text-center ">
-                  <Swiper spaceBetween={25} slidesPerView={3}  loop={true}>
+                <Swiper spaceBetween={25} slidesPerView={2} loop={true}>
                     {similarProducts?.map((item) => {
                       return (
                         <SwiperSlide
