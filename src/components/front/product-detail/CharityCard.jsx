@@ -16,7 +16,7 @@ const CharityCard = ({ title, price, img, setOrder, order, id }) => {
   return (
     <>
       <div
-        className="check-box position-relative d-none d-lg-block"
+        className="check-box position-relative d-none d-sm-block"
         onClick={() => handleOrder(id)}
         style={{ cursor: 'pointer' }}
       >
@@ -45,7 +45,7 @@ const CharityCard = ({ title, price, img, setOrder, order, id }) => {
           </p>
         </div>
         <div
-          className="check-box position-relative d-block d-lg-none"
+          className="check-box position-relative d-block d-sm-none m-0"
           onClick={() => handleOrder(id)}
           style={{ cursor: 'pointer' }}
         >

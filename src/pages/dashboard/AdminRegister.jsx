@@ -30,6 +30,9 @@ export default function AdminRegister() {
     setErrorMessage(""); // 清空之前的錯誤訊息
 
     const { confirmPassword, ...requestData } = data; // 移除確認密碼
+
+    console.log(data)
+
     try {
       await axios.post("/register", {
         ...requestData,
@@ -40,6 +43,7 @@ export default function AdminRegister() {
       setTimeout(() => {
         navigate("/admin-login");
       }, 2000);
+
     } catch (error) {
       setErrorMessage("註冊失敗，請檢查您的資料是否正確");
     } finally {

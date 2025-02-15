@@ -9,6 +9,8 @@ import { createHashRouter } from 'react-router-dom';
 import App from '../App';
 import AdminLayout from '../components/AdminLayout';
 import ProductDetail from '../pages/front/ProductDetail';
+import MemberCoupons from './../pages/front/member/MemberCoupons';
+import MemberLayout from '../components/MemberLayout';
 
 const routes = [
   {
@@ -55,6 +57,11 @@ const routes = [
         element: <NotFound />,
       },
     ],
+  },
+  {
+    path: '/member',
+    element: <MemberLayout />,
+    children: [{ path: 'coupons', element: <MemberCoupons /> }],
   },
 ];
 
