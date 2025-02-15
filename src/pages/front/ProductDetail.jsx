@@ -16,11 +16,30 @@ import {
 } from '../../components/front/product-detail/product-detail-style';
 
 const ProductDetail = () => {
-const { productId } = useParams();
+  // ===============模擬已登入使用者=================
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    async function getUser() {
+      try {
+        const res = await axios('/users');
+        const user = res.data;
+        const currentUser = user.find((item) => item.id === 3);
+        console.log(currentUser);
+        setUser(currentUser);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getUser();
+  }, []);
+   // ===============模擬已登入使用者=================
+
+
+  const { productId } = useParams();
   const [productDetails, setProductDetails] = useState({});
   const [similarProducts, setSimilarProducts] = useState([]);
   const [order, setOrder] = useState({
-    id: '',
+    productId: '',
     productQty: 1,
     charityPlan: [],
   });
@@ -28,14 +47,16 @@ const { productId } = useParams();
   const imgListRef = useRef(null);
   const [position, setPosition] = useState(-20);
 
-  //============負責處理類似商品區的輪播效果============
+  //============負責處理類似商品區的輪播效果 START============
 
   const handleSlideImg = (direction, length) => {
     const moveRange = 330;
     let limit = (length - 4) * 330; // 最右邊界
-    if(window.innerWidth<=1362){
-      console.log(window.innerWidth);
+    if (window.innerWidth <= 1362) {
       limit = (length - 3) * 330;
+    }
+    if (window.innerWidth <= 970) {
+      limit = (length - 2.2) * 330;
     }
 
     setPosition((prev) => {
@@ -51,7 +72,7 @@ const { productId } = useParams();
     }
   }, [position]);
 
-  //============負責處理類似商品區的輪播效果============
+  //============負責處理類似商品區的輪播效果 END============
 
   useEffect(() => {
     async function getProductDetails(id) {
@@ -65,7 +86,7 @@ const { productId } = useParams();
         setSimilarProducts(similarProducts);
         setProductDetails(product);
         setOrder({
-          id: product.id,
+          productId: product.id,
           productQty: 1,
           charityPlan: [],
         });
@@ -76,14 +97,22 @@ const { productId } = useParams();
     getProductDetails(productId);
   }, [productId]);
 
-
+  
 
   function handleCheckout() {
     //待串接中
     console.log(order);
   }
+
   function handleAddToCart() {
-    //待串接中
+    try {
+      // const checkCart = await axios.get('/carts')
+      // const res = axios.post(`/600/users/${user.id}/carts`, {
+      //   user: { id: user.id, name: user.name },
+      //   cart:{
+      //   }
+      // });
+    } catch (error) {}
     console.log(order);
     setNotification('商品已加入購物車');
     setTimeout(() => {
@@ -310,8 +339,12 @@ const { productId } = useParams();
                 <p className="title fs-5 mb-12">類似商品</p>
 
                 {/* ========手機版similar-products-list-START====== */}
-                <div className="d-block d-lg-none text-center ">
-                <Swiper spaceBetween={25} slidesPerView={2} loop={true}>
+                <div className="d-block d-md-none text-center ">
+                  <Swiper
+                    spaceBetween={25}
+                    slidesPerView={window.innerWidth > 450 ? 2 : 1}
+                    loop={window.innerWidth > 450}
+                  >
                     {similarProducts?.map((item) => {
                       return (
                         <SwiperSlide
@@ -341,15 +374,15 @@ const { productId } = useParams();
                 {/* ========手機版similar-products-list-END====== */}
 
                 {/* ========電腦版similar-products-list-START====== */}
-                <div className="d-none d-lg-block text-center similar-container">
+                <div className="d-none d-md-block text-center similar-container">
                   <IoIosArrowBack
-                    className="d-none d-lg-block arrow arrow-left fs-3"
+                    className="d-none d-md-block arrow arrow-left fs-3"
                     onClick={() =>
                       handleSlideImg('left', similarProducts.length)
                     }
                   />
                   <IoIosArrowForward
-                    className="d-none d-lg-block arrow arrow-right fs-3"
+                    className="d-none d-md-block arrow arrow-right fs-3"
                     onClick={() =>
                       handleSlideImg('right', similarProducts.length)
                     }

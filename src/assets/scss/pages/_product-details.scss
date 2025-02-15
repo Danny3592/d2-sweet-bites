@@ -29,7 +29,7 @@
   }
 }
 
-.notification-phone{
+.notification-phone {
   position: fixed;
   left: 50%;
   top: 50%;
@@ -39,7 +39,7 @@
   .notification-box {
     @include items-center;
     height: 5rem;
-    
+
     background-color: rgba(black, 0.75);
     justify-content: space-evenly;
     .circle {
@@ -59,10 +59,6 @@
     }
   }
 }
-
-
-
-
 
 .product-details {
   overflow-x: hidden;
@@ -121,7 +117,7 @@
     position: relative;
     .arrow {
       position: absolute;
-      top: 35%;
+      top: 25%;
       z-index: 50;
       &-left {
         left: 0;
@@ -132,18 +128,36 @@
     }
   }
 
-  .swiper-slide {
-    width: 300px !important; /* 強制設定每個 Slide 的寬度 */
-    height: auto !important;
+  .swiper-wrapper {
+    display: flex;
+
+    @media (max-width: 785px) {
+      gap: 60px;
+    }
+    @media (max-width: 450px) {
+      gap: 0px;
+    }
+
   }
-  .swiper-wrapper{
-    // transform:translate3d(70px, 0px, 0px)!important;
+
+  .swiper-slide {
+    img {
+      width: 100%;
+      height: 306px;
+      object-fit: cover;
+    }
+    @media (max-width: 785px) {
+      img {
+        height: 250px;
+      }
+    }
+
   }
 
   .similar-products-imgs {
     img {
       width: 100%;
-      height: 306px; /* ✅ 強制設為 306px，確保所有圖片一致 */
+      height: 306px;
       object-fit: cover;
     }
     li {
@@ -154,7 +168,7 @@
     width: 100%;
 
     .charity-title {
-      background: #F3F4F5;
+      background: #f3f4f5;
 
       border: 1px solid #ced4da;
       height: 48px;
