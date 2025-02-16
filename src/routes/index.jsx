@@ -1,3 +1,4 @@
+
 import FrontLayout from "../pages/front/FrontLayout";
 import Home from "../pages/front/Home";
 import ProductList from "../pages/front/ProductList";
@@ -10,10 +11,13 @@ import NotFound from "../pages/NotFound";
 import { createHashRouter } from "react-router-dom";
 import App from "../App";
 import AdminLayout from "../components/AdminLayout";
+import ProductDetail from './../pages/front/ProductDetail';
+
+
 
 const routes = [
   {
-    path: "/",
+    path: '/',
     element: <App />,
     children: [
       {
@@ -24,21 +28,25 @@ const routes = [
             element: <Home />,
           },
           {
-            path: "product-list",
+            path: 'product-list',
             element: <ProductList />,
+          },
+          {
+            path: 'product-details/:productId',
+            element: <ProductDetail />,
           },
         ],
       },
       {
-        path: "admin-login",
+        path: 'admin-login',
         element: <AdminLogin />,
       },
       {
-        path: "admin-register",
+        path: 'admin-register',
         element: <AdminRegister />,
       },
       {
-        path: "dashboard",
+        path: 'dashboard',
         element: <AdminLayout />,
         children: [
           {
@@ -56,11 +64,11 @@ const routes = [
         ],
       },
       {
-        path: "*",
+        path: '*',
         element: <NotFound />,
       },
     ],
-  },
+  }
 ];
 
 const router = createHashRouter(routes);

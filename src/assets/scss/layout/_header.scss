@@ -1,0 +1,38 @@
+.header-nav {
+  transition: all 0.5s;
+  // @include media-breakpoint-up(lg) {
+  //   background:#fff;
+  // }
+}
+.nav-item {
+  a {
+    color: black;
+    @include media-breakpoint-up(lg) {
+      color: white;
+    }
+  }
+  &:hover {
+    opacity: 0.7;
+  }
+}
+.nav-icons {
+  width: 100%;
+  border-top: 1px solid $gray-400;
+  color: black;
+  @include media-breakpoint-up(lg) {
+    width: auto;
+    border-top: 0;
+    color: white;
+  }
+  a {
+    color: black;
+    @include media-breakpoint-up(lg) {
+      color: white;
+    }
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+}
+
+
