@@ -4,7 +4,9 @@
   background-position: center;
   background-repeat: no-repeat;
   height: 100vh;
+  animation: bannerBackgroundZoom 5s ease-out forwards;
   @media (max-width: 842px) {
+    animation: none;
     background-position: top;
     height: 70vh;
   }
@@ -31,7 +33,6 @@
       // transform: translateX(-2rem);
     }
   }
-  animation: bannerBackgroundZoom 5s ease-out forwards;
   color: #fff;
   .btn {
     color: #fff;

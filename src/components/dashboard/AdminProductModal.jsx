@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { toastAlert, alertError } from "../../../util/sweetAlert";
+import { checkInputFill } from '../../../util/tools';
 export default function AdminProductModal({ modalRef, closeProductModal, getProducts, type, tempProduct, currentPage }) {
   const [tempData, setTempData] = useState({
     title: "", //商品名稱
@@ -34,7 +35,17 @@ export default function AdminProductModal({ modalRef, closeProductModal, getProd
     } else if (type === 'edit') {
       setTempData(tempProduct);
     }
-  }, [type, tempProduct])
+  }, [type, tempProduct]);
+
+  const isInputFilled = checkInputFill(tempData, [
+    'title',
+    'category',
+    'description',
+    'price',
+    'unit',
+    'content',
+    'imageUrl',
+  ]);
 
   const handleChange = (e) => {
     const { value, name } = e.target;
@@ -84,11 +95,11 @@ export default function AdminProductModal({ modalRef, closeProductModal, getProd
   }
 
   const submit = async () => {
-    let apiPath = '/products';
+    let apiPath = '/660/products';
     let apiMethod = 'post';
     let message = '新增產品成功';
     if (type === 'edit') {
-      apiPath = `/products/${tempData.id}`;
+      apiPath = `/660/products/${tempData.id}`;
       apiMethod = 'put';
       message = '編輯產品成功';
     }
@@ -128,7 +139,7 @@ export default function AdminProductModal({ modalRef, closeProductModal, getProd
               <div className='col-sm-4'>
                 <div className='form-group mb-2'>
                   <label className='w-100 mb-3' htmlFor='image'>
-                    輸入圖片網址
+                    輸入圖片網址 <span className="text-danger">(必填)</span>
                     <input
                       type='text'
                       name='imageUrl'
@@ -201,7 +212,7 @@ export default function AdminProductModal({ modalRef, closeProductModal, getProd
               <div className='col-sm-8'>
                 <div className='form-group mb-2'>
                   <label className='w-100 mb-3' htmlFor='title'>
-                    標題
+                    標題 <span className="text-danger">(必填)</span>
                     <input
                       type='text'
                       id='title'
@@ -216,7 +227,7 @@ export default function AdminProductModal({ modalRef, closeProductModal, getProd
                 <div className='row'>
                   <div className='form-group mb-2 col-md-6'>
                     <label className='w-100 mb-3' htmlFor='category'>
-                      分類
+                      分類 <span className="text-danger">(必填)</span>
                       <input
                         type='text'
                         id='category'
@@ -230,7 +241,7 @@ export default function AdminProductModal({ modalRef, closeProductModal, getProd
                   </div>
                   <div className='form-group mb-2 col-md-6'>
                     <label className='w-100 mb-3' htmlFor='unit'>
-                      單位
+                      單位 <span className="text-danger">(必填)</span>
                       <input
                         type='unit'
                         id='unit'
@@ -261,7 +272,7 @@ export default function AdminProductModal({ modalRef, closeProductModal, getProd
                   </div>
                   <div className='form-group mb-2 col-md-6'>
                     <label className='w-100 mb-3' htmlFor='price'>
-                      售價
+                      售價 <span className="text-danger">(必填)</span>
                       <input
                         type='number'
                         id='price'
@@ -293,7 +304,7 @@ export default function AdminProductModal({ modalRef, closeProductModal, getProd
                 <hr />
                 <div className='form-group mb-2'>
                   <label className='w-100 mb-3' htmlFor='description'>
-                    產品描述
+                    產品描述 <span className="text-danger">(必填)</span>
                     <textarea
                       rows="4"
                       type='text'
@@ -308,7 +319,7 @@ export default function AdminProductModal({ modalRef, closeProductModal, getProd
                 </div>
                 <div className='form-group mb-2'>
                   <label className='w-100 mb-3' htmlFor='content'>
-                    說明內容
+                    說明內容 <span className="text-danger">(必填)</span>
                     <textarea
                       rows="4"
                       type='text'
@@ -350,6 +361,7 @@ export default function AdminProductModal({ modalRef, closeProductModal, getProd
             </button>
             <button type='button'
               className='btn btn-primary py-2'
+              disabled={!isInputFilled}
               onClick={submit}>
               儲存
             </button>
