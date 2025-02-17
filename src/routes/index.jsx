@@ -33,14 +33,13 @@ const routes = [
             element: <ProductList />,
           },
           {
-
             path: "cart",
             element: <Cart />,
-
+          },
+          {
             path: 'product-details/:productId',
             element: <ProductDetail />,
-
-          },
+          }
         ],
       },
       {
