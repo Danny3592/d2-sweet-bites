@@ -1,11 +1,13 @@
-import Swal from 'sweetalert2';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import router from './routes/index.jsx';
+import { RouterProvider } from 'react-router-dom';
+import axios from 'axios';
 
-// Example SweetAlert2 usage
-Swal.fire({
-  title: 'SweetAlert2 is working!',
-  text: 'This is a test alert.',
-  icon: 'success',
-  confirmButtonText: 'Cool'
-}).then(() => {
-  console.log("SweetAlert2 test alert displayed successfully.");
-});
+axios.defaults.baseURL = import.meta.env.VITE_API_URL;
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <RouterProvider router={router} />
+  </StrictMode>,
+);

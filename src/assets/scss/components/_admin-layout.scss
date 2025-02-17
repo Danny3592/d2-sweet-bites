@@ -1,0 +1,81 @@
+.admin__container {
+  display: flex;
+
+  ////////////////////////SIDEBAR////////////////////////////
+
+  .admin__sidebar {
+    height: 100vh;
+    background-color: #f0f0f3;
+    text-align: center;
+    padding: 3rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    ul {
+      list-style: none;
+      li {
+        
+        padding-left: 10px;
+        &:not(:last-child) {
+          margin-bottom: 2rem;
+        }
+        a:link,
+        a:visited {
+          text-decoration: none;
+          color: inherit;
+        }
+        a:hover {
+          color: $primary;
+          transition: $transition-base;
+        }
+        .menu-item {
+          text-align: start;
+          display: flex;
+          align-items: center;
+          gap: 1.5rem;
+          .menu-icon {
+            width: 3.5rem;
+            height: 3.5rem;
+          }
+        }
+        .active{
+          border-left: 2px solid black;
+        }
+      }
+      
+    }
+  }
+
+  ////////////////////////CONTNET////////////////////////////
+
+  .admin__box {
+    flex: 1;
+    margin-left: 264px;
+    /////////////px///////////HEADER////////////////////////////
+    .admin__header {
+      .logout-box {
+        text-align: end;
+        padding: 2rem;
+        .btn-logout {
+          padding: 1rem 3rem;
+          font-size: 1.6rem;
+          background-color: transparent;
+          border: none;
+          font-weight: 600;
+          cursor: pointer;
+        }
+      }
+      .header-box {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 5rem;
+      }
+    }
+  }
+}
+
+//////////UTILITIES//////////////
+.m-dec-left {
+  margin-left: -4.5rem;
+}

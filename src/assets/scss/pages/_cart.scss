@@ -1,0 +1,64 @@
+.cart-page {
+  background-color: #fcf7f6;
+
+  .continue-shopping {
+    display: block;
+    margin-bottom: 1rem;
+    font-size: 16px;
+    color: $gray-600;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .cart-item-image,
+  .donation-item-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+
+  .cart-section,
+  .donation-section {
+    margin-bottom: 0;
+  }
+
+  .cart-summary {
+    margin-top: 0;
+  }
+
+  .custom-button:active {
+    background-color: #a20738 !important;
+  }
+
+  .custom-outlined-button:hover {
+    background-color: #a20738 !important;
+  }
+
+  //加減按鈕樣式
+  .quantity-btn {
+    background-color: transparent;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  }
+
+  .quantity-btn:hover {
+    background-color: $gray-100;
+    color: $dark;
+  }
+
+  //放入購物車按鈕樣式
+  .red-icon {
+    filter: invert(15%) sepia(59%) saturate(4516%) hue-rotate(327deg)
+      brightness(96%) contrast(104%);
+  }
+
+  .custom-outlined-button:hover .red-icon {
+    filter: invert(100%);
+  }
+
+  .back-icon {
+    filter: grayscale(100%) brightness(40%);
+  }
+}
