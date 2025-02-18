@@ -6,6 +6,8 @@ import Loading from "../../components/Loading";
 import continueshopping from "../../assets/images/icons/chevron-left.svg";
 import shoppingCartIcon from "../../assets/images/icons/shopping-cart.svg";
 
+
+
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export default function CartPage() {
@@ -16,10 +18,10 @@ export default function CartPage() {
   const USER_ID = localStorage.getItem("userId");
 
   useEffect(() => {
-    if (!USER_ID) {
-      navigate("/login");
-      return; // 如果沒登入，就不請求 API
-    }
+    // if (!USER_ID) {
+    //   navigate("/login");
+    //   return; // 如果沒登入，就不請求 API
+    // }
     getCart();
     getCharityProducts();
   }, [USER_ID]);
@@ -29,7 +31,6 @@ export default function CartPage() {
     setIsLoading(true);
     try {
       const res = await axios.get(`/users/${USER_ID}/carts?_expand=product`);
-
       setCartItems(res.data);
     } catch (error) {
       alertError("取得購物車失敗");
@@ -54,7 +55,6 @@ export default function CartPage() {
   // 新增至購物車
   const addCartItem = async (productId) => {
     setIsLoading(true);
-
     try {
       const res = await axios.get(`/products/${productId}`);
       const product = res.data;

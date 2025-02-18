@@ -8,41 +8,29 @@ import 'swiper/css';
 import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import CharityCard from '../../components/front/product-detail/CharityCard';
-import { CHARITY_DATA } from '../../../util/charityData';
 import Notification from '../../components/front/product-detail/Notification';
 import {
   mainProdImgStyle,
   similarProdsImgStyle,
 } from '../../components/front/product-detail/product-detail-style';
+import { alertError } from '../../../util/sweetAlert';
+import Loading from '../../components/Loading';
 
 const ProductDetail = () => {
-  // ===============模擬已登入使用者=================
-  const [user, setUser] = useState({});
-  useEffect(() => {
-    async function getUser() {
-      try {
-        const res = await axios('/users');
-        const user = res.data;
-        const currentUser = user.find((item) => item.id === 3);
-        console.log(currentUser);
-        setUser(currentUser);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    getUser();
-  }, []);
-   // ===============模擬已登入使用者=================
-
-
   const { productId } = useParams();
   const [productDetails, setProductDetails] = useState({});
+  const [charityProducts, setCharityProducts] = useState([]); //慈善商品
   const [similarProducts, setSimilarProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
+
   const [order, setOrder] = useState({
     productId: '',
     productQty: 1,
-    charityPlan: [],
   });
+
+  const USER_ID = localStorage.getItem('userId');
+
   const [notification, setNotification] = useState(null);
   const imgListRef = useRef(null);
   const [position, setPosition] = useState(-20);
@@ -73,51 +61,114 @@ const ProductDetail = () => {
   }, [position]);
 
   //============負責處理類似商品區的輪播效果 END============
+  const getCharityProducts = async () => {
+    setIsLoading(true);
+    try {
+      const res = await axios.get(`/products?category=慈善`);
+      setCharityProducts(res.data);
+    } catch (error) {
+      alertError('取得慈善商品失敗');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const getProductDetails = async (id) => {
+    setIsLoading(true);
+    try {
+      const res = await axios.get('/products');
+      const data = res.data;
+      const product = data.find((item) => item.id === +id);
+      const similarProducts = data.filter(
+        (item) => item.category === product.category,
+      );
+      setSimilarProducts(similarProducts);
+      setProductDetails(product);
+      setOrder({
+        productId: product.id,
+        productQty: 1,
+      });
+    } catch (error) {
+      console.error('error = ', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const getCart = async () => {
+    setIsLoading(true);
+    try {
+      const res = await axios.get(`/users/${USER_ID}/carts?_expand=product`);
+      setCartItems(res.data);
+    } catch (error) {
+      alertError('取得購物車失敗');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const updateCartItem = async (cartId, productId, newQty) => {
+    if (newQty < 1) return; // 防止數量小於 1
+
+    setIsLoading(true);
+
+    try {
+      await axios.patch(`/carts/${cartId}`, {
+        productId: String(productId),
+        qty: newQty,
+      });
+
+      await getCart();
+    } catch (error) {
+      alertError(`更新購物車失敗: ${error.message}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const addCartItem = async (productId, qty) => {
+    setIsLoading(true);
+
+    try {
+      const res = await axios.get(`/products/${productId}`);
+      const product = res.data;
+      const currentItem = cartItems.find(
+        (item) => item.title === product.title,
+      );
+      if (currentItem) {
+        await updateCartItem(
+          currentItem.id,
+          currentItem.productId,
+          qty ? currentItem.qty + qty : currentItem.qty + 1,
+        );
+
+
+
+      } else {
+        await axios.post(`/users/${USER_ID}/carts`, {
+          productId: product.id,
+          title: product.title,
+          price: product.price,
+          qty: qty?qty:1,
+          imageUrl: product.imageUrl,
+        });
+
+        await getCart(); // 確保購物車刷新完成
+      }
+    } catch (error) {
+      alertError(`加入購物車失敗: ${error.message}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    async function getProductDetails(id) {
-      try {
-        const res = await axios.get('/products');
-        const data = res.data;
-        const product = data.find((item) => item.id === +id);
-        const similarProducts = data.filter(
-          (item) => item.category === product.category,
-        );
-        setSimilarProducts(similarProducts);
-        setProductDetails(product);
-        setOrder({
-          productId: product.id,
-          productQty: 1,
-          charityPlan: [],
-        });
-      } catch (error) {
-        console.error('error = ', error);
-      }
-    }
     getProductDetails(productId);
   }, [productId]);
-
-  
+  useEffect(() => {
+    getCharityProducts();
+  }, []);
 
   function handleCheckout() {
     //待串接中
-    console.log(order);
-  }
 
-  function handleAddToCart() {
-    try {
-      // const checkCart = await axios.get('/carts')
-      // const res = axios.post(`/600/users/${user.id}/carts`, {
-      //   user: { id: user.id, name: user.name },
-      //   cart:{
-      //   }
-      // });
-    } catch (error) {}
-    console.log(order);
-    setNotification('商品已加入購物車');
-    setTimeout(() => {
-      setNotification(null);
-    }, 1500);
   }
 
   const favorite = true; //模擬收藏
@@ -288,7 +339,7 @@ const ProductDetail = () => {
                   <span className="fs-7 bg-">加購公益專案</span>
                 </div>
                 <ul className="d-flex flex-column p-0">
-                  {CHARITY_DATA.map((item) => {
+                  {charityProducts.map((item) => {
                     return (
                       <li
                         key={item.id}
@@ -298,9 +349,8 @@ const ProductDetail = () => {
                           id={item.id}
                           title={item.title}
                           price={item.price}
-                          img={item.img}
-                          setOrder={setOrder}
-                          order={order}
+                          img={item.imageUrl}
+                          addCartItem={addCartItem}
                         />
                       </li>
                     );
@@ -317,7 +367,9 @@ const ProductDetail = () => {
                 </button>
                 <button
                   className="btn btn-action-2 py-4 "
-                  onClick={handleAddToCart}
+                  onClick={() => {
+                    addCartItem(productDetails.id,order.productQty);
+                  }}
                 >
                   加入購物車
                 </button>
