@@ -13,6 +13,7 @@ import { createHashRouter } from "react-router-dom";
 import App from "../App";
 import AdminLayout from "../components/AdminLayout";
 import ProductDetail from './../pages/front/ProductDetail';
+import Checkout from "../pages/front/Checkout";
 
 
 
@@ -39,6 +40,10 @@ const routes = [
           {
             path: 'product-details/:productId',
             element: <ProductDetail />,
+          },
+          {
+            path: 'checkout',
+            element: <Checkout />,
           }
         ],
       },

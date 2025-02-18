@@ -1,0 +1,25 @@
+.checkout {
+  h3 {
+    font-weight: bold;
+  }
+  color: #000;
+  .order-info,
+  .credit-card-info {
+    border: 2px solid black;
+    padding: 2rem;
+    border-radius: 5px;
+  }
+
+  input {
+    border-radius: 10px;
+    width: 100%;
+  }
+  .valid-date,
+  .CVC {
+    flex: 1;
+  }
+  .card-number{
+    flex: 2;
+  }
+
+}
