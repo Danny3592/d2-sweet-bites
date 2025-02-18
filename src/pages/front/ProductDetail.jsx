@@ -24,6 +24,8 @@ const ProductDetail = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [cartItems, setCartItems] = useState([]);
 
+  const [charitySet, setCharitySet] = useState([]);
+
   const [order, setOrder] = useState({
     productId: '',
     productQty: 1,
@@ -138,15 +140,12 @@ const ProductDetail = () => {
           currentItem.productId,
           qty ? currentItem.qty + qty : currentItem.qty + 1,
         );
-
-
-
       } else {
         await axios.post(`/users/${USER_ID}/carts`, {
           productId: product.id,
           title: product.title,
           price: product.price,
-          qty: qty?qty:1,
+          qty: qty ? qty : 1,
           imageUrl: product.imageUrl,
         });
 
@@ -159,6 +158,17 @@ const ProductDetail = () => {
     }
   };
 
+
+  const handleAddCart = (id,qty) => {
+    if (charitySet && charitySet.length > 0) {
+      charitySet.forEach((item) => 
+        addCartItem(item)
+      );
+    }
+    addCartItem(id,qty)
+
+  }
+
   useEffect(() => {
     getProductDetails(productId);
   }, [productId]);
@@ -168,7 +178,6 @@ const ProductDetail = () => {
 
   function handleCheckout() {
     //待串接中
-
   }
 
   const favorite = true; //模擬收藏
@@ -350,7 +359,8 @@ const ProductDetail = () => {
                           title={item.title}
                           price={item.price}
                           img={item.imageUrl}
-                          addCartItem={addCartItem}
+                          setCharitySet={setCharitySet}
+                          charitySet={charitySet}
                         />
                       </li>
                     );
@@ -368,7 +378,7 @@ const ProductDetail = () => {
                 <button
                   className="btn btn-action-2 py-4 "
                   onClick={() => {
-                    addCartItem(productDetails.id,order.productQty);
+                    handleAddCart(productDetails.id, order.productQty);
                   }}
                 >
                   加入購物車
