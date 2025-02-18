@@ -132,9 +132,9 @@ const Checkout = () => {
                   {...register('cardNumber', {
                     required: '請輸入有效的信用卡卡號',
                   })}
-                  value={watch('cardNumber', '')} // 監聽當前值
-                  onChange={handleCardNumberChange} // 格式化輸入
-                  maxLength="19" // 限制最多 16 個數字 + 3 個空格 = 19
+                  value={watch('cardNumber', '')} 
+                  onChange={handleCardNumberChange}
+                  maxLength="19" 
                 />
                 {errors.cardNumber && (
                   <p style={{ color: 'red' }}>{errors.cardNumber.message}</p>
@@ -157,9 +157,9 @@ const Checkout = () => {
                       message: '格式錯誤，請輸入 MM/YY，例如 04/25',
                     },
                   })}
-                  value={watch('validDate', '')} // ✅ 監聽輸入值
-                  onChange={handleExpiryDateChange} // ✅ 格式化輸入
-                  maxLength="5" // 限制長度 MM/YY (2數字 + 1斜線 + 2數字 = 5)
+                  value={watch('validDate', '')} 
+                  onChange={handleExpiryDateChange} 
+                  maxLength="5"
                 />
                 {errors.validDate && (
                   <p style={{ color: 'red' }}>{errors.validDate.message}</p>

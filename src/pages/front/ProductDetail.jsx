@@ -15,8 +15,13 @@ import {
 } from '../../components/front/product-detail/product-detail-style';
 import { alertError } from '../../../util/sweetAlert';
 import Loading from '../../components/Loading';
+import { useDispatch, useSelector } from 'react-redux';
+import { addCart, getCartList, updateCart } from '../../slice/cartSlice';
 
 const ProductDetail = () => {
+  const dispatch = useDispatch();
+  const { status, carts } = useSelector((state) => state.cart);
+
   const { productId } = useParams();
   const [productDetails, setProductDetails] = useState({});
   const [charityProducts, setCharityProducts] = useState([]); //慈善商品
@@ -63,6 +68,13 @@ const ProductDetail = () => {
   }, [position]);
 
   //============負責處理類似商品區的輪播效果 END============
+
+  useEffect(() => {
+    dispatch(getCartList());
+    console.log('carts = ', carts);
+    console.log('status = ', status);
+  }, [USER_ID]);
+
   const getCharityProducts = async () => {
     setIsLoading(true);
     try {
@@ -95,39 +107,17 @@ const ProductDetail = () => {
       setIsLoading(false);
     }
   };
-  const getCart = async () => {
-    setIsLoading(true);
-    try {
-      const res = await axios.get(`/users/${USER_ID}/carts?_expand=product`);
-      setCartItems(res.data);
-    } catch (error) {
-      alertError('取得購物車失敗');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  const updateCartItem = async (cartId, productId, newQty) => {
+
+  const updateCartItem = (cartId, productId, newQty) => {
     if (newQty < 1) return; // 防止數量小於 1
-
-    setIsLoading(true);
-
-    try {
-      await axios.patch(`/carts/${cartId}`, {
-        productId: String(productId),
-        qty: newQty,
-      });
-
-      await getCart();
-    } catch (error) {
-      alertError(`更新購物車失敗: ${error.message}`);
-    } finally {
-      setIsLoading(false);
-    }
+    dispatch(updateCart({ cartId: carts.id, productId, newQty }));
+    dispatch(getCartList());
   };
+
+
 
   const addCartItem = async (productId, qty) => {
     setIsLoading(true);
-
     try {
       const res = await axios.get(`/products/${productId}`);
       const product = res.data;
@@ -141,33 +131,26 @@ const ProductDetail = () => {
           qty ? currentItem.qty + qty : currentItem.qty + 1,
         );
       } else {
-        await axios.post(`/users/${USER_ID}/carts`, {
+        dispatch(addCart({
           productId: product.id,
           title: product.title,
           price: product.price,
           qty: qty ? qty : 1,
           imageUrl: product.imageUrl,
-        });
-
-        await getCart(); // 確保購物車刷新完成
+        }))
+        dispatch(getCartList());
       }
     } catch (error) {
       alertError(`加入購物車失敗: ${error.message}`);
-    } finally {
-      setIsLoading(false);
     }
   };
 
-
-  const handleAddCart = (id,qty) => {
+  const handleAddCart = (id, qty) => {
     if (charitySet && charitySet.length > 0) {
-      charitySet.forEach((item) => 
-        addCartItem(item)
-      );
+      charitySet.forEach((item) => addCartItem(item));
     }
-    addCartItem(id,qty)
-
-  }
+    addCartItem(id, qty);
+  };
 
   useEffect(() => {
     getProductDetails(productId);
@@ -183,7 +166,7 @@ const ProductDetail = () => {
   const favorite = true; //模擬收藏
 
   function handleToggleFavorite() {
-    console.log(productDetails.id);
+    // console.log(productDetails.id);
     setNotification('商品已保存至您的收藏清單');
     setTimeout(() => {
       setNotification(null);
