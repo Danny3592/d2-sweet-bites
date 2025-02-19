@@ -1,51 +1,109 @@
 import { createSlice, isAnyOf, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { alertError } from '../../util/sweetAlert';
-const get_favorites = createAsyncThunk(
-  'favorite/get_favorites',
-  async (userID, { rejectWithValue, fulfillWithValue }) => {
+
+export const getFavorites = createAsyncThunk(
+  'favorite/getFavorites',
+  async (userId, { rejectWithValue, fulfillWithValue }) => {
+    const token = document.cookie
+      .split('; ')
+      .find((row) => row.startsWith('dessertToken='))
+      ?.split('=')[1];
+
+
     try {
-      const res = await axios.get(
-        `/600/users/${userID}/favorites?_expand=product`,
-      );
+      const res = await axios.get(`/600/users/${userId}/favorites`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log('getFavorites-> = ', res.data);
       return fulfillWithValue(res.data);
     } catch (error) {
       alertError(error || '取得收藏列表失敗');
-      return rejectWithValue(error || '取得收藏列表失敗');
+      return rejectWithValue(error.response?.data || error.message);
     }
   },
 );
 
-const add_favorite = createAsyncThunk(
-  'favorite/add_favorite',
-  async (
-    { userID, isFavorite, productId },
-    { rejectWithValue, fulfillWithValue },
-  ) => {
+export const addFavorite = createAsyncThunk(
+  'favorite/addFavorite',
+  async ({ userId, productId }, { rejectWithValue, fulfillWithValue }) => {
+    const token = document.cookie
+      .split('; ')
+      .find((row) => row.startsWith('dessertToken='))
+      ?.split('=')[1];
+
+    // console.log('addFavorite->userId = ', { userId });
+    // console.log('addFavorite->productId = ', { productId });
+    // console.log(token);
+
     try {
-      const res = await axios.post(`/600/users/${userID}/favorites`, {
-        isFavorite,
-        productId,
+      await axios.post(
+        `/660/users/${userId}/favorites?_expand=product`,
+        {
+          productId: productId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      const res = await axios.get(`/600/users/${userId}/favorites`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       return fulfillWithValue(res.data);
     } catch (error) {
       alertError(error || '新增收藏失敗');
-      return rejectWithValue(error || '新增收藏失敗');
+      return rejectWithValue(error.response?.data || error.message);
     }
   },
 );
 
-const remove_favorite = createAsyncThunk(
-  'favorite/remove_favorite',
-  async ({ userID, productId }, { rejectWithValue, fulfillWithValue }) => {
+export const removeFavorite = createAsyncThunk(
+  'favorite/removeFavorite',
+  async ({ userId, productId }, { rejectWithValue, fulfillWithValue }) => {
+    const token = document.cookie
+      .split('; ')
+      .find((row) => row.startsWith('dessertToken='))
+      ?.split('=')[1];
+
+    if (!userId || !productId) {
+      alertError('userId 或 productId無效');
+      return rejectWithValue('userId 或 productId無效');
+    }
+
+    const res = await axios.get(`/600/users/${userId}/favorites`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const favoriteItem = res.data.find((item) => {
+      return item.productId === productId;
+    });
+
+    if (!favoriteItem) {
+      alertError('❌ 收藏商品不存在');
+      return rejectWithValue('收藏商品不存在');
+    }
+
     try {
       const res = await axios.delete(
-        `/600/users/${userID}/favorites/${productId}`,
+        `/600/favorites/${favoriteItem.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
       );
       return fulfillWithValue(res.data);
     } catch (error) {
       alertError(error || '移除收藏失敗');
-      return rejectWithValue(error || '移除收藏失敗');
+      return rejectWithValue(error.response?.data || error.message);
     }
   },
 );
@@ -60,23 +118,23 @@ const favoriteSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(get_favorites.fulfilled, (state, { payload }) => {
+      .addCase(getFavorites.fulfilled, (state, { payload }) => {
         state.status = 'success';
         state.favorites = payload;
       })
-      .addCase(add_favorite.fulfilled, (state, { payload }) => {
+      .addCase(addFavorite.fulfilled, (state, { payload }) => {
         state.status = 'success';
         state.favorites.push(payload);
       })
-      .addCase(remove_favorite.fulfilled, (state, { payload }) => {
+      .addCase(removeFavorite.fulfilled, (state, { payload }) => {
         state.status = 'success';
         state.favorites.filter((item) => item.productId !== payload);
       })
       .addMatcher(
         isAnyOf(
-          get_favorites.pending,
-          add_favorite.pending,
-          remove_favorite.pending,
+          getFavorites.pending,
+          addFavorite.pending,
+          removeFavorite.pending,
         ),
         (state) => {
           state.status = 'loading';
@@ -84,9 +142,9 @@ const favoriteSlice = createSlice({
       )
       .addMatcher(
         isAnyOf(
-          get_favorites.rejected,
-          add_favorite.rejected,
-          remove_favorite.rejected,
+          getFavorites.rejected,
+          addFavorite.rejected,
+          removeFavorite.rejected,
         ),
         (state, action) => {
           state.status = 'error';

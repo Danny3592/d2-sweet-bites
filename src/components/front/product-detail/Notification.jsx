@@ -10,7 +10,7 @@ const Notification = ({text}) => {
             <i className="fa-solid fa-check"></i>
           </div>
         </div>
-        <div className="text">商品已保存至您的收藏清單</div>
+        <div className="text">{text}</div>
       </div>
     </div>
     <div className="notification notification-phone d-block d-lg-none">

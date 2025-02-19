@@ -17,17 +17,31 @@ import { alertError } from '../../../util/sweetAlert';
 import Loading from '../../components/Loading';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCart, getCartList, updateCart } from '../../slice/cartSlice';
+import { login } from '../../../util/http';
+import {
+  getFavorites,
+  removeFavorite,
+  addFavorite,
+} from '../../slice/favoriteSlice';
 
 const ProductDetail = () => {
   const dispatch = useDispatch();
-  const { status, carts } = useSelector((state) => state.cart);
+  const { status: cartStatus, carts } = useSelector((state) => state.cart);
+  const {
+    favorites,
+    error,
+    status: favoriteStatus,
+  } = useSelector((state) => state.favorite);
 
   const { productId } = useParams();
+  
   const [productDetails, setProductDetails] = useState({});
-  const [charityProducts, setCharityProducts] = useState([]); //慈善商品
+  const [charityProducts, setCharityProducts] = useState([]); 
   const [similarProducts, setSimilarProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+
   const [cartItems, setCartItems] = useState([]);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [charitySet, setCharitySet] = useState([]);
 
@@ -36,7 +50,7 @@ const ProductDetail = () => {
     productQty: 1,
   });
 
-  const USER_ID = localStorage.getItem('userId');
+  const USER_ID = localStorage.getItem('userId') || 1;
 
   const [notification, setNotification] = useState(null);
   const imgListRef = useRef(null);
@@ -70,10 +84,20 @@ const ProductDetail = () => {
   //============負責處理類似商品區的輪播效果 END============
 
   useEffect(() => {
+    login();
     dispatch(getCartList());
-    console.log('carts = ', carts);
-    console.log('status = ', status);
-  }, [USER_ID]);
+    dispatch(getFavorites(USER_ID));
+    getProductDetails(productId);
+
+    const currentFavorite = favorites.find(
+      (item) => item.productId === productId,
+    );
+    if (currentFavorite) {
+      setIsFavorite(false);
+    } else {
+      setIsFavorite(true);
+    }
+  }, [USER_ID, productId]);
 
   const getCharityProducts = async () => {
     setIsLoading(true);
@@ -107,15 +131,11 @@ const ProductDetail = () => {
       setIsLoading(false);
     }
   };
-
   const updateCartItem = (cartId, productId, newQty) => {
     if (newQty < 1) return; // 防止數量小於 1
     dispatch(updateCart({ cartId: carts.id, productId, newQty }));
     dispatch(getCartList());
   };
-
-
-
   const addCartItem = async (productId, qty) => {
     setIsLoading(true);
     try {
@@ -131,20 +151,21 @@ const ProductDetail = () => {
           qty ? currentItem.qty + qty : currentItem.qty + 1,
         );
       } else {
-        dispatch(addCart({
-          productId: product.id,
-          title: product.title,
-          price: product.price,
-          qty: qty ? qty : 1,
-          imageUrl: product.imageUrl,
-        }))
+        dispatch(
+          addCart({
+            productId: product.id,
+            title: product.title,
+            price: product.price,
+            qty: qty ? qty : 1,
+            imageUrl: product.imageUrl,
+          }),
+        );
         dispatch(getCartList());
       }
     } catch (error) {
       alertError(`加入購物車失敗: ${error.message}`);
     }
   };
-
   const handleAddCart = (id, qty) => {
     if (charitySet && charitySet.length > 0) {
       charitySet.forEach((item) => addCartItem(item));
@@ -153,9 +174,6 @@ const ProductDetail = () => {
   };
 
   useEffect(() => {
-    getProductDetails(productId);
-  }, [productId]);
-  useEffect(() => {
     getCharityProducts();
   }, []);
 
@@ -163,15 +181,28 @@ const ProductDetail = () => {
     //待串接中
   }
 
-  const favorite = true; //模擬收藏
+  async function handleToggleFavorite(id) {
+    const obj = { userId: USER_ID, productId: id };
+    const currentFavorite = favorites.find((item) => item.productId === id);
+    if (currentFavorite) {
+      setIsFavorite(false);
+      await dispatch(removeFavorite(obj));
+   
+      setNotification('商品已從您的收藏清單移除');
+    } else {
+      setIsFavorite(true);
+      await dispatch(addFavorite(obj));
 
-  function handleToggleFavorite() {
-    // console.log(productDetails.id);
-    setNotification('商品已保存至您的收藏清單');
+      setNotification('商品已保存至您的收藏清單');
+    }
+    dispatch(getFavorites(USER_ID));
+  }
+
+  useEffect(() => {
     setTimeout(() => {
       setNotification(null);
-    }, 1500);
-  }
+    }, 1000);
+  }, [notification]);
 
   function handleCount(countState) {
     setOrder((prevOrder) => ({
@@ -186,7 +217,9 @@ const ProductDetail = () => {
   return (
     <>
       <div className="product-details">
-        {notification !== null && <Notification text={notification} />}
+        {notification !== null && (
+          <Notification text={notification} key={notification} />
+        )}
         <div className="container  p-0 ">
           <div className="row d-flex gx-lg-12 gx-0">
             <div className="product-img-list col-12 col-lg-6 position-relative ">
@@ -281,15 +314,15 @@ const ProductDetail = () => {
               {/* ==============電腦板product-img-list-END=========================== */}
             </div>
             <div className="col-12 col-lg-6 px-lg-8 px-3 py-lg-0 py-6 position-relative">
-              {favorite ? (
+              {isFavorite ? (
                 <FaHeart
                   className="d-block d-lg-none position-absolute heart "
-                  onClick={handleToggleFavorite}
+                  onClick={() => handleToggleFavorite(productDetails.id)}
                 />
               ) : (
                 <FiHeart
                   className="d-block d-lg-none position-absolute heart "
-                  onClick={handleToggleFavorite}
+                  onClick={() => handleToggleFavorite(productDetails.id)}
                 />
               )}
 
@@ -354,10 +387,12 @@ const ProductDetail = () => {
               <div className="mt-18 d-flex gap-4 mb-33">
                 <button
                   className="d-none d-lg-flex btn btn-action-1 py-4 px-10"
-                  onClick={handleToggleFavorite}
+                  onClick={() => handleToggleFavorite(productDetails.id)}
+                  disabled={favoriteStatus === 'loading'}
                 >
-                  收藏
+                  {isFavorite ? '移除收藏' : '收藏'}
                 </button>
+
                 <button
                   className="btn btn-action-2 py-4 "
                   onClick={() => {
