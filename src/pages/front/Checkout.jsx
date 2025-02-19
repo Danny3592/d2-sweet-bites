@@ -121,7 +121,7 @@ const Checkout = () => {
                 訂購人/收件人姓名
               </label>
               <input
-                className="py-3 ps-3"
+                className="input py-3 ps-3"
                 id="name"
                 type="text"
                 placeholder="名字"
@@ -137,7 +137,7 @@ const Checkout = () => {
                 寄送地址
               </label>
               <input
-                className="py-3 ps-3"
+                className="input py-3 ps-3"
                 id="address"
                 type="text"
                 placeholder="住址"
@@ -153,7 +153,7 @@ const Checkout = () => {
                 聯絡電話
               </label>
               <input
-                className="py-3 ps-3"
+                className="input py-3 ps-3"
                 id="tel"
                 type="text"
                 placeholder="聯絡電話"
@@ -169,7 +169,7 @@ const Checkout = () => {
                 電子郵件信箱
               </label>
               <input
-                className="py-3 ps-3"
+                className="input py-3 ps-3"
                 id="email"
                 type="text"
                 placeholder="電子郵件信箱"
@@ -183,13 +183,44 @@ const Checkout = () => {
 
           <div className="col-12 col-md-7 credit-card-info mb-8">
             <h3 className="mb-10">付款方式</h3>
+            {errors.paymentMethod && (
+              <p style={{ color: 'red' }}>{errors.paymentMethod.message}</p>
+            )}
+            <div className="d-flex">
+              <div className="mb-5 d-flex align-items-center">
+                <input
+                  type="radio"
+                  id="is_creditcard"
+                  className="input-radio"
+                  {...register('paymentMethod', { required: '請選擇付款方式' })}
+                  value="creditcard"
+                />
+                <label className="ms-5" htmlFor="is_creditcard">
+                  信用卡付款
+                </label>
+              </div>
+
+              <div className="mb-5 d-flex align-items-center ms-5">
+                <input
+                  type="radio"
+                  id="is_cash"
+                  className="input-radio"
+                  {...register('paymentMethod', { required: '請選擇付款方式' })}
+                  value="cash"
+                />
+                <label className="ms-5" htmlFor="is_cash">
+                  貨到付款
+                </label>
+              </div>
+            </div>
+
             <div className="d-flex gap-3">
               <div className="d-flex flex-column mb-6 card-number">
                 <label className="mb-5" htmlFor="card-number">
                   信用卡卡號
                 </label>
                 <input
-                  className="py-3 ps-3"
+                  className="input py-3 ps-3 "
                   id="card-number"
                   type="text"
                   placeholder="0000 0000 0000 0000"
@@ -210,7 +241,7 @@ const Checkout = () => {
                   有效期限（月/年）
                 </label>
                 <input
-                  className="py-3 ps-3"
+                  className="input py-3 ps-3"
                   id="valid-date"
                   type="text"
                   placeholder="MM/YY"
@@ -236,7 +267,7 @@ const Checkout = () => {
                 </label>
                 <input
                   maxLength="3"
-                  className="py-3 ps-3"
+                  className="input py-3 ps-3"
                   id="CVC"
                   type="text"
                   placeholder="CVC"
