@@ -23,9 +23,10 @@ import {
   removeFavorite,
   addFavorite,
 } from '../../slice/favoriteSlice';
+import { setCheckoutItem } from '../../slice/checkoutSlice';
 
 const ProductDetail = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { status: cartStatus, carts } = useSelector((state) => state.cart);
   const {
@@ -199,7 +200,7 @@ const ProductDetail = () => {
       alertError(error);
     } finally {
       setIsLoading(false);
-      navigate('/cart')
+      navigate('/cart');
     }
   };
 
@@ -207,9 +208,17 @@ const ProductDetail = () => {
     getCharityProducts();
   }, []);
 
-  function handleCheckout() {
-    //待串接中
-  }
+  const handleCheckout = async () => {
+    const checkoutProduct = {
+      productId: productDetails.id,
+      title: productDetails.title,
+      price: productDetails.price,
+      qty: order.productQty,
+      imageUrl: productDetails.imageUrl,
+    };
+    dispatch(setCheckoutItem(checkoutProduct));
+    navigate('/checkout');
+  };
 
   async function handleToggleFavorite(id) {
     const obj = { userId: USER_ID, productId: id };
@@ -245,6 +254,9 @@ const ProductDetail = () => {
   return (
     <>
       <div className="product-details">
+        {(isLoading ||
+          favoriteStatus === 'loading' ||
+          cartStatus === 'loading') && <Loading />}
         {notification !== null && (
           <Notification text={notification} key={notification} />
         )}

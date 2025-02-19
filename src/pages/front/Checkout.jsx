@@ -1,8 +1,18 @@
 import axios from 'axios';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { clearCheckoutItem } from '../../slice/checkoutSlice';
+import { useNavigate } from 'react-router-dom';
+import { getCartList } from '../../slice/cartSlice';
 
 const Checkout = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const checkoutItem = useSelector((state) => state.checkout.checkoutItem);
+  const carts = useSelector((state) => state.cart.carts);
+
   const {
     register,
     handleSubmit,
@@ -10,6 +20,18 @@ const Checkout = () => {
     watch,
     formState: { errors },
   } = useForm();
+
+
+
+
+  useEffect(() => {
+    dispatch(getCartList())
+    console.log('carts = ',carts);
+    // if (!checkoutItem) {
+    //   navigate('/cart'); 
+    // }
+  }, [checkoutItem, navigate]);
+
 
   const onSubmit = async (data) => {
     try {
@@ -132,9 +154,9 @@ const Checkout = () => {
                   {...register('cardNumber', {
                     required: '請輸入有效的信用卡卡號',
                   })}
-                  value={watch('cardNumber', '')} 
+                  value={watch('cardNumber', '')}
                   onChange={handleCardNumberChange}
-                  maxLength="19" 
+                  maxLength="19"
                 />
                 {errors.cardNumber && (
                   <p style={{ color: 'red' }}>{errors.cardNumber.message}</p>
@@ -157,8 +179,8 @@ const Checkout = () => {
                       message: '格式錯誤，請輸入 MM/YY，例如 04/25',
                     },
                   })}
-                  value={watch('validDate', '')} 
-                  onChange={handleExpiryDateChange} 
+                  value={watch('validDate', '')}
+                  onChange={handleExpiryDateChange}
                   maxLength="5"
                 />
                 {errors.validDate && (
