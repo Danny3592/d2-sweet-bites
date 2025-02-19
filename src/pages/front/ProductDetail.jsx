@@ -1,7 +1,7 @@
 import { IoIosArrowBack } from 'react-icons/io';
 import { IoIosArrowForward } from 'react-icons/io';
 import { FiHeart } from 'react-icons/fi';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { FaHeart } from 'react-icons/fa';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -25,6 +25,7 @@ import {
 } from '../../slice/favoriteSlice';
 
 const ProductDetail = () => {
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   const { status: cartStatus, carts } = useSelector((state) => state.cart);
   const {
@@ -34,12 +35,10 @@ const ProductDetail = () => {
   } = useSelector((state) => state.favorite);
 
   const { productId } = useParams();
-  
-  const [productDetails, setProductDetails] = useState({});
-  const [charityProducts, setCharityProducts] = useState([]); 
-  const [similarProducts, setSimilarProducts] = useState([]);
 
-  const [cartItems, setCartItems] = useState([]);
+  const [productDetails, setProductDetails] = useState({});
+  const [charityProducts, setCharityProducts] = useState([]);
+  const [similarProducts, setSimilarProducts] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -84,19 +83,25 @@ const ProductDetail = () => {
   //============負責處理類似商品區的輪播效果 END============
 
   useEffect(() => {
+    if (favorites.length > 0 && productDetails.id) {
+      const currentFavorite = favorites.some(
+        (item) => item.productId === productDetails.id,
+      );
+      setIsFavorite(currentFavorite);
+    }
+  }, [favorites, productId]);
+
+  useEffect(() => {
     login();
     dispatch(getCartList());
     dispatch(getFavorites(USER_ID));
     getProductDetails(productId);
 
-    const currentFavorite = favorites.find(
-      (item) => item.productId === productId,
-    );
-    if (currentFavorite) {
-      setIsFavorite(false);
-    } else {
-      setIsFavorite(true);
-    }
+    const token = document.cookie
+      .split('; ')
+      .find((row) => row.startsWith('dessertToken='))
+      ?.split('=')[1];
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   }, [USER_ID, productId]);
 
   const getCharityProducts = async () => {
@@ -132,45 +137,70 @@ const ProductDetail = () => {
     }
   };
   const updateCartItem = (cartId, productId, newQty) => {
+    const obj = {
+      cartId,
+      productId,
+      qty: newQty,
+    };
+
     if (newQty < 1) return; // 防止數量小於 1
-    dispatch(updateCart({ cartId: carts.id, productId, newQty }));
+
+    dispatch(updateCart(obj));
     dispatch(getCartList());
   };
-  const addCartItem = async (productId, qty) => {
-    setIsLoading(true);
+
+  const addCartItem = async (productId, newQty) => {
     try {
+      await dispatch(getCartList());
       const res = await axios.get(`/products/${productId}`);
       const product = res.data;
-      const currentItem = cartItems.find(
-        (item) => item.title === product.title,
-      );
+      const currentItem = carts.find((item) => {
+        return item.title === product.title;
+      });
+      console.log('carts = ', carts);
+      console.log('currentItem = ', currentItem);
       if (currentItem) {
         await updateCartItem(
           currentItem.id,
           currentItem.productId,
-          qty ? currentItem.qty + qty : currentItem.qty + 1,
+          newQty ? currentItem.qty + newQty : currentItem.qty + 1,
         );
+        await dispatch(getCartList());
       } else {
         dispatch(
           addCart({
             productId: product.id,
             title: product.title,
             price: product.price,
-            qty: qty ? qty : 1,
+            qty: newQty || 1,
             imageUrl: product.imageUrl,
           }),
         );
-        dispatch(getCartList());
+        await dispatch(getCartList());
       }
     } catch (error) {
       alertError(`加入購物車失敗: ${error.message}`);
     }
   };
-  const handleAddCart = (id, qty) => {
-    if (charitySet && charitySet.length > 0) {
-      charitySet.forEach((item) => addCartItem(item));
+
+  const handleAddCart = async (id, qty) => {
+    setIsLoading(true);
+    try {
+      if (charitySet && charitySet.length > 0) {
+        await Promise.all(
+          charitySet.map((item) => {
+            console.log('🛒 加入慈善商品: ', item);
+            return addCartItem(item, 1);
+          }),
+        );
+      }
+      await addCartItem(id, qty);
+    } catch (error) {
+      alertError(error);
+    } finally {
+      setIsLoading(false);
+      navigate('/cart')
     }
-    addCartItem(id, qty);
   };
 
   useEffect(() => {
@@ -185,14 +215,12 @@ const ProductDetail = () => {
     const obj = { userId: USER_ID, productId: id };
     const currentFavorite = favorites.find((item) => item.productId === id);
     if (currentFavorite) {
-      setIsFavorite(false);
       await dispatch(removeFavorite(obj));
-   
+      setIsFavorite(false);
       setNotification('商品已從您的收藏清單移除');
     } else {
-      setIsFavorite(true);
       await dispatch(addFavorite(obj));
-
+      setIsFavorite(true);
       setNotification('商品已保存至您的收藏清單');
     }
     dispatch(getFavorites(USER_ID));
@@ -398,6 +426,7 @@ const ProductDetail = () => {
                   onClick={() => {
                     handleAddCart(productDetails.id, order.productQty);
                   }}
+                  disabled={isLoading === 'loading'}
                 >
                   加入購物車
                 </button>
