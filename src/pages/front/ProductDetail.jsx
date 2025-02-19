@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
@@ -21,7 +21,11 @@ import Loading from '../../components/Loading';
 
 // Redux Actions
 import { addCart, getCartList, updateCart } from '../../slice/cartSlice';
-import { getFavorites, removeFavorite, addFavorite } from '../../slice/favoriteSlice';
+import {
+  getFavorites,
+  removeFavorite,
+  addFavorite,
+} from '../../slice/favoriteSlice';
 import { setCheckoutItem } from '../../slice/checkoutSlice';
 
 // Utils
@@ -35,7 +39,9 @@ const ProductDetail = () => {
 
   // Redux 狀態
   const { status: cartStatus, carts } = useSelector((state) => state.cart);
-  const { favorites, status: favoriteStatus } = useSelector((state) => state.favorite);
+  const { favorites, status: favoriteStatus } = useSelector(
+    (state) => state.favorite,
+  );
 
   // 取得 userId（此處 Demo：沒有則預設 1）
   const USER_ID = localStorage.getItem('userId') || 1;
@@ -77,7 +83,8 @@ const ProductDetail = () => {
     // 從 Cookie 抓 token 後統一設置 axios header
     const token = document.cookie
       .split('; ')
-      .find((row) => row.startsWith('dessertToken='))?.split('=')[1];
+      .find((row) => row.startsWith('dessertToken='))
+      ?.split('=')[1];
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
     // 同步抓「商品資料」+「慈善商品」並設定 state
@@ -89,9 +96,11 @@ const ProductDetail = () => {
       .then(([resProducts, resCharities]) => {
         if (resProducts?.data) {
           const allProducts = resProducts.data;
-          const currentProduct = allProducts.find((item) => +item.id === +productId);
+          const currentProduct = allProducts.find(
+            (item) => +item.id === +productId,
+          );
           const similar = allProducts.filter(
-            (item) => item.category === currentProduct?.category
+            (item) => item.category === currentProduct?.category,
           );
 
           setProductDetails(currentProduct || {});
@@ -118,7 +127,9 @@ const ProductDetail = () => {
    * ===================== */
   useEffect(() => {
     if (favorites.length > 0 && productDetails?.id) {
-      setIsFavorite(favorites.some((item) => item.productId === +productDetails.id));
+      setIsFavorite(
+        favorites.some((item) => item.productId === +productDetails.id),
+      );
     } else {
       setIsFavorite(false);
     }
@@ -138,28 +149,25 @@ const ProductDetail = () => {
   /* =====================
    *  相似商品輪播
    * ===================== */
-  const handleSlideImg = useCallback(
-    (direction, length) => {
-      const moveRange = 330;
-      let limit = (length - 4) * 330; // default: 4 個為一屏
-      if (window.innerWidth <= 1362) {
-        limit = (length - 3) * 330;
+  const handleSlideImg = useCallback((direction, length) => {
+    const moveRange = 330;
+    let limit = (length - 4) * 330; // default: 4 個為一屏
+    if (window.innerWidth <= 1362) {
+      limit = (length - 3) * 330;
+    }
+    if (window.innerWidth <= 970) {
+      limit = (length - 2.2) * 330;
+    }
+    setPosition((prev) => {
+      if (direction === 'right') {
+        return prev > -limit ? prev - moveRange : -20;
       }
-      if (window.innerWidth <= 970) {
-        limit = (length - 2.2) * 330;
+      if (direction === 'left') {
+        return prev < -20 ? prev + moveRange : -20;
       }
-      setPosition((prev) => {
-        if (direction === 'right') {
-          return prev > -limit ? prev - moveRange : -20;
-        }
-        if (direction === 'left') {
-          return prev < -20 ? prev + moveRange : -20;
-        }
-        return prev;
-      });
-    },
-    []
-  );
+      return prev;
+    });
+  }, []);
 
   useEffect(() => {
     if (imgListRef.current) {
@@ -185,7 +193,11 @@ const ProductDetail = () => {
         const foundItem = carts.find((item) => item.productId === +prodId);
         if (foundItem) {
           // 如果已在購物車內，更新數量
-          await updateCartItem(foundItem.id, foundItem.productId, foundItem.qty + newQty);
+          await updateCartItem(
+            foundItem.id,
+            foundItem.productId,
+            foundItem.qty + newQty,
+          );
         } else {
           // 否則直接加入購物車
           await dispatch(
@@ -195,7 +207,7 @@ const ProductDetail = () => {
               price: product.price,
               qty: newQty,
               imageUrl: product.imageUrl,
-            })
+            }),
           );
           dispatch(getCartList());
         }
@@ -204,7 +216,7 @@ const ProductDetail = () => {
         alertError(`加入購物車失敗: ${error.message}`);
       }
     },
-    [dispatch, carts]
+    [dispatch, carts],
   );
 
   const handleAddCart = async (id, qty) => {
@@ -212,7 +224,9 @@ const ProductDetail = () => {
     try {
       // 若有勾選慈善商品，一次加入購物車
       if (charitySet.length > 0) {
-        await Promise.all(charitySet.map((charityId) => addCartItem(charityId, 1)));
+        await Promise.all(
+          charitySet.map((charityId) => addCartItem(charityId, 1)),
+        );
       }
       // 再加入主商品
       await addCartItem(id, qty);
@@ -237,7 +251,7 @@ const ProductDetail = () => {
         price,
         qty: order.productQty,
         imageUrl,
-      })
+      }),
     );
     navigate('/checkout');
   };
@@ -274,14 +288,14 @@ const ProductDetail = () => {
       ...prev,
       productQty: Math.min(
         Math.max(prev.productQty + delta, 1),
-        productDetails?.stock || 9999
+        productDetails?.stock || 9999,
       ),
     }));
   };
 
   return (
     <>
-      {(isLoading  || cartStatus === 'loading') && <Loading />}
+      {(isLoading || cartStatus === 'loading') && <Loading />}
       {notification && <Notification text={notification} key={notification} />}
 
       <div className="product-details">
@@ -291,8 +305,15 @@ const ProductDetail = () => {
             <div className="product-img-list col-12 col-lg-6 position-relative">
               {/* 手機板輪播 */}
               <div className="d-block d-lg-none">
-                <div id="main-img" className="carousel slide" data-bs-ride="carousel">
-                  <div className="carousel-inner d-flex align-items-center w-100" style={{ height: '635px' }}>
+                <div
+                  id="main-img"
+                  className="carousel slide"
+                  data-bs-ride="carousel"
+                >
+                  <div
+                    className="carousel-inner d-flex align-items-center w-100"
+                    style={{ height: '635px' }}
+                  >
                     <div className="carousel-item active">
                       <img
                         src={productDetails?.imageUrl}
@@ -302,8 +323,17 @@ const ProductDetail = () => {
                       />
                     </div>
                     {productDetails?.imagesUrl?.map((img) => (
-                      <div className="carousel-item" key={img} style={mainProdImgStyle()}>
-                        <img src={img} className="d-block" alt="..." style={mainProdImgStyle()} />
+                      <div
+                        className="carousel-item"
+                        key={img}
+                        style={mainProdImgStyle()}
+                      >
+                        <img
+                          src={img}
+                          className="d-block"
+                          alt="..."
+                          style={mainProdImgStyle()}
+                        />
                       </div>
                     ))}
                   </div>
@@ -331,7 +361,11 @@ const ProductDetail = () => {
               {/* 電腦板圖片區 */}
               <div className="d-none d-lg-block">
                 <div>
-                  <img src={productDetails.imageUrl} alt="" style={mainProdImgStyle()} />
+                  <img
+                    src={productDetails.imageUrl}
+                    alt=""
+                    style={mainProdImgStyle()}
+                  />
                 </div>
                 <ul className="d-none d-lg-grid p-0 mt-4 products-imgs">
                   {productDetails?.imagesUrl?.map((img) => (
@@ -370,7 +404,9 @@ const ProductDetail = () => {
                 />
               )}
 
-              <h3 className="text-primary fw-medium mb-6 fs-2">{productDetails?.title}</h3>
+              <h3 className="text-primary fw-medium mb-6 fs-2">
+                {productDetails?.title}
+              </h3>
               <p className="mb-8">成分: 麵粉、可可粉、糖</p>
               <p className="mb-8">{productDetails?.description}</p>
               <p className="fs-2 price">
@@ -437,13 +473,18 @@ const ProductDetail = () => {
 
                 <button
                   className="btn btn-action-2 py-4"
-                  onClick={() => handleAddCart(productDetails.id, order.productQty)}
+                  onClick={() =>
+                    handleAddCart(productDetails.id, order.productQty)
+                  }
                   disabled={isLoading}
                 >
                   加入購物車
                 </button>
 
-                <button className="btn btn-action-3 py-4" onClick={handleCheckout}>
+                <button
+                  className="btn btn-action-3 py-4"
+                  onClick={handleCheckout}
+                >
                   直接購買
                 </button>
               </div>
@@ -465,25 +506,30 @@ const ProductDetail = () => {
                     slidesPerView={window.innerWidth > 450 ? 2 : 1}
                     loop={window.innerWidth > 450}
                   >
-                    {similarProducts.map((item) => (
-                      <SwiperSlide
-                        key={item.id}
-                        className="d-flex justify-content-center align-items-center flex-column"
-                      >
-                        <div
-                          className="d-flex justify-content-center align-items-center"
-                          style={{ height: '300px', width: '300px' }}
+                    {similarProducts.map((product) => {
+                      return (
+                        <Link
+                          to={`/product-details/${product.id}`}
+                          key={product.id}
+                          style={{ cursor: 'pointer', color: 'black' }}
                         >
-                          <img
-                            src={item.imageUrl}
-                            alt=""
-                            style={mainProdImgStyle('100%', '100%')}
-                          />
-                        </div>
-                        <h3 className="fs-6 mt-4 mb-3">{item.title}</h3>
-                        <p className="fs-7 mb-32">{item.description}</p>
-                      </SwiperSlide>
-                    ))}
+                          <SwiperSlide key={product.id} className="d-flex justify-content-center align-items-center flex-column">
+                            <div
+                              className="d-flex justify-content-center align-items-center"
+                              style={{ height: '300px', width: '300px' }}
+                            >
+                              <img
+                                src={product.imageUrl}
+                                alt=""
+                                style={mainProdImgStyle('100%', '100%')}
+                              />
+                            </div>
+                            <h3 className="fs-6 mt-4 mb-3">{product.title}</h3>
+                            <p className="fs-7 mb-32">{product.description}</p>
+                          </SwiperSlide>
+                        </Link>
+                      );
+                    })}
                   </Swiper>
                 </div>
 
@@ -491,24 +537,38 @@ const ProductDetail = () => {
                 <div className="d-none d-md-block text-center similar-container">
                   <IoIosArrowBack
                     className="d-none d-md-block arrow arrow-left fs-3"
-                    onClick={() => handleSlideImg('left', similarProducts.length)}
+                    onClick={() =>
+                      handleSlideImg('left', similarProducts.length)
+                    }
                   />
                   <IoIosArrowForward
                     className="d-none d-md-block arrow arrow-right fs-3"
-                    onClick={() => handleSlideImg('right', similarProducts.length)}
+                    onClick={() =>
+                      handleSlideImg('right', similarProducts.length)
+                    }
                   />
                   <ul
                     className="similar-products-imgs mb-32 position-relative get-slide"
                     style={similarProdsImgStyle(similarProducts.length)}
                     ref={imgListRef}
                   >
-                    {similarProducts.map((product) => (
-                      <li className="position-relative" key={product.id}>
-                        <img src={product.imageUrl} alt="" />
-                        <p className="mt-4 mb-3 text-dark">{product.title}</p>
-                        <p>{product.description}</p>
-                      </li>
-                    ))}
+                    {similarProducts.map((product) => {
+                      return (
+                        <Link
+                          to={`/product-details/${product.id}`}
+                          key={product.id}
+                          style={{ cursor: 'pointer', color: 'black' }}
+                        >
+                          <li className="position-relative">
+                            <img src={product.imageUrl} alt="" />
+                            <p className="mt-4 mb-3 text-dark">
+                              {product.title}
+                            </p>
+                            <p>{product.description}</p>
+                          </li>
+                        </Link>
+                      );
+                    })}
                   </ul>
                 </div>
                 {/* ============ */}
