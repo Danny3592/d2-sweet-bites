@@ -13,8 +13,8 @@ import { createHashRouter } from "react-router-dom";
 import App from "../App";
 import AdminLayout from "../components/AdminLayout";
 import ProductDetail from './../pages/front/ProductDetail';
-
-
+import UserLayout from "../pages/front/UserLayout";
+import UserFavorite from "../pages/front/UserFavorite";
 
 const routes = [
   {
@@ -39,6 +39,16 @@ const routes = [
           {
             path: 'product-details/:productId',
             element: <ProductDetail />,
+          },
+        ],
+      },
+      {
+        path: "user",
+        element: <UserLayout />,
+        children: [
+          {
+            path: 'favorite',
+            element: <UserFavorite />
           }
         ],
       },
