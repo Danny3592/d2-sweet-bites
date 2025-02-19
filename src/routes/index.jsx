@@ -15,6 +15,7 @@ import AdminLayout from "../components/AdminLayout";
 import ProductDetail from './../pages/front/ProductDetail';
 import UserLayout from "../pages/front/UserLayout";
 import UserFavorite from "../pages/front/UserFavorite";
+import UserProfile from "../pages/front/UserProfile";
 
 const routes = [
   {
@@ -49,6 +50,10 @@ const routes = [
           {
             path: 'favorite',
             element: <UserFavorite />
+          },
+          {
+            path: 'profile/:userId',
+            element: <UserProfile />
           }
         ],
       },
