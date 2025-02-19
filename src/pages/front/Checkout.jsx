@@ -1,18 +1,29 @@
-import axios from 'axios';
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+
+//Redux action
 import { clearCheckoutItem } from '../../slice/checkoutSlice';
-import { useNavigate } from 'react-router-dom';
 import { getCartList } from '../../slice/cartSlice';
+import { makePayment } from '../../slice/checkoutSlice';
+
+//Component
+import Loading from '../../components/Loading';
 
 const Checkout = () => {
+  const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const checkoutItem = useSelector((state) => state.checkout.checkoutItem);
+
+  //判斷是否是從"直接購買"進入
+  const isDirectPurchase = location.state?.type === 'direct';
+
+  //取得redux狀態
+  const { checkoutItem, status } = useSelector((state) => state.checkout);
   const carts = useSelector((state) => state.cart.carts);
 
+  //表單管理
   const {
     register,
     handleSubmit,
@@ -21,24 +32,54 @@ const Checkout = () => {
     formState: { errors },
   } = useForm();
 
-
-
-
+  //取得購物車資訊 & 卻保有商品可以結帳
   useEffect(() => {
-    dispatch(getCartList())
-    console.log('carts = ',carts);
-    // if (!checkoutItem) {
-    //   navigate('/cart'); 
-    // }
-  }, [checkoutItem, navigate]);
+    if (!isDirectPurchase && carts.length === 0) {
+      dispatch(getCartList());
+    }
+    if (checkoutItem.length < 1 && isDirectPurchase) {
+      navigate('/cart');
+    }
+    if (checkoutItem.length < 1 && carts.length < 1) {
+      navigate('/cart');
+    }
+  }, [checkoutItem, navigate, dispatch, isDirectPurchase, carts.length]);
 
-
-  const onSubmit = async (data) => {
-    try {
-      const res = await axios.post('/我該去哪裡勒~', {
-        data,
+  //提交結帳表單
+  const onSubmit = async () => {
+    if (!checkoutItem && carts.length < 1) return;
+    let recentItem;
+    if (isDirectPurchase && checkoutItem) {
+      recentItem = checkoutItem.map((item) => {
+        return {
+          productId: item.productId,
+          qty: item.qty,
+          price: item.price,
+        };
       });
-      console.log(res);
+    } else {
+      recentItem = carts.map((item) => {
+        return {
+          productId: item.productId,
+          qty: item.qty,
+          price: item.product.price,
+        };
+      });
+    }
+    const totalAmount = recentItem.reduce(
+      (acc, item) => acc + item.qty * item.price,
+      0,
+    );
+    try {
+      dispatch(
+        makePayment({
+          userId: 1,
+          recentItem,
+          totalAmount,
+        }),
+      );
+      dispatch(clearCheckoutItem());
+      // navigate('/complete-order') 前往完成付款頁面
     } catch (error) {
       console.error(error);
     }
@@ -70,6 +111,7 @@ const Checkout = () => {
 
   return (
     <div className="checkout">
+      {status === 'loading' && <Loading />}
       <div className="container">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="col-12 col-md-7 order-info mb-8">

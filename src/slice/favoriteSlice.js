@@ -33,11 +33,6 @@ export const addFavorite = createAsyncThunk(
       .split('; ')
       .find((row) => row.startsWith('dessertToken='))
       ?.split('=')[1];
-
-    // console.log('addFavorite->userId = ', { userId });
-    // console.log('addFavorite->productId = ', { productId });
-    // console.log(token);
-
     try {
       await axios.post(
         `/660/users/${userId}/favorites?_expand=product`,
@@ -102,7 +97,7 @@ export const removeFavorite = createAsyncThunk(
       );
       return fulfillWithValue(res.data);
     } catch (error) {
-      alertError(error || '移除收藏失敗');
+      alertError(error.response?.data?.message || '付款失敗');
       return rejectWithValue(error.response?.data || error.message);
     }
   },

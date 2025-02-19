@@ -242,8 +242,28 @@ const ProductDetail = () => {
   /* =====================
    *  立即結帳
    * ===================== */
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
     const { id, title, price, imageUrl } = productDetails;
+
+    if (charitySet.length > 1) {
+      charitySet.forEach((charityId) => {
+        const charityItem = charityProducts.find(
+          (item) => item.id === charityId,
+        );
+        if (charityItem) {
+          dispatch(
+            setCheckoutItem({
+              productId: charityItem.id,
+              title: charityItem.title,
+              price: charityItem.price,
+              qty: 1,
+              imageUrl: charityItem.imageUrl,
+            }),
+          );
+        }
+      });
+    }
+
     dispatch(
       setCheckoutItem({
         productId: id,
@@ -253,7 +273,8 @@ const ProductDetail = () => {
         imageUrl,
       }),
     );
-    navigate('/checkout');
+
+    navigate('/checkout', { state: { type: 'direct' } });
   };
 
   /* =====================
@@ -513,7 +534,10 @@ const ProductDetail = () => {
                           key={product.id}
                           style={{ cursor: 'pointer', color: 'black' }}
                         >
-                          <SwiperSlide key={product.id} className="d-flex justify-content-center align-items-center flex-column">
+                          <SwiperSlide
+                            key={product.id}
+                            className="d-flex justify-content-center align-items-center flex-column"
+                          >
                             <div
                               className="d-flex justify-content-center align-items-center"
                               style={{ height: '300px', width: '300px' }}
