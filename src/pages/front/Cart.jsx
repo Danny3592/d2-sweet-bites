@@ -7,8 +7,10 @@ import { getCartList, addCart, updateCart, deleteCart, deleteAllCart } from '../
 
 import continueshopping from "../../assets/images/icons/chevron-left.svg";
 import shoppingCartIcon from "../../assets/images/icons/shopping-cart.svg";
+import { useNavigate } from "react-router-dom";
 
 export default function CartPage() {
+  const navigate = useNavigate()
   const [charityProducts, setCharityProducts] = useState([]); //慈善商品
   const [isLoading, setIsLoading] = useState(false);
   const carts = useSelector((state) => {
@@ -96,6 +98,10 @@ export default function CartPage() {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  function handleCheckout(){
+    navigate('/checkout', { state: { type: 'carts' } });
   }
 
 
@@ -308,6 +314,7 @@ export default function CartPage() {
                       className="btn btn-danger w-100 mt-3 custom-button"
                       type="button"
                       disabled={!carts.length}
+                      onClick={handleCheckout}
                     >
                       確認訂單
                     </button>

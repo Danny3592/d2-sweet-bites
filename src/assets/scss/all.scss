@@ -12,21 +12,20 @@
 @import './helpers/animations';
 @import './helpers/mixin';
 
-@import "./base/base";
-@import "./helpers/helpers";
-@import "./components/buttons";
-@import "./components/card";
-@import "./components/pagination";
+@import './base/base';
+@import './helpers/helpers';
+@import './components/buttons';
+@import './components/card';
+@import './components/pagination';
 
-@import "./pages/home";
+@import './pages/home';
+@import './pages/checkout';
+@import './pages/cart';
 
-@import "./pages/cart";
+@import './pages/product-details';
 
-@import "./pages/product-details";
-
-
-@import "./pages/admin/admin-login";
-@import "./pages/admin/admin-register";
-@import "./pages/admin/admin-products";
-@import "./components/admin-layout";
-@import "./vendor/sweet-alert";
+@import './pages/admin/admin-login';
+@import './pages/admin/admin-register';
+@import './pages/admin/admin-products';
+@import './components/admin-layout';
+@import './vendor/sweet-alert';
