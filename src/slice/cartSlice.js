@@ -1,17 +1,17 @@
-import { createSlice, createAsyncThunk, isAnyOf } from "@reduxjs/toolkit";
-import { alertError } from "../../util/sweetAlert";
-import axios from "axios";
+import { createSlice, createAsyncThunk, isAnyOf } from '@reduxjs/toolkit';
+import { alertError } from '../../util/sweetAlert';
+import axios from 'axios';
 
 export const cartSlice = createSlice({
-  name: "cart",
+  name: 'cart',
   initialState: {
     carts: [],
-    status: 'idle'
+    status: 'idle',
   },
   reducers: {
     setCarts(state, action) {
       state.carts = action.payload;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addMatcher(
@@ -20,25 +20,25 @@ export const cartSlice = createSlice({
         addCart.pending,
         updateCart.pending,
         deleteCart.pending,
-        deleteAllCart.pending
+        deleteAllCart.pending,
       ),
       (state) => {
         state.status = 'loading';
-      }
-    )
+      },
+    );
     builder.addMatcher(
       isAnyOf(
         getCartList.fulfilled,
         addCart.fulfilled,
         updateCart.fulfilled,
         deleteCart.fulfilled,
-        deleteAllCart.fulfilled
+        deleteAllCart.fulfilled,
       ),
       (state) => {
         state.status = 'success';
-      }
-    )
-  }
+      },
+    );
+  },
 });
 
 // 取得購物車資料
@@ -48,22 +48,24 @@ export const getCartList = createAsyncThunk(
     try {
       const res = await axios.get('/users/1/carts?_expand=product');
       dispatch(setCarts(res.data));
-    } catch(error) {
+    } catch (error) {
       alertError(error);
     }
-  }
+  },
 );
 
 // 加入購物車
 export const addCart = createAsyncThunk(
   'cart/addCart',
   async (payload, { dispatch }) => {
+    console.log('qty = ', payload.qty);
+
     try {
       await axios.post('/600/users/1/carts', payload);
-    } catch(error) {
+    } catch (error) {
       alertError(error);
     }
-  }
+  },
 );
 
 // 更新購物車
@@ -72,10 +74,10 @@ export const updateCart = createAsyncThunk(
   async ({ cartId, productId, qty }, { dispatch }) => {
     try {
       await axios.patch(`/600/carts/${cartId}`, { productId, qty });
-    } catch(error) {
+    } catch (error) {
       alertError(error);
     }
-  }
+  },
 );
 
 // 刪除單一購物車
@@ -84,10 +86,10 @@ export const deleteCart = createAsyncThunk(
   async (payload, { dispatch }) => {
     try {
       await axios.delete(`/600/carts/${payload}`);
-    } catch(error) {
+    } catch (error) {
       alertError(error);
     }
-  }
+  },
 );
 
 // 刪除全部購物車
@@ -96,14 +98,14 @@ export const deleteAllCart = createAsyncThunk(
   async (_, { getState }) => {
     try {
       const { carts } = getState().cart;
-      const deleteRequests = carts.map(item =>
-        axios.delete(`/600/carts/${item.id}`)
+      const deleteRequests = carts.map((item) =>
+        axios.delete(`/600/carts/${item.id}`),
       );
       await Promise.all(deleteRequests);
-    } catch(error) {
+    } catch (error) {
       alertError(error);
     }
-  }
+  },
 );
 
 export const { setCarts } = cartSlice.actions;

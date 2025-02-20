@@ -16,6 +16,7 @@ import ProductDetail from './../pages/front/ProductDetail';
 import UserLayout from "../pages/front/UserLayout";
 import UserFavorite from "../pages/front/UserFavorite";
 import UserProfile from "../pages/front/UserProfile";
+import Checkout from "../pages/front/Checkout";
 
 const routes = [
   {
@@ -54,6 +55,10 @@ const routes = [
           {
             path: 'profile/:userId',
             element: <UserProfile />
+          },
+          {
+            path: 'checkout',
+            element: <Checkout />,
           }
         ],
       },
