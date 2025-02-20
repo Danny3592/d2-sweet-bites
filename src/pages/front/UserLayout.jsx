@@ -53,7 +53,7 @@ export default function UserLayout() {
           </li>
         </ul>
       </div>
-      <div className="vh-100 bg-primary-50 p-15"
+      <div className="min-vh-100 bg-primary-50 p-15"
         style={{
         marginLeft: '240px',
       }}>
