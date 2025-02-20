@@ -12,7 +12,7 @@ export const makePayment = createAsyncThunk(
       ?.split('=')[1];
     try {
       const { data } = await axios.post(
-        `/660/users/${userId}/payments`,
+        `/660/users/${userId}/orders`,
         { userId, ...payload },
         {
           headers: {
@@ -37,7 +37,7 @@ export const getPaymentForOneUser = createAsyncThunk(
       ?.split('=')[1];
     try {
       const { data: payments } = await axios.get(
-        `/660/payments?userId=${userId}`,
+        `/660/orders?userId=${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

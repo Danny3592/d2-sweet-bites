@@ -70,7 +70,7 @@ const UserCharity = () => {
                   <td>{item.id}</td>
                   <td>NT${item.price}</td>
                   <td>{item.donationDate}</td>
-                  <td>{item.paymentStatus ? '已付款' : '待確認'}</td>
+                  <td>{item.paymentStatus ? '已完成' : '待確認'}</td>
                 </tr>
               ))
             ) : (

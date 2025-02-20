@@ -8,8 +8,7 @@ import { clearCheckoutItem } from '../../slice/checkoutSlice';
 import { deleteAllCart, getCartList } from '../../slice/cartSlice';
 import { makePayment } from '../../slice/checkoutSlice';
 
-//Component
-import Loading from '../../components/Loading';
+
 import axios from 'axios';
 import { login } from './../../../util/http';
 
@@ -65,7 +64,7 @@ const Checkout = () => {
     if (successMsg === 'make payment success') {
       dispatch(clearCheckoutItem());
       dispatch(deleteAllCart());
-      // navigate('/complete-order'); //前往完成付款頁面
+      navigate('/complete-order'); //前往完成付款頁面
     }
   }, [successMsg, dispatch]);
 
