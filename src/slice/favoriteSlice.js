@@ -16,7 +16,6 @@ export const getFavorites = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       });
-      // console.log('getFavorites-> = ', res.data);
       return fulfillWithValue(res.data);
     } catch (error) {
       alertError(error || '取得收藏列表失敗');
