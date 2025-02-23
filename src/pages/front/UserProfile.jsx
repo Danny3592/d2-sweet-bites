@@ -41,18 +41,22 @@ export default function UserProfile() {
       [name]: value,
     })
   }
-
   const canSubmit = (isImageEdit && !tempData.imageUrl)
     || (isPasswordEdit && !tempData.password);
   const submit = async () => {
     setIsLoading(true);
     try {
-      const data = {
+      let data = {
         userName: user.userName,
         gender: user.gender,
         imageUrl: tempData.imageUrl ? tempData.imageUrl : user.imageUrl,
-        password: tempData.password ? tempData.password : user.password,
       };
+      if (isPasswordEdit && !tempData.password) {
+        data = {
+          ...data,
+          password: tempData.imageUrl,
+        }
+      }
       await axios.patch(`/600/users/${userId}`, data);
       await getUser(userId);
       setTempData({imageUrl: '', password: ''});
