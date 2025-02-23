@@ -26,10 +26,7 @@ export default function NewsDetail() {
   const [error, setError] = useState(null);
 
   // 搜尋最新消息
-  const searchNews = () => {
-    setCurrentPage(1);
-    getNews({ page: 1, searchText });
-  };
+  const searchNews = () => {};
 
   // 取得單一新聞內容getNewsDetail
   const getNewsDetail = async ({ id }) => {

@@ -31,7 +31,6 @@ export default function NewsList() {
 
   // 搜尋最新消息
   const searchNews = () => {
-    setCurrentPage(1);
     getNews({ page: 1, searchText });
   };
 
@@ -65,7 +64,7 @@ export default function NewsList() {
       let url = `/news?_page=${page}&_limit=6`;
 
       if (searchText) {
-        url = `/news?name_like=${searchText}`;
+        url = `/news?title_like=${searchText}`;
       }
 
       const res = await axios.get(url);
