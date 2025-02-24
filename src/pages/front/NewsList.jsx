@@ -29,33 +29,37 @@ export default function NewsList() {
   const [newsList, setNewsList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  //carousel
+  const [carouselData, setCarouselData] = useState([]);
+
+  const getCarouselNews = async () => {
+    setIsLoading(true); //
+    try {
+      //const res = await axios.get(`/news`);
+      let url = `/news?_page=1&_limit=6`;
+      const res = await axios.get(url);
+      const filteredData = res.data
+        .filter((news) => news.isPublic === 1)
+        .map(({ id, image, description }) => ({
+          id,
+          image,
+          description,
+        }));
+
+      setCarouselData(filteredData);
+    } catch (error) {
+      alertError("無法載入最新消息");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // 搜尋最新消息
   const searchNews = () => {
     getNews({ page: 1, searchText });
   };
 
-  const [carouselData] = useState([
-    {
-      id: 1,
-      image: "../src/assets/images/news-list/news_headline.png",
-      description: "幸享屋投身志工服務 讓幸福也可以共享",
-    },
-    {
-      id: 2,
-      image: "../src/assets/images/news-list/news_meal.png",
-      description: "甜蜜助力，成功送出超過 1000 份營養餐！",
-    },
-    {
-      id: 3,
-      image: "../src/assets/images/news-list/news_petsfood.png",
-      description: "流浪毛孩的新春大餐已送達！",
-    },
-    {
-      id: 4,
-      image: "../src/assets/images/news-list/news_planttrees.png",
-      description: "幸享屋環保計畫：種下 200 棵新樹苗！",
-    },
-  ]);
+  //取得carousel的資料getCarouselNews
 
   // 取得最新消息列表getNews
   const getNews = async ({ page, searchText }) => {
@@ -80,6 +84,7 @@ export default function NewsList() {
   };
 
   useEffect(() => {
+    getCarouselNews();
     getNews({ page: 1, searchText });
   }, [searchText]);
 
@@ -151,7 +156,12 @@ export default function NewsList() {
             <h2 className="fs-5 text-dark text-start">焦點新聞</h2>
           </div>
           {/* 文章輪播區域 */}
-          <NewsSwiper carouselData={carouselData} />
+
+          {!isLoading && carouselData.length > 0 ? (
+            <NewsSwiper carouselData={carouselData} />
+          ) : (
+            <Loading type="spin" color="#D4A58E" />
+          )}
 
           {/* 新聞區塊*/}
 
