@@ -32,10 +32,10 @@ export default function NewsList() {
   //carousel
   const [carouselData, setCarouselData] = useState([]);
 
+  //取得carousel的資料getCarouselNews
   const getCarouselNews = async () => {
     setIsLoading(true); //
     try {
-      //const res = await axios.get(`/news`);
       let url = `/news?_page=1&_limit=6`;
       const res = await axios.get(url);
       const filteredData = res.data
@@ -58,8 +58,6 @@ export default function NewsList() {
   const searchNews = () => {
     getNews({ page: 1, searchText });
   };
-
-  //取得carousel的資料getCarouselNews
 
   // 取得最新消息列表getNews
   const getNews = async ({ page, searchText }) => {
