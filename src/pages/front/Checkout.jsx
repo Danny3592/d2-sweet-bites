@@ -112,7 +112,7 @@ const Checkout = () => {
               ...item,
               isCharity: true,
               charityContent: {
-                id: generateRandomID(),
+                id: generateRandomID('charity'),
                 price: item.price * item.qty,
                 donationDate: dateFormat,
                 paymentStatus: userInfo.isPaid,
@@ -121,12 +121,15 @@ const Checkout = () => {
           }
           return { ...item, isCharity: false };
         });
+
+        
         dispatch(
           makePayment({
             userId: 1,
+            displayOrderId:generateRandomID('order',dateFormat),
             recentItems,
             totalAmount,
-            useInfo: userInfo,
+            userInfo: userInfo,
             date: dateFormat,
           }),
         );

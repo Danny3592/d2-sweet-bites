@@ -10,6 +10,7 @@ export const makePayment = createAsyncThunk(
       .split('; ')
       .find((row) => row.startsWith('dessertToken='))
       ?.split('=')[1];
+      
     try {
       const { data } = await axios.post(
         `/660/users/${userId}/orders`,

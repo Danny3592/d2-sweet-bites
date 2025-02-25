@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getPaymentForOneUser } from '../../slice/checkoutSlice';
 
 const UserCharity = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const userId = localStorage.getItem('userId') || 1;
@@ -65,14 +64,21 @@ const UserCharity = () => {
           </thead>
           <tbody>
             {displayedItems.length > 0 ? (
-              displayedItems.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.id}</td>
-                  <td>NT${item.price}</td>
-                  <td>{item.donationDate}</td>
-                  <td>{item.paymentStatus ? '已完成' : '待確認'}</td>
-                </tr>
-              ))
+              displayedItems.map((item) => {
+                const formattedPrice = item.price.toLocaleString('zh-TW', {
+                  style: 'currency',
+                  currency: 'TWD',
+                  minimumFractionDigits: 0,
+                });
+                return (
+                  <tr key={item.id}>
+                    <td>{item.id}</td>
+                    <td>NT{formattedPrice}</td>
+                    <td>{item.donationDate}</td>
+                    <td>{item.paymentStatus ? '已完成' : '待確認'}</td>
+                  </tr>
+                );
+              })
             ) : (
               <tr>
                 <td colSpan="4" className="text-center">

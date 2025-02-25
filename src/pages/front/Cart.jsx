@@ -90,7 +90,7 @@ export default function CartPage() {
   const login = async () => {
     try {
       const res = await axios.post('/login', {
-        email: 'Shin@gmail.com',
+        email: 'test123456@gmail.com',
         password: '123456',
       });
       const { accessToken } = res.data;

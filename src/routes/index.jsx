@@ -17,6 +17,7 @@ import UserLayout from '../pages/front/UserLayout';
 import UserFavorite from '../pages/front/UserFavorite';
 import UserCoupons from '../pages/front/UserCoupons';
 import UserCharity from '../pages/front/UserCharity';
+import AdminOrder from './../pages/dashboard/AdminOrder';
 
 const routes = [
   {
@@ -89,6 +90,10 @@ const routes = [
           {
             path: 'news',
             element: <AdminNews />,
+          },
+          {
+            path: 'order',
+            element: <AdminOrder />,
           },
         ],
       },

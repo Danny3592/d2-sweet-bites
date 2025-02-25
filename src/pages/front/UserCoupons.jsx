@@ -70,6 +70,7 @@ const UserCoupons = () => {
           <tbody>
             {coupons.length > 0 ? (
               coupons.map((coupon) => (
+                
                 <tr key={coupon.id}>
                   <td>{coupon.title}</td>
                   <td>{coupon.code}</td>
