@@ -7,6 +7,7 @@ import AdminRegister from '../pages/dashboard/AdminRegister';
 import AdminProducts from '../pages/dashboard/AdminProducts';
 import AdminCoupon from '../pages/dashboard/AdminCoupon';
 import AdminNews from '../pages/dashboard/AdminNews';
+import AdminDonate from '../pages/dashboard/AdminDonate';
 import NotFound from '../pages/NotFound';
 import { createHashRouter } from 'react-router-dom';
 import App from '../App';
@@ -99,6 +100,10 @@ const routes = [
           {
             path: "news",
             element: <AdminNews />,
+          },
+          {
+            path: "donate",
+            element: <AdminDonate />,
           },
         ],
       },
