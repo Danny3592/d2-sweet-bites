@@ -129,7 +129,7 @@ export default function TheHeader() {
                   </NavLink>
                 </li>
                 <li className="nav-item mb-10 mb-lg-0 me-lg-10">
-                  <NavLink className="nav-link" to="news">
+                  <NavLink className="nav-link" to="news-list">
                     最新消息
                   </NavLink>
                 </li>

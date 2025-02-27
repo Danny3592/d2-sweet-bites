@@ -17,10 +17,12 @@ import UserLayout from '../pages/front/UserLayout';
 import UserFavorite from '../pages/front/UserFavorite';
 import OrderCheck from '../pages/front/OrderCheck';
 import OrderComplete from '../pages/front/OrderComplete';
+import NewsList from "../pages/front/NewsList";
+import NewsDetail from "../pages/front/NewsDetail";
 
 const routes = [
   {
-    path: '/',
+    path: "/",
     element: <App />,
     children: [
       {
@@ -31,11 +33,11 @@ const routes = [
             element: <Home />,
           },
           {
-            path: 'product-list',
+            path: "product-list",
             element: <ProductList />,
           },
           {
-            path: 'cart',
+            path: "cart",
             element: <Cart />,
           },
           {
@@ -43,12 +45,20 @@ const routes = [
             element: <OrderCheck />,
           },
           {
-            path: 'product-details/:productId',
+            path: "product-details/:productId",
             element: <ProductDetail />,
           },
           {
-            path: 'checkout',
+            path: "checkout",
             element: <Checkout />,
+          },
+          {
+            path: "news-list",
+            element: <NewsList />,
+          },
+          {
+            path: "news-detail/:id",
+            element: <NewsDetail />,
           },
           {
             path: 'order-complete',
@@ -57,25 +67,25 @@ const routes = [
         ],
       },
       {
-        path: 'user',
+        path: "user",
         element: <UserLayout />,
         children: [
           {
-            path: 'favorite',
+            path: "favorite",
             element: <UserFavorite />,
           },
         ],
       },
       {
-        path: 'admin-login',
+        path: "admin-login",
         element: <AdminLogin />,
       },
       {
-        path: 'admin-register',
+        path: "admin-register",
         element: <AdminRegister />,
       },
       {
-        path: 'dashboard',
+        path: "dashboard",
         element: <AdminLayout />,
         children: [
           {
@@ -83,17 +93,17 @@ const routes = [
             element: <AdminProducts />,
           },
           {
-            path: 'coupon',
+            path: "coupon",
             element: <AdminCoupon />,
           },
           {
-            path: 'news',
+            path: "news",
             element: <AdminNews />,
           },
         ],
       },
       {
-        path: '*',
+        path: "*",
         element: <NotFound />,
       },
     ],
