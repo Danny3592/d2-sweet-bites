@@ -15,6 +15,8 @@ import ProductDetail from './../pages/front/ProductDetail';
 import Checkout from '../pages/front/Checkout';
 import UserLayout from '../pages/front/UserLayout';
 import UserFavorite from '../pages/front/UserFavorite';
+import OrderCheck from '../pages/front/OrderCheck';
+import OrderComplete from '../pages/front/OrderComplete';
 
 const routes = [
   {
@@ -37,6 +39,10 @@ const routes = [
             element: <Cart />,
           },
           {
+            path: 'order-check',
+            element: <OrderCheck />,
+          },
+          {
             path: 'product-details/:productId',
             element: <ProductDetail />,
           },
@@ -44,6 +50,10 @@ const routes = [
             path: 'checkout',
             element: <Checkout />,
           },
+          {
+            path: 'order-complete',
+            element: <OrderComplete />,
+          }
         ],
       },
       {
