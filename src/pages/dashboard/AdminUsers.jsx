@@ -18,19 +18,11 @@ export default function AdminUsers() {
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
 
-  const BASE_URL = "http://localhost:3000";
-
   const getUsers = async (page = 1) => {
     setIsLoading(true);
     try {
-      const res = await axios.get(`${BASE_URL}/users?_page=${page}&_limit=10`);
-
-      const totalCount =
-        res.headers["x-total-count"] || res.headers["X-Total-Count"];
-
-      const pages = totalCount ? Math.max(Math.ceil(totalCount / 10), 1) : 1;
-      setTotalPages(pages);
-
+      const res = await axios.get(`/660/users?_page=${page}&_limit=10`);
+      setTotalPages(Math.ceil(res.headers.get("X-Total-Count") / 10));
       setUsers(res.data);
     } catch (error) {
       alertError(error.message);
@@ -67,7 +59,7 @@ export default function AdminUsers() {
     if (!res.isConfirmed) return;
     setIsLoading(true);
     try {
-      await axios.delete(`${BASE_URL}/users/${user.id}`);
+      await axios.delete(`/660/users/${user.id}`);
       toastAlert("使用者刪除成功");
       getUsers(currentPage);
     } catch (error) {
@@ -141,6 +133,7 @@ export default function AdminUsers() {
             })}
           </tbody>
         </table>
+
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}

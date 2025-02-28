@@ -17,8 +17,6 @@ export default function AdminUserModal({
     is_enabled: 1, //狀態,是否啟用
   });
 
-  const BASE_URL = "http://localhost:3000"; // JSON Server
-
   useEffect(() => {
     if (type === "create") {
       setUserData({
@@ -49,18 +47,18 @@ export default function AdminUserModal({
   };
 
   const submit = async () => {
-    let apiPath = "/users";
+    let apiPath = "/660/users";
     let apiMethod = "post";
     let message = "新增使用者成功";
 
     if (type === "edit") {
-      apiPath = `/users/${userData.id}`;
+      apiPath = `/660/users/${userData.id}`;
       apiMethod = "put";
       message = "編輯使用者成功";
     }
 
     try {
-      await axios[apiMethod](`${BASE_URL}${apiPath}`, userData);
+      await axios[apiMethod](apiPath, userData);
       toastAlert(message);
       closeUserModal();
       getUsers(currentPage);
