@@ -57,7 +57,7 @@ export default function OrderCheck() {
       );
 
       if (validCoupon) {
-        const discountAmount = (totalPrice * validCoupon.percent) / 100;
+        const discountAmount = (totalPrice * ( 100 - validCoupon.percent)) / 100;
         setDiscount(discountAmount);
       } else {
         setError('優惠券不存在或不可用');
