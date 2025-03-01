@@ -64,7 +64,7 @@ const Checkout = () => {
     if (successMsg === 'make payment success') {
       dispatch(clearCheckoutItem());
       dispatch(deleteAllCart());
-      navigate('/complete-order'); //前往完成付款頁面
+      navigate('/order-complete'); //前往完成付款頁面
     }
   }, [successMsg, dispatch]);
 

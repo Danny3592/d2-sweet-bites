@@ -316,7 +316,9 @@ const ProductDetail = () => {
 
   return (
     <>
-      {(isLoading || cartStatus === 'loading') && <Loading type="spin" color="#D4A58E" />}
+      {(isLoading || cartStatus === 'loading') && (
+        <Loading type="spin" color="#D4A58E" />
+      )}
       {notification && <Notification text={notification} key={notification} />}
 
       <div className="product-details">
@@ -466,7 +468,7 @@ const ProductDetail = () => {
                   {charityProducts.map((item) => (
                     <li
                       key={item.id}
-                      className="d-flex list-unstyled py-3 align-items-center gap-4 border px-4"
+                      className="charity-item d-flex list-unstyled py-3 align-items-center gap-4 border px-4"
                     >
                       <CharityCard
                         id={item.id}
@@ -583,8 +585,11 @@ const ProductDetail = () => {
                           key={product.id}
                           style={{ cursor: 'pointer', color: 'black' }}
                         >
-                          <li className="position-relative">
-                            <img src={product.imageUrl} alt="" />
+                          <li className="position-relative similar-item">
+                            <div className='similar-item-box'>
+                              <img src={product.imageUrl} alt="" />
+                            </div>
+
                             <p className="mt-4 mb-3 text-dark">
                               {product.title}
                             </p>
