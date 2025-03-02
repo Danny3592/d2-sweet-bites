@@ -24,17 +24,17 @@ export default function Home() {
                 讓每一份甜點，成為傳遞幸福的橋樑 ——— 幸福，也可以共享
               </h4>
               <div className="mt-18 mt-8 btn-container">
-                <button className="btn bg-primary-600 me-sm-5 px-sm-11">
+                <button className="btn btn--main bg-primary-600 me-sm-5 px-sm-11">
                   開啟幸福之旅
                   <img
                     src={buttonIconWhite}
                     alt="buttonIconWhie"
-                    className="ms-4"
+                    className="ms-4 btn--main-img"
                   />
                 </button>
-                <button className="btn  border border-primary px-sm-11 ">
+                <button className="btn  btn--sub border border-primary px-sm-11 ">
                   一起改變世界
-                  <img src={buttonIconWhite} alt="buttonIconWhie" />
+                  <img src={buttonIconWhite} alt="buttonIconWhie" className='btn--sub-img' />
                 </button>
               </div>
             </div>

@@ -24,6 +24,7 @@ import OrderCheck from "../pages/front/OrderCheck";
 import OrderComplete from "../pages/front/OrderComplete";
 import NewsList from "../pages/front/NewsList";
 import NewsDetail from "../pages/front/NewsDetail";
+import AdminOrder from './../pages/dashboard/AdminOrder';
 
 const routes = [
   {
@@ -122,6 +123,10 @@ const routes = [
             element: <AdminNews />,
           },
           {
+            path: 'order',
+            element: <AdminOrder/>},
+
+            {
             path: "users",
             element: <AdminUsers />,
           },

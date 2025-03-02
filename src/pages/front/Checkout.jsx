@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 
 //Redux action
@@ -9,10 +9,12 @@ import { deleteAllCart, getCartList } from '../../slice/cartSlice';
 import { makePayment } from '../../slice/checkoutSlice';
 
 //Component
-import Loading from '../../components/Loading';
-
+// import Loading from '../../components/Loading';
 import continueshopping from '../../assets/images/icons/chevron-left.svg';
 import axios from 'axios';
+
+//Utilities
+import { generateRandomID } from '../../../util/http';
 
 const Checkout = () => {
   const location = useLocation();
@@ -26,6 +28,7 @@ const Checkout = () => {
   const totalPrice = location.state?.totalPrice;
   const discount = location.state?.discount;
   const finalPrice = location.state?.finalPrice;
+  const [orderId, setOrderId] = useState("");
 
   //取得redux狀態
   const { checkoutItem, successMsg, errorMsg, loader } = useSelector(
@@ -67,7 +70,11 @@ const Checkout = () => {
     if (successMsg === 'make payment success') {
       dispatch(clearCheckoutItem());
       dispatch(deleteAllCart());
-      navigate('/complete-order'); //前往完成付款頁面
+      navigate('/order-complete',{
+        state: {
+          orderId: orderId,
+        }
+      }); //前往完成付款頁面
     }
   }, [successMsg, dispatch]);
 
@@ -98,19 +105,48 @@ const Checkout = () => {
     // );
     const totalAmount = finalPrice;
 
-    try {
-      dispatch(
-        makePayment({
-          userId: 1,
-          recentItems,
-          totalAmount,
-        })
-      );
-      dispatch(clearCheckoutItem());
-      // navigate('/complete-order') 前往完成付款頁面
-    } catch (error) {
-      console.error(error);
-    }
+    userInfo.isPaid = userInfo.paymentMethod === 'credit-card' ? true : false;
+    const dateFormat = new Date()
+      .toLocaleDateString('zh-TW', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+      })
+      .replace(/\//g, '/');
+    axios
+      .get('/products?category=慈善')
+      .then(({ data }) => {
+        const CharityId = data.map((item) => item.id);
+        recentItems = recentItems.map((item) => {
+          if (CharityId.includes(item.productId)) {
+            return {
+              ...item,
+              isCharity: true,
+              charityContent: {
+                id: generateRandomID('charity'),
+                price: item.price * item.qty,
+                donationDate: dateFormat,
+                paymentStatus: userInfo.isPaid,
+              },
+            };
+          }
+          return { ...item, isCharity: false };
+        });
+        setOrderId(generateRandomID('order', dateFormat));
+        dispatch(
+          makePayment({
+            userId: 1,
+            displayOrderId: orderId,
+            recentItems,
+            totalAmount,
+            userInfo: userInfo,
+            date: dateFormat,
+          }),
+        );
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   const formatExpiryDate = (value) => {
