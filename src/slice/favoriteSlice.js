@@ -10,14 +10,12 @@ export const getFavorites = createAsyncThunk(
       .find((row) => row.startsWith('dessertToken='))
       ?.split('=')[1];
 
-
     try {
       const res = await axios.get(`/600/users/${userId}/favorites`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      // console.log('getFavorites-> = ', res.data);
       return fulfillWithValue(res.data);
     } catch (error) {
       alertError(error || '取得收藏列表失敗');
@@ -87,14 +85,11 @@ export const removeFavorite = createAsyncThunk(
     }
 
     try {
-      const res = await axios.delete(
-        `/600/favorites/${favoriteItem.id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      const res = await axios.delete(`/600/favorites/${favoriteItem.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-      );
+      });
       return fulfillWithValue(res.data);
     } catch (error) {
       alertError(error.response?.data?.message || '付款失敗');

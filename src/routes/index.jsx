@@ -1,22 +1,24 @@
-import FrontLayout from '../pages/front/FrontLayout';
-import Home from '../pages/front/Home';
-import Cart from '../pages/front/Cart';
-import ProductList from '../pages/front/ProductList';
-import AdminLogin from '../pages/dashboard/AdminLogin';
-import AdminRegister from '../pages/dashboard/AdminRegister';
-import AdminProducts from '../pages/dashboard/AdminProducts';
-import AdminCoupon from '../pages/dashboard/AdminCoupon';
-import AdminNews from '../pages/dashboard/AdminNews';
+import FrontLayout from "../pages/front/FrontLayout";
+import Home from "../pages/front/Home";
+import Cart from "../pages/front/Cart";
+import ProductList from "../pages/front/ProductList";
+import AdminLogin from "../pages/dashboard/AdminLogin";
+import AdminRegister from "../pages/dashboard/AdminRegister";
+import AdminProducts from "../pages/dashboard/AdminProducts";
+import AdminCoupon from "../pages/dashboard/AdminCoupon";
+import AdminNews from "../pages/dashboard/AdminNews";
 import AdminDonate from '../pages/dashboard/AdminDonate';
-import NotFound from '../pages/NotFound';
-import { createHashRouter } from 'react-router-dom';
-import App from '../App';
-import AdminLayout from '../components/AdminLayout';
-import ProductDetail from './../pages/front/ProductDetail';
+import NotFound from "../pages/NotFound";
+import { createHashRouter } from "react-router-dom";
+import App from "../App";
+import AdminLayout from "../components/AdminLayout";
+import ProductDetail from "./../pages/front/ProductDetail";
+import Checkout from "../pages/front/Checkout";
+import UserCoupons from '../pages/front/UserCoupons';
 import UserLayout from "../pages/front/UserLayout";
+import UserCharity from "../pages/front/UserCharity";
 import UserFavorite from "../pages/front/UserFavorite";
 import UserProfile from "../pages/front/UserProfile";
-import Checkout from "../pages/front/Checkout";
 import NewsList from "../pages/front/NewsList";
 import NewsDetail from "../pages/front/NewsDetail";
 
@@ -74,7 +76,15 @@ const routes = [
           {
             path: 'checkout',
             element: <Checkout />,
-          }
+          },
+          {
+            path: 'coupon',
+            element: <UserCoupons />,
+          },
+          {
+            path: 'charity',
+            element: <UserCharity />,
+          },
         ],
       },
       {
