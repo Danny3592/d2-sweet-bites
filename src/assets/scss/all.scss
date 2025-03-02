@@ -1,28 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&family=Noto+Serif+TC:wght@200..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&family=Noto+Serif+TC:wght@200..900&display=swap");
 
-@import 'bootstrap/scss/_functions';
-@import './helpers/variables';
-@import 'bootstrap/scss/variables';
-@import 'bootstrap/scss/maps';
-@import 'bootstrap/scss/mixins';
-@import 'bootstrap/scss/utilities';
-@import './helpers/_utilities';
-@import 'bootstrap/scss/utilities/api';
-@import 'bootstrap/scss/bootstrap';
-@import './helpers/animations';
-@import './helpers/mixin';
+@import "bootstrap/scss/_functions";
+@import "./helpers/variables";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities";
+@import "./helpers/_utilities";
+@import "bootstrap/scss/utilities/api";
+@import "bootstrap/scss/bootstrap";
+@import "./helpers/animations";
+@import "./helpers/mixin";
 
-@import './base/base';
-@import './helpers/helpers';
-@import './components/buttons';
-@import './components/card';
-@import './components/pagination';
+@import "./base/base";
+@import "./helpers/helpers";
+@import "./components/buttons";
+@import "./components/card";
+@import "./components/pagination";
 
-@import './pages/home';
-@import './pages/checkout';
-@import './pages/cart';
+@import "./pages/home";
+@import "./pages/checkout";
+@import "./pages/cart";
+@import "./pages/newslist";
 
-@import './pages/product-details';
+@import "./pages/product-details";
+
 
 @import './pages/user/coupon';
 
@@ -31,3 +33,4 @@
 @import './pages/admin/admin-products';
 @import './components/admin-layout';
 @import './vendor/sweet-alert';
+

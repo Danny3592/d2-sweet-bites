@@ -1,0 +1,134 @@
+.news-section {
+  .mySwiper {
+    position: relative;
+    padding-bottom: 0;
+  }
+
+  .search-input {
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23787F85"><path fill-rule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z" clip-rule="evenodd"/></svg>');
+    background-repeat: no-repeat;
+    background-position: 1rem center;
+    background-size: 1.5rem 1.5rem;
+    padding-left: 3.25rem;
+  }
+
+  .slide-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    height: 424px;
+
+    @include media-breakpoint-up(lg) {
+      height: 729px;
+    }
+  }
+
+  .slide-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 9rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+    z-index: 1;
+    @include media-breakpoint-up(lg) {
+      height: 256px;
+    }
+  }
+
+  .slide-title {
+    bottom: 5%;
+    width: 90%;
+    max-width: 800px;
+    z-index: 2;
+  }
+
+  // Swiper 自訂 Navigation 按鈕，確保它們貼齊圖片內側
+  .custom-swiper-button-prev,
+  .custom-swiper-button-next {
+    transform: translateY(-50%);
+    width: 2.25rem;
+    height: 3.75rem;
+    background-color: rgba(52, 58, 64, 0.66); // 66% 透明度的黑色背景
+    z-index: 10;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    &:hover {
+      background-color: rgba(52, 58, 64, 0.85);
+    }
+  }
+
+  .custom-swiper-button-prev {
+    left: 0; // 貼齊圖片內側
+    background-size: 1.25rem; // 調整箭頭大小
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .custom-swiper-button-next {
+    right: 0; // 貼齊圖片內側
+    background-size: 1.25rem; // 調整箭頭大小
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  // pagination 位置修正
+  .swiper-pagination {
+    @include media-breakpoint-up(lg) {
+      z-index: 10;
+    }
+  }
+
+  // hide swiper default btn
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: none;
+  }
+
+  //自定義pagination bullets
+  .swiper-pagination-bullet {
+    background-color: $gray-500;
+    &-active {
+      background-color: #bf0e46 !important;
+    }
+  }
+
+  //最新消息區塊
+  .news-divider {
+    width: 100%;
+    height: 1px;
+    background-color: $gray-400;
+  }
+
+  .news-img {
+    height: 243px; // 確保所有圖片高度
+    height: auto;
+    @include media-breakpoint-up(md) {
+      height: 288px;
+    }
+  }
+
+  .know-more-btn {
+    &:hover {
+      @include media-breakpoint-up(md) {
+        background-color: $primary-700;
+      }
+    }
+  }
+
+  .read-more-btn {
+    border-radius: 0 1rem 0 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+
+    &:hover {
+      background-color: $primary-700;
+    }
+  }
+}
