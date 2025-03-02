@@ -7,23 +7,23 @@ import AdminRegister from "../pages/dashboard/AdminRegister";
 import AdminProducts from "../pages/dashboard/AdminProducts";
 import AdminCoupon from "../pages/dashboard/AdminCoupon";
 import AdminNews from "../pages/dashboard/AdminNews";
-import AdminDonate from '../pages/dashboard/AdminDonate';
+import AdminDonate from "../pages/dashboard/AdminDonate";
+import AdminUsers from "../pages/dashboard/AdminUsers";
 import NotFound from "../pages/NotFound";
 import { createHashRouter } from "react-router-dom";
 import App from "../App";
 import AdminLayout from "../components/AdminLayout";
 import ProductDetail from "./../pages/front/ProductDetail";
 import Checkout from "../pages/front/Checkout";
-import UserCoupons from '../pages/front/UserCoupons';
+import UserCoupons from "../pages/front/UserCoupons";
 import UserLayout from "../pages/front/UserLayout";
 import UserCharity from "../pages/front/UserCharity";
 import UserFavorite from "../pages/front/UserFavorite";
 import UserProfile from "../pages/front/UserProfile";
-import OrderCheck from '../pages/front/OrderCheck';
-import OrderComplete from '../pages/front/OrderComplete';
+import OrderCheck from "../pages/front/OrderCheck";
+import OrderComplete from "../pages/front/OrderComplete";
 import NewsList from "../pages/front/NewsList";
 import NewsDetail from "../pages/front/NewsDetail";
-
 
 const routes = [
   {
@@ -46,7 +46,7 @@ const routes = [
             element: <Cart />,
           },
           {
-            path: 'order-check',
+            path: "order-check",
             element: <OrderCheck />,
           },
           {
@@ -66,9 +66,9 @@ const routes = [
             element: <NewsDetail />,
           },
           {
-            path: 'order-complete',
+            path: "order-complete",
             element: <OrderComplete />,
-          }
+          },
         ],
       },
       {
@@ -76,23 +76,23 @@ const routes = [
         element: <UserLayout />,
         children: [
           {
-            path: 'favorite',
-            element: <UserFavorite />
+            path: "favorite",
+            element: <UserFavorite />,
           },
           {
-            path: 'profile/:userId',
-            element: <UserProfile />
+            path: "profile/:userId",
+            element: <UserProfile />,
           },
           {
-            path: 'checkout',
+            path: "checkout",
             element: <Checkout />,
           },
           {
-            path: 'coupon',
+            path: "coupon",
             element: <UserCoupons />,
           },
           {
-            path: 'charity',
+            path: "charity",
             element: <UserCharity />,
           },
         ],
@@ -120,6 +120,10 @@ const routes = [
           {
             path: "news",
             element: <AdminNews />,
+          },
+          {
+            path: "users",
+            element: <AdminUsers />,
           },
           {
             path: "donate",
