@@ -3,7 +3,7 @@ import axios from 'axios';
 export const login = async () => {
   try {
     const res = await axios.post('/login', {
-      email: 'test123456@gmail.com',
+      email: 'Shin@gmail.com',
       password: '123456',
     });
     const { accessToken } = res.data;

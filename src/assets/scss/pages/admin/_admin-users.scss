@@ -1,0 +1,17 @@
+.admin__content {
+  table {
+    width: 90%;
+    border-collapse: collapse;
+    margin: 2rem auto;
+  }
+  tr {
+    border-bottom: 1px solid #ddd;
+  }
+
+  th,
+  td {
+    padding: 1rem 0;
+    text-align: left;
+    vertical-align: middle; /* 確保內容垂直置中 */
+  }
+}

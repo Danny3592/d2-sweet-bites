@@ -9,7 +9,6 @@ import Pagination from '../../components/Pagination';
 import Loading from '../../components/Loading';
 import axios from 'axios';
 import AdminOrderModal from '../../components/dashboard/AdminOrderModal';
-import { login } from '../../../util/http';
 
 export default function AdminProducts() {
   const [orders, setOrders] = useState([]);
@@ -52,7 +51,7 @@ export default function AdminProducts() {
   };
   const deleteOrder = async (order) => {
     const res = await alertDeleteConfirm(
-      `確認刪除 ${order.userInfo.name}的${order.displayOrderId}號訂單 嗎?`,
+      `確認刪除 ${order?.userInfo?.name}的${order.displayOrderId}號訂單 嗎?`,
     );
     if (!res.isConfirmed) return;
     setIsLoading(true);
@@ -103,12 +102,12 @@ export default function AdminProducts() {
                 },
               );
               return (
-                <tr key={order.id}>
-                  <td>{order.displayOrderId}</td>
-                  <td>{order.userInfo.name}</td>
-                  <td>{order.date}</td>
+                <tr key={order?.id}>
+                  <td>{order?.displayOrderId}</td>
+                  <td>{order?.userInfo?.name}</td>
+                  <td>{order?.date}</td>
                   <td>NT{formattedAmount}</td>
-                  <td>{order.isPaid ? '已付款' : '待付款'}</td>
+                  <td>{order?.isPaid? '已付款' : '待付款'}</td>
                   <td>
                     <button
                       type="button"

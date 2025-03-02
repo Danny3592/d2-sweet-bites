@@ -1,27 +1,34 @@
-import FrontLayout from '../pages/front/FrontLayout';
-import Home from '../pages/front/Home';
-import Cart from '../pages/front/Cart';
-import ProductList from '../pages/front/ProductList';
-import AdminLogin from '../pages/dashboard/AdminLogin';
-import AdminRegister from '../pages/dashboard/AdminRegister';
-import AdminProducts from '../pages/dashboard/AdminProducts';
-import AdminCoupon from '../pages/dashboard/AdminCoupon';
-import AdminNews from '../pages/dashboard/AdminNews';
-import NotFound from '../pages/NotFound';
-import { createHashRouter } from 'react-router-dom';
-import App from '../App';
-import AdminLayout from '../components/AdminLayout';
-import ProductDetail from './../pages/front/ProductDetail';
-import Checkout from '../pages/front/Checkout';
-import UserLayout from '../pages/front/UserLayout';
-import UserFavorite from '../pages/front/UserFavorite';
-import UserCoupons from '../pages/front/UserCoupons';
-import UserCharity from '../pages/front/UserCharity';
+import FrontLayout from "../pages/front/FrontLayout";
+import Home from "../pages/front/Home";
+import Cart from "../pages/front/Cart";
+import ProductList from "../pages/front/ProductList";
+import AdminLogin from "../pages/dashboard/AdminLogin";
+import AdminRegister from "../pages/dashboard/AdminRegister";
+import AdminProducts from "../pages/dashboard/AdminProducts";
+import AdminCoupon from "../pages/dashboard/AdminCoupon";
+import AdminNews from "../pages/dashboard/AdminNews";
+import AdminDonate from "../pages/dashboard/AdminDonate";
+import AdminUsers from "../pages/dashboard/AdminUsers";
+import NotFound from "../pages/NotFound";
+import { createHashRouter } from "react-router-dom";
+import App from "../App";
+import AdminLayout from "../components/AdminLayout";
+import ProductDetail from "./../pages/front/ProductDetail";
+import Checkout from "../pages/front/Checkout";
+import UserCoupons from "../pages/front/UserCoupons";
+import UserLayout from "../pages/front/UserLayout";
+import UserCharity from "../pages/front/UserCharity";
+import UserFavorite from "../pages/front/UserFavorite";
+import UserProfile from "../pages/front/UserProfile";
+import OrderCheck from "../pages/front/OrderCheck";
+import OrderComplete from "../pages/front/OrderComplete";
+import NewsList from "../pages/front/NewsList";
+import NewsDetail from "../pages/front/NewsDetail";
 import AdminOrder from './../pages/dashboard/AdminOrder';
 
 const routes = [
   {
-    path: '/',
+    path: "/",
     element: <App />,
     children: [
       {
@@ -32,51 +39,75 @@ const routes = [
             element: <Home />,
           },
           {
-            path: 'product-list',
+            path: "product-list",
             element: <ProductList />,
           },
           {
-            path: 'cart',
+            path: "cart",
             element: <Cart />,
           },
           {
-            path: 'product-details/:productId',
+            path: "order-check",
+            element: <OrderCheck />,
+          },
+          {
+            path: "product-details/:productId",
             element: <ProductDetail />,
           },
           {
-            path: 'checkout',
+            path: "checkout",
             element: <Checkout />,
+          },
+          {
+            path: "news-list",
+            element: <NewsList />,
+          },
+          {
+            path: "news-detail/:id",
+            element: <NewsDetail />,
+          },
+          {
+            path: "order-complete",
+            element: <OrderComplete />,
           },
         ],
       },
       {
-        path: 'user',
+        path: "user",
         element: <UserLayout />,
         children: [
           {
-            path: 'favorite',
+            path: "favorite",
             element: <UserFavorite />,
           },
           {
-            path: 'coupon',
+            path: "profile/:userId",
+            element: <UserProfile />,
+          },
+          {
+            path: "checkout",
+            element: <Checkout />,
+          },
+          {
+            path: "coupon",
             element: <UserCoupons />,
           },
           {
-            path: 'charity',
+            path: "charity",
             element: <UserCharity />,
           },
         ],
       },
       {
-        path: 'admin-login',
+        path: "admin-login",
         element: <AdminLogin />,
       },
       {
-        path: 'admin-register',
+        path: "admin-register",
         element: <AdminRegister />,
       },
       {
-        path: 'dashboard',
+        path: "dashboard",
         element: <AdminLayout />,
         children: [
           {
@@ -84,21 +115,29 @@ const routes = [
             element: <AdminProducts />,
           },
           {
-            path: 'coupon',
+            path: "coupon",
             element: <AdminCoupon />,
           },
           {
-            path: 'news',
+            path: "news",
             element: <AdminNews />,
           },
           {
             path: 'order',
-            element: <AdminOrder />,
+            element: <AdminOrder/>},
+
+            {
+            path: "users",
+            element: <AdminUsers />,
+          },
+          {
+            path: "donate",
+            element: <AdminDonate />,
           },
         ],
       },
       {
-        path: '*',
+        path: "*",
         element: <NotFound />,
       },
     ],

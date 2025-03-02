@@ -16,6 +16,7 @@ export default function UserLayout() {
         password: '123456',
       });
       const { accessToken } = res.data;
+      console.log(accessToken)
       document.cookie = `dessertToken=${accessToken}; max-age=86400;`;
     } catch (error) {
       console.log(error);
@@ -53,7 +54,7 @@ export default function UserLayout() {
           </li>
         </ul>
       </div>
-      <div className="vh-100 bg-primary-50 p-15"
+      <div className="min-vh-100 bg-primary-50 p-15"
         style={{
         marginLeft: '240px',
       }}>
