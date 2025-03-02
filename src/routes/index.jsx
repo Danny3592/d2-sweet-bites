@@ -121,6 +121,14 @@ const routes = [
             path: "news",
             element: <AdminNews />,
           },
+          {
+            path: "users",
+            element: <AdminUsers />,
+          },
+          {
+            path: "donate",
+            element: <AdminDonate />,
+          },
         ],
       },
       {
