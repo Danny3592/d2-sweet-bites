@@ -23,7 +23,7 @@ export default function AdminDonate() {
   const donateOrders = useMemo(() => {
     const orderData = orders.map(order => {
       return order.recentItems.map(item => {
-        const productName = products.find(product => product.id === item.productId).title;
+        const productName = products.find(product => product.id === item.productId)?.title;
         return {
           ...item,
           productName,
