@@ -83,7 +83,7 @@ export default function AdminUsers() {
       <div className="d-flex justify-content-between align-items-center px-20">
         <h2>管理使用者</h2>
         <button
-          className="btn btn-primary"
+          className="btn btn-primary d-none"
           onClick={() => openUserModal("create", {})}
         >
           新增使用者
