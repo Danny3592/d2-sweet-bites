@@ -87,7 +87,7 @@ export default function AdminUserModal({
               <input
                 type="text"
                 className="form-control"
-                name="name"
+                name="userName"
                 value={userData.userName}
                 onChange={handleChange}
                 placeholder="請輸入使用者名稱"
