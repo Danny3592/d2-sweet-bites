@@ -168,7 +168,7 @@ export default function AdminLayout(){
               </NavLink>
             </li>
             <li>
-              <NavLink to="/dashboard"
+              <NavLink to="/dashboard/donate"
                 className="border-0">
                 <div className="menu-item">
                   <svg

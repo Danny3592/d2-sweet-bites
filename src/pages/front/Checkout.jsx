@@ -5,13 +5,14 @@ import { useNavigate, useLocation, Link } from 'react-router-dom';
 
 //Redux action
 import { clearCheckoutItem } from '../../slice/checkoutSlice';
-import { getCartList } from '../../slice/cartSlice';
+import { deleteAllCart, getCartList } from '../../slice/cartSlice';
 import { makePayment } from '../../slice/checkoutSlice';
 
 //Component
 import Loading from '../../components/Loading';
 
 import continueshopping from '../../assets/images/icons/chevron-left.svg';
+import axios from 'axios';
 
 const Checkout = () => {
   const location = useLocation();
@@ -27,7 +28,9 @@ const Checkout = () => {
   const finalPrice = location.state?.finalPrice;
 
   //取得redux狀態
-  const { checkoutItem, status } = useSelector((state) => state.checkout);
+  const { checkoutItem, successMsg, errorMsg, loader } = useSelector(
+    (state) => state.checkout,
+  );
   const carts = useSelector((state) => state.cart.carts);
 
   //表單管理
@@ -38,26 +41,42 @@ const Checkout = () => {
     watch,
     formState: { errors },
   } = useForm();
+  let token;
+  useEffect(() => {
+    if (!token) {
+      token = document.cookie
+        .split('; ')
+        .find((row) => row.startsWith('dessertToken='))
+        ?.split('=')[1];
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    }
+  }, [token]);
 
   //取得購物車資訊 & 卻保有商品可以結帳
   useEffect(() => {
     if (!isDirectPurchase && carts.length === 0) {
       dispatch(getCartList());
     }
-    if (checkoutItem.length < 1 && isDirectPurchase) {
-      navigate('/cart');
-    }
-    if (checkoutItem.length < 1 && carts.length < 1) {
+    if (checkoutItem.length < 1 && (isDirectPurchase || carts.length < 1)) {
       navigate('/cart');
     }
   }, [checkoutItem, navigate, dispatch, isDirectPurchase, carts.length]);
 
+  //如果結帳成功，清除購物車
+  useEffect(() => {
+    if (successMsg === 'make payment success') {
+      dispatch(clearCheckoutItem());
+      dispatch(deleteAllCart());
+      navigate('/complete-order'); //前往完成付款頁面
+    }
+  }, [successMsg, dispatch]);
+
   //提交結帳表單
-  const onSubmit = async () => {
+  const onSubmit = async (userInfo) => {
     if (!checkoutItem && carts.length < 1) return;
-    let recentItem;
+    let recentItems;
     if (isDirectPurchase && checkoutItem) {
-      recentItem = checkoutItem.map((item) => {
+      recentItems = checkoutItem.map((item) => {
         return {
           productId: item.productId,
           qty: item.qty,
@@ -65,7 +84,7 @@ const Checkout = () => {
         };
       });
     } else {
-      recentItem = carts.map((item) => {
+      recentItems = carts.map((item) => {
         return {
           productId: item.productId,
           qty: item.qty,
@@ -102,25 +121,25 @@ const Checkout = () => {
   };
 
   const handleExpiryDateChange = (e) => {
-    const formattedValue = formatExpiryDate(e.target.value);
-    setValue('validDate', formattedValue); // ✅ 手動更新表單值
-  };
-
-  const formatCardNumber = (value) => {
-    return value
-      .replace(/\D/g, '')
-      .replace(/(.{4})/g, '$1 ')
-      .trim();
+    const formattedValue = formatExpiryDate(e.target.value).slice(0, 5);
+    setTimeout(() => {
+      setValue('validDate', formattedValue);
+    }, 0);
   };
 
   const handleCardNumberChange = (e) => {
-    const formattedValue = formatCardNumber(e.target.value);
-    setValue('cardNumber', formattedValue);
+    let rawValue = e.target.value.replace(/\D/g, ''); // 移除非數字
+    rawValue = rawValue.slice(0, 16); // 限制最多 16 位數（信用卡號）
+
+    let formattedValue = rawValue.replace(/(\d{4})/g, '$1 ').trim(); // 每 4 位數加空格
+    setTimeout(() => {
+      setValue('cardNumber', formattedValue);
+    }, 0);
   };
 
   return (
     <div className="checkout">
-      {status === 'loading' && <Loading />}
+      {/* {status === 'loading' && <Loading type="spin" color="#D4A58E" />} */}
       <div className="container">
         <div className="row">
           <div className="col-12">
