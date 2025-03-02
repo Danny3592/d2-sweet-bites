@@ -18,6 +18,9 @@
 @import "./components/card";
 @import "./components/pagination";
 
+@import './layout/header';
+@import './layout/footer';
+
 @import "./pages/home";
 @import "./pages/checkout";
 @import "./pages/cart";
@@ -25,9 +28,21 @@
 
 @import "./pages/product-details";
 
+<<<<<<< HEAD
 @import "./pages/admin/admin-login";
 @import "./pages/admin/admin-register";
 @import "./pages/admin/admin-products";
 @import "./pages/admin/admin-users";
 @import "./components/admin-layout";
 @import "./vendor/sweet-alert";
+=======
+
+@import './pages/user/coupon';
+
+@import './pages/admin/admin-login';
+@import './pages/admin/admin-register';
+@import './pages/admin/admin-products';
+@import './components/admin-layout';
+@import './vendor/sweet-alert';
+
+>>>>>>> dev

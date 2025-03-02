@@ -316,7 +316,7 @@ const ProductDetail = () => {
 
   return (
     <>
-      {(isLoading || cartStatus === 'loading') && <Loading />}
+      {(isLoading || cartStatus === 'loading') && <Loading type="spin" color="#D4A58E" />}
       {notification && <Notification text={notification} key={notification} />}
 
       <div className="product-details">
@@ -428,7 +428,7 @@ const ProductDetail = () => {
               <h3 className="text-primary fw-medium mb-6 fs-2">
                 {productDetails?.title}
               </h3>
-              <p className="mb-8">成分: 麵粉、可可粉、糖</p>
+              <p className="mb-8">成分: {productDetails.ingredient}</p>
               <p className="mb-8">{productDetails?.description}</p>
               <p className="fs-2 price">
                 <span>NT$</span>
