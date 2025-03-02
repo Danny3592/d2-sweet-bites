@@ -102,7 +102,7 @@ const Checkout = () => {
       dispatch(
         makePayment({
           userId: 1,
-          recentItem,
+          recentItems,
           totalAmount,
         })
       );
