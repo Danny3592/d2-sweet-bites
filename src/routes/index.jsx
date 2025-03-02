@@ -1,4 +1,3 @@
-
 import FrontLayout from "../pages/front/FrontLayout";
 import Home from "../pages/front/Home";
 import Cart from "../pages/front/Cart";
@@ -8,14 +7,18 @@ import AdminRegister from "../pages/dashboard/AdminRegister";
 import AdminProducts from "../pages/dashboard/AdminProducts";
 import AdminCoupon from "../pages/dashboard/AdminCoupon";
 import AdminNews from "../pages/dashboard/AdminNews";
+import AdminDonate from '../pages/dashboard/AdminDonate';
 import NotFound from "../pages/NotFound";
 import { createHashRouter } from "react-router-dom";
 import App from "../App";
 import AdminLayout from "../components/AdminLayout";
 import ProductDetail from "./../pages/front/ProductDetail";
 import Checkout from "../pages/front/Checkout";
+import UserCoupons from '../pages/front/UserCoupons';
 import UserLayout from "../pages/front/UserLayout";
+import UserCharity from "../pages/front/UserCharity";
 import UserFavorite from "../pages/front/UserFavorite";
+import UserProfile from "../pages/front/UserProfile";
 import NewsList from "../pages/front/NewsList";
 import NewsDetail from "../pages/front/NewsDetail";
 
@@ -63,8 +66,16 @@ const routes = [
         element: <UserLayout />,
         children: [
           {
-            path: "favorite",
-            element: <UserFavorite />,
+            path: 'favorite',
+            element: <UserFavorite />
+          },
+          {
+            path: 'profile/:userId',
+            element: <UserProfile />
+          },
+          {
+            path: 'checkout',
+            element: <Checkout />,
           },
           {
             path: 'coupon',
@@ -99,6 +110,10 @@ const routes = [
           {
             path: "news",
             element: <AdminNews />,
+          },
+          {
+            path: "donate",
+            element: <AdminDonate />,
           },
         ],
       },
