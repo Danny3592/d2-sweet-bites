@@ -58,8 +58,6 @@ export const getCartList = createAsyncThunk(
 export const addCart = createAsyncThunk(
   'cart/addCart',
   async (payload, { dispatch }) => {
-    console.log('qty = ', payload.qty);
-
     try {
       await axios.post('/600/users/1/carts', payload);
     } catch (error) {

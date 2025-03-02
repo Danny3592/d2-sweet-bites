@@ -1,15 +1,19 @@
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 //Redux action
 import { clearCheckoutItem } from '../../slice/checkoutSlice';
-import { getCartList } from '../../slice/cartSlice';
+import { deleteAllCart, getCartList } from '../../slice/cartSlice';
 import { makePayment } from '../../slice/checkoutSlice';
 
-//Component
-import Loading from '../../components/Loading';
+
+import axios from 'axios';
+import { login } from './../../../util/http';
+
+//utilities
+import { generateRandomID } from './../../../util/http';
 
 const Checkout = () => {
   const location = useLocation();
@@ -20,7 +24,9 @@ const Checkout = () => {
   const isDirectPurchase = location.state?.type === 'direct';
 
   //取得redux狀態
-  const { checkoutItem, status } = useSelector((state) => state.checkout);
+  const { checkoutItem, successMsg, errorMsg, loader } = useSelector(
+    (state) => state.checkout,
+  );
   const carts = useSelector((state) => state.cart.carts);
 
   //表單管理
@@ -31,26 +37,43 @@ const Checkout = () => {
     watch,
     formState: { errors },
   } = useForm();
+  let token;
+  useEffect(() => {
+    login();
+    if (!token) {
+      token = document.cookie
+        .split('; ')
+        .find((row) => row.startsWith('dessertToken='))
+        ?.split('=')[1];
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    }
+  }, [token]);
 
   //取得購物車資訊 & 卻保有商品可以結帳
   useEffect(() => {
     if (!isDirectPurchase && carts.length === 0) {
       dispatch(getCartList());
     }
-    if (checkoutItem.length < 1 && isDirectPurchase) {
-      navigate('/cart');
-    }
-    if (checkoutItem.length < 1 && carts.length < 1) {
+    if (checkoutItem.length < 1 && (isDirectPurchase || carts.length < 1)) {
       navigate('/cart');
     }
   }, [checkoutItem, navigate, dispatch, isDirectPurchase, carts.length]);
 
+  //如果結帳成功，清除購物車
+  useEffect(() => {
+    if (successMsg === 'make payment success') {
+      dispatch(clearCheckoutItem());
+      dispatch(deleteAllCart());
+      navigate('/complete-order'); //前往完成付款頁面
+    }
+  }, [successMsg, dispatch]);
+
   //提交結帳表單
-  const onSubmit = async () => {
+  const onSubmit = async (userInfo) => {
     if (!checkoutItem && carts.length < 1) return;
-    let recentItem;
+    let recentItems;
     if (isDirectPurchase && checkoutItem) {
-      recentItem = checkoutItem.map((item) => {
+      recentItems = checkoutItem.map((item) => {
         return {
           productId: item.productId,
           qty: item.qty,
@@ -58,7 +81,7 @@ const Checkout = () => {
         };
       });
     } else {
-      recentItem = carts.map((item) => {
+      recentItems = carts.map((item) => {
         return {
           productId: item.productId,
           qty: item.qty,
@@ -66,23 +89,51 @@ const Checkout = () => {
         };
       });
     }
-    const totalAmount = recentItem.reduce(
+    const totalAmount = recentItems.reduce(
       (acc, item) => acc + item.qty * item.price,
       0,
     );
-    try {
-      dispatch(
-        makePayment({
-          userId: 1,
-          recentItem,
-          totalAmount,
-        }),
-      );
-      dispatch(clearCheckoutItem());
-      // navigate('/complete-order') 前往完成付款頁面
-    } catch (error) {
-      console.error(error);
-    }
+
+    userInfo.isPaid = userInfo.paymentMethod === 'credit-card' ? true : false;
+    const dateFormat = new Date()
+    .toLocaleDateString('zh-TW', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    })
+    .replace(/\//g, '/')
+    axios
+      .get('/products?category=慈善')
+      .then(({ data }) => {
+        const CharityId = data.map((item) => item.id);
+        recentItems = recentItems.map((item) => {
+          if (CharityId.includes(item.productId)) {
+            return {
+              ...item,
+              isCharity: true,
+              charityContent: {
+                id: generateRandomID(),
+                price: item.price * item.qty,
+                donationDate: dateFormat,
+                paymentStatus: userInfo.isPaid,
+              },
+            };
+          }
+          return { ...item, isCharity: false };
+        });
+        dispatch(
+          makePayment({
+            userId: 1,
+            recentItems,
+            totalAmount,
+            useInfo: userInfo,
+            date: dateFormat,
+          }),
+        );
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   const formatExpiryDate = (value) => {
@@ -93,25 +144,25 @@ const Checkout = () => {
   };
 
   const handleExpiryDateChange = (e) => {
-    const formattedValue = formatExpiryDate(e.target.value);
-    setValue('validDate', formattedValue); // ✅ 手動更新表單值
-  };
-
-  const formatCardNumber = (value) => {
-    return value
-      .replace(/\D/g, '')
-      .replace(/(.{4})/g, '$1 ')
-      .trim();
+    const formattedValue = formatExpiryDate(e.target.value).slice(0, 5);
+    setTimeout(() => {
+      setValue('validDate', formattedValue);
+    }, 0);
   };
 
   const handleCardNumberChange = (e) => {
-    const formattedValue = formatCardNumber(e.target.value);
-    setValue('cardNumber', formattedValue);
+    let rawValue = e.target.value.replace(/\D/g, ''); // 移除非數字
+    rawValue = rawValue.slice(0, 16); // 限制最多 16 位數（信用卡號）
+
+    let formattedValue = rawValue.replace(/(\d{4})/g, '$1 ').trim(); // 每 4 位數加空格
+    setTimeout(() => {
+      setValue('cardNumber', formattedValue);
+    }, 0);
   };
 
   return (
     <div className="checkout">
-      {status === 'loading' && <Loading />}
+      {/* {status === 'loading' && <Loading type="spin" color="#D4A58E" />} */}
       <div className="container">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="col-12 col-md-7 order-info mb-8">
@@ -192,8 +243,10 @@ const Checkout = () => {
                   type="radio"
                   id="is_creditcard"
                   className="input-radio"
-                  {...register('paymentMethod', { required: '請選擇付款方式' })}
-                  value="creditcard"
+                  {...register('paymentMethod', {
+                    required: '請選擇付款方式',
+                  })}
+                  value="credit-card"
                 />
                 <label className="ms-5" htmlFor="is_creditcard">
                   信用卡付款
@@ -205,7 +258,9 @@ const Checkout = () => {
                   type="radio"
                   id="is_cash"
                   className="input-radio"
-                  {...register('paymentMethod', { required: '請選擇付款方式' })}
+                  {...register('paymentMethod', {
+                    required: '請選擇付款方式',
+                  })}
                   value="cash"
                 />
                 <label className="ms-5" htmlFor="is_cash">
@@ -275,8 +330,8 @@ const Checkout = () => {
                     required: '請輸入信用卡背面的安全碼（末三碼）',
                   })}
                 />
-                {errors.email && (
-                  <p style={{ color: 'red' }}>{errors.email.message}</p>
+                {errors.CVC && (
+                  <p style={{ color: 'red' }}>{errors.CVC.message}</p>
                 )}
               </div>
             </div>

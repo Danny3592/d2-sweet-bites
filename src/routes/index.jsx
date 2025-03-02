@@ -1,3 +1,4 @@
+
 import FrontLayout from "../pages/front/FrontLayout";
 import Home from "../pages/front/Home";
 import Cart from "../pages/front/Cart";
@@ -17,6 +18,7 @@ import UserLayout from "../pages/front/UserLayout";
 import UserFavorite from "../pages/front/UserFavorite";
 import NewsList from "../pages/front/NewsList";
 import NewsDetail from "../pages/front/NewsDetail";
+
 
 const routes = [
   {
@@ -63,6 +65,14 @@ const routes = [
           {
             path: "favorite",
             element: <UserFavorite />,
+          },
+          {
+            path: 'coupon',
+            element: <UserCoupons />,
+          },
+          {
+            path: 'charity',
+            element: <UserCharity />,
           },
         ],
       },
