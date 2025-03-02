@@ -106,7 +106,7 @@ export default function AdminUsers() {
               return (
                 <tr key={user.id}>
                   <td>{user.id}</td>
-                  <td>{user.username}</td>
+                  <td>{user.userName}</td>
                   <td className="px-5" width={400}>
                     {user.email}
                   </td>
