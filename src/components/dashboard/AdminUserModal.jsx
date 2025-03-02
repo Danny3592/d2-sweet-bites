@@ -11,18 +11,18 @@ export default function AdminUserModal({
   type,
 }) {
   const [userData, setUserData] = useState({
-    name: "", //使用者名稱
+    username: "", //使用者名稱
     email: "", //Email
-    role: "user", //權限
+    role: ["user"], //權限
     is_enabled: 1, //狀態,是否啟用
   });
 
   useEffect(() => {
     if (type === "create") {
       setUserData({
-        name: "",
+        username: "",
         email: "",
-        role: "user",
+        role: ["user"],
         is_enabled: 1,
       });
     } else if (type === "edit") {
@@ -88,7 +88,7 @@ export default function AdminUserModal({
                 type="text"
                 className="form-control"
                 name="name"
-                value={userData.name}
+                value={userData.username}
                 onChange={handleChange}
                 placeholder="請輸入使用者名稱"
               />
