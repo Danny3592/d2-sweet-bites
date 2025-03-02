@@ -7,7 +7,7 @@ import { getCartList, addCart, updateCart, deleteCart, deleteAllCart } from '../
 
 import continueshopping from "../../assets/images/icons/chevron-left.svg";
 import shoppingCartIcon from "../../assets/images/icons/shopping-cart.svg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function CartPage() {
   const navigate = useNavigate()
@@ -100,8 +100,8 @@ export default function CartPage() {
     }
   }
 
-  function handleCheckout(){
-    navigate('/checkout', { state: { type: 'carts' } });
+  function handleOrderCheck(){
+    navigate('/order-check', { state: { type: 'carts' } });
   }
 
 
@@ -118,8 +118,8 @@ export default function CartPage() {
         <div className="container">
           <div className="row">
             <div className="col-12">
-              <a
-                href="/product-list"
+              <Link
+                to="/product-list"
                 className="continue-shopping text-gray-600 text-decoration-none d-flex align-items-center my-4 my-md-19"
               >
                 <img
@@ -130,7 +130,7 @@ export default function CartPage() {
                   height="16"
                 />
                 繼續購物
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -314,7 +314,7 @@ export default function CartPage() {
                       className="btn btn-danger w-100 mt-3 custom-button"
                       type="button"
                       disabled={!carts.length}
-                      onClick={handleCheckout}
+                      onClick={handleOrderCheck}
                     >
                       確認訂單
                     </button>

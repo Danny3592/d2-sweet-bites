@@ -18,6 +18,9 @@
 @import "./components/card";
 @import "./components/pagination";
 
+@import './layout/header';
+@import './layout/footer';
+
 @import "./pages/home";
 @import "./pages/checkout";
 @import "./pages/cart";

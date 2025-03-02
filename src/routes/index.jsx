@@ -19,6 +19,8 @@ import UserLayout from "../pages/front/UserLayout";
 import UserCharity from "../pages/front/UserCharity";
 import UserFavorite from "../pages/front/UserFavorite";
 import UserProfile from "../pages/front/UserProfile";
+import OrderCheck from '../pages/front/OrderCheck';
+import OrderComplete from '../pages/front/OrderComplete';
 import NewsList from "../pages/front/NewsList";
 import NewsDetail from "../pages/front/NewsDetail";
 
@@ -44,6 +46,10 @@ const routes = [
             element: <Cart />,
           },
           {
+            path: 'order-check',
+            element: <OrderCheck />,
+          },
+          {
             path: "product-details/:productId",
             element: <ProductDetail />,
           },
@@ -59,6 +65,10 @@ const routes = [
             path: "news-detail/:id",
             element: <NewsDetail />,
           },
+          {
+            path: 'order-complete',
+            element: <OrderComplete />,
+          }
         ],
       },
       {
