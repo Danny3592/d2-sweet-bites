@@ -16,6 +16,7 @@ export default function UserLayout() {
         password: '123456',
       });
       const { accessToken } = res.data;
+      console.log(accessToken)
       document.cookie = `dessertToken=${accessToken}; max-age=86400;`;
     } catch (error) {
       console.log(error);

@@ -51,10 +51,10 @@ export default function UserProfile() {
         gender: user.gender,
         imageUrl: tempData.imageUrl ? tempData.imageUrl : user.imageUrl,
       };
-      if (isPasswordEdit && !tempData.password) {
+      if (isPasswordEdit && tempData.password) {
         data = {
           ...data,
-          password: tempData.imageUrl,
+          password: tempData.password,
         }
       }
       await axios.patch(`/600/users/${userId}`, data);
