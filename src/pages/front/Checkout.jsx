@@ -28,6 +28,7 @@ const Checkout = () => {
   const totalPrice = location.state?.totalPrice;
   const discount = location.state?.discount;
   const finalPrice = location.state?.finalPrice;
+  const [orderId, setOrderId] = useState("");
 
   //取得redux狀態
   const { checkoutItem, successMsg, errorMsg, loader } = useSelector(
@@ -69,7 +70,11 @@ const Checkout = () => {
     if (successMsg === 'make payment success') {
       dispatch(clearCheckoutItem());
       dispatch(deleteAllCart());
-      navigate('/order-complete'); //前往完成付款頁面
+      navigate('/order-complete',{
+        state: {
+          orderId: orderId,
+        }
+      }); //前往完成付款頁面
     }
   }, [successMsg, dispatch]);
 
@@ -127,11 +132,11 @@ const Checkout = () => {
           }
           return { ...item, isCharity: false };
         });
-
+        setOrderId(generateRandomID('order', dateFormat));
         dispatch(
           makePayment({
             userId: 1,
-            displayOrderId: generateRandomID('order', dateFormat),
+            displayOrderId: orderId,
             recentItems,
             totalAmount,
             userInfo: userInfo,
