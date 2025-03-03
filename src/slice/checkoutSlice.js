@@ -69,6 +69,10 @@ export const checkoutSlice = createSlice({
     clearCheckoutItem(state) {
       state.checkoutItem = [];
     },
+    clearMsg(state) {
+      state.successMsg = '';
+      state.errorMsg = '';
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -99,5 +103,5 @@ export const checkoutSlice = createSlice({
   },
 });
 
-export const { setCheckoutItem, clearCheckoutItem } = checkoutSlice.actions;
+export const { setCheckoutItem, clearCheckoutItem,clearMsg } = checkoutSlice.actions;
 export default checkoutSlice.reducer;
