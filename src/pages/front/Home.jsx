@@ -276,7 +276,7 @@ export default function Home() {
             />
           </div>
         </div>
-        <ul className="index-charity-plans d-flex flex-column flex-md-row pt-md-24 list-unstyled px-0">
+        <ul className="index-charity-plans d-flex flex-column flex-md-row justify-content-center pt-md-24 list-unstyled px-0">
           <li className="index-charity-plan position-relative mt-12 mt-md-0 mb-2 mb-md-0 me-md-2">
             <Link to='/charity/甜蜜助學計畫'>
               <img

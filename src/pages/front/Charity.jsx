@@ -5,7 +5,7 @@ import charityPlanTrees from '../../assets/images/index-charity/donation03_trees
 import charitySchoolIcon from '../../assets/images/index-charity/school.png';
 import charityDogIcon from '../../assets/images/index-charity/dog.png';
 import charityPlantIcon from '../../assets/images/index-charity/plant.png';
-import userDefault from '../../assets/images/layout/user-circle-black.png';
+import userDefault from '../../assets/images/layout/user-circle.svg';
 import { Link } from 'react-router-dom';
 
 export default function Charity() {
