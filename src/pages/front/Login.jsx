@@ -37,7 +37,7 @@ export default function Login() {
       const res = await axios.post('/login', data);
       const { accessToken, user } = res.data;
       const userInfo = {
-        name: user.userName,
+        userName: user.userName,
         imageUrl: user?.imageUrl,
         id: user.id,
         email: user.email
