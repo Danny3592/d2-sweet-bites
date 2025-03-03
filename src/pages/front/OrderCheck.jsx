@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { alertError } from '../../../util/sweetAlert';
 import Loading from '../../components/Loading';
@@ -14,6 +14,7 @@ export default function OrderCheck() {
   const [couponCode, setCouponCode] = useState(''); // 優惠券輸入
   const [discount, setDiscount] = useState(0); // 優惠折扣
   const [error, setError] = useState(''); // 優惠券錯誤訊息
+  const userInfo = useRef({});
   const carts = useSelector((state) => {
     return state.cart.carts;
   });
@@ -23,27 +24,17 @@ export default function OrderCheck() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getCartList());
+    userInfo.current = JSON.parse(localStorage.getItem('userInfo'));
+    if (userInfo.current?.id) {
+      dispatch(getCartList(userInfo.current.id));
+    }
 
     const token = document.cookie
       .split('; ')
       .find((row) => row.startsWith('dessertToken='))
       ?.split('=')[1];
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-  }, []);
-
-  const login = async () => {
-    try {
-      const res = await axios.post('/login', {
-        email: 'Shin@gmail.com',
-        password: '654321',
-      });
-      const { accessToken } = res.data;
-      document.cookie = `dessertToken=${accessToken}; max-age=86400;`;
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  }, [])
 
   const applyCoupon = async () => {
     setError(''); // 清除錯誤訊息
@@ -90,11 +81,6 @@ export default function OrderCheck() {
     <>
       {cartStatus === 'loading' && <Loading type="spin" color="#D4A58E" />}
       <div className="cart-page pb-md-33 pb-18">
-        <div className="d-flex justify-content-center">
-          <button type="button" onClick={login}>
-            登入
-          </button>
-        </div>
         <div className="container">
           <div className="row">
             <div className="col-12">

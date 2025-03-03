@@ -25,6 +25,8 @@ import OrderComplete from "../pages/front/OrderComplete";
 import NewsList from "../pages/front/NewsList";
 import NewsDetail from "../pages/front/NewsDetail";
 import AdminOrder from './../pages/dashboard/AdminOrder';
+import Login from '../pages/front/Login';
+import Register from '../pages/front/Register';
 
 const routes = [
   {
@@ -69,6 +71,14 @@ const routes = [
           {
             path: "order-complete",
             element: <OrderComplete />,
+          },
+          {
+            path: 'login',
+            element: <Login />,
+          },
+          {
+            path: 'register',
+            element: <Register />,
           },
         ],
       },

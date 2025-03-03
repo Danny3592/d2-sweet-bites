@@ -11,10 +11,10 @@ import { Offcanvas } from 'bootstrap';
 import { useLocation, NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCartList } from '../slice/cartSlice';
-import axios from 'axios';
 
 export default function TheHeader() {
   const location = useLocation();
+  const userData = useRef({});
   const isHome = location.pathname === '/'; // 判斷是否為首頁
   const [backgroundColor, setBackgroundColor] = useState(
     isHome ? 'transparent' : '#000000A8'
@@ -36,6 +36,7 @@ export default function TheHeader() {
   }, [isHome]);
 
   const headerOffcanvasRef = useRef(null);
+  const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
 
   useEffect(() => {
     new Offcanvas(headerOffcanvasRef.current);
@@ -44,26 +45,32 @@ export default function TheHeader() {
   const openOffcanvas = () => {
     const offcanvasInstance = Offcanvas.getInstance(headerOffcanvasRef.current);
     offcanvasInstance.show();
+    setIsOffcanvasOpen(true);
   };
 
   const closeOffcanvas = () => {
     const offcanvasInstance = Offcanvas.getInstance(headerOffcanvasRef.current);
     offcanvasInstance.hide();
+    setIsOffcanvasOpen(false);
+  };
+
+  const handleNavLinkClick = () => {
+    if (isOffcanvasOpen) closeOffcanvas();
   };
 
   const carts = useSelector((state) => state.cart.carts);
 
   const dispatch = useDispatch();
+  //取得登入狀態與資料
+  const {isLogin, userInfo} = useSelector((state) => state.auth)
 
+  //取得購物車資料
   useEffect(() => {
-    dispatch(getCartList());
-
-    const token = document.cookie
-      .split('; ')
-      .find((row) => row.startsWith('dessertToken='))
-      ?.split('=')[1];
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-  }, []);
+    userData.current = JSON.parse(localStorage.getItem('userInfo'));
+    if (userData.current) {
+      dispatch(getCartList(userData.current.id));
+    }
+  }, [userData.current]);
 
   return (
     <nav
@@ -81,10 +88,21 @@ export default function TheHeader() {
           </picture>
         </NavLink>
         <div className="d-flex align-items-center">
-          <NavLink to="user" className="d-lg-none py-2 px-3">
-            <img src={userBtn} alt="user-button" />
-          </NavLink>
-          <NavLink to="cart" className="position-relative d-lg-none py-2 px-3">
+          {isLogin && userInfo ? (
+            <NavLink to="/user" className="d-lg-none py-2 px-3">
+              <img
+                src={userInfo.imageUrl || userBtn}
+                className="rounded-circle object-fit-cover"
+                style={{ width: 32, height: 32 }}
+                alt="user-button"
+              />
+            </NavLink>
+          ) : (
+            <NavLink to="/login" className="d-lg-none py-2 px-3">
+              <img src={userBtn} alt="user-button" />
+            </NavLink>
+          )}
+          <NavLink to="/cart" className="position-relative d-lg-none py-2 px-3">
             <img src={cartBtn} alt="cart-button" />
             <span
               className="position-absolute badge text-bg-danger rounded-circle"
@@ -111,7 +129,11 @@ export default function TheHeader() {
           id="offcanvasNavbar"
         >
           <div className="offcanvas-header border-bottom border-1 border-gray-400 p-3">
-            <NavLink className="navbar-brand" to="/">
+            <NavLink
+              onClick={handleNavLinkClick}
+              className="navbar-brand"
+              to="/"
+            >
               <img src={smallBrownLogoImg} alt="logo" />
             </NavLink>
             <button
@@ -124,45 +146,85 @@ export default function TheHeader() {
             <div className="d-flex flex-column flex-lg-row h-100">
               <ul className="navbar-nav align-items-center mt-12 mt-lg-0 ms-lg-auto me-lg-12 mb-auto mb-lg-0">
                 <li className="nav-item mb-10 mb-lg-0 me-lg-10">
-                  <NavLink className="nav-link" to="product-list">
+                  <NavLink
+                    onClick={handleNavLinkClick}
+                    className="nav-link"
+                    to="/product-list"
+                  >
                     甜點專區
                   </NavLink>
                 </li>
                 <li className="nav-item mb-10 mb-lg-0 me-lg-10">
-                  <NavLink className="nav-link" to="news-list">
+                  <NavLink
+                    onClick={handleNavLinkClick}
+                    className="nav-link"
+                    to="/news-list"
+                  >
                     最新消息
                   </NavLink>
                 </li>
                 <li className="nav-item mb-10 mb-lg-0">
-                  <NavLink className="nav-link" to="charity-plan">
+                  <NavLink
+                    onClick={handleNavLinkClick}
+                    className="nav-link"
+                    to="/charity-plan"
+                  >
                     公益方案
                   </NavLink>
                 </li>
                 <li className="nav-item d-lg-none">
-                  <NavLink className="nav-link" to="user">
+                  <NavLink
+                    onClick={handleNavLinkClick}
+                    className="nav-link"
+                    to="/user"
+                  >
                     會員專區
                   </NavLink>
                 </li>
               </ul>
               <div className="d-flex align-items-center nav-icons">
+                {isLogin && userInfo ? (
+                  <NavLink
+                    to="/user"
+                    className={`${
+                      isOffcanvasOpen ? 'd-none' : ''
+                    } member-link d-flex align-items-center mx-auto py-lg-2 py-6 px-lg-3 ms-lg-0 me-lg-6`}
+                  >
+                    <img
+                      src={userInfo.imageUrl || userBtn}
+                      className="d-none d-lg-block me-2 rounded-circle object-fit-cover"
+                      alt="user-avatar"
+                      style={{ width: 32, height: 32 }}
+                    />
+                    <img
+                      src={userInfo.imageUrl || userBtnBlack}
+                      className="d-block d-lg-none me-2 rounded-circle object-fit-cover"
+                      alt="user-avatar"
+                      style={{ width: 32, height: 32 }}
+                    />
+                    <p>{userInfo.userName}</p>
+                  </NavLink>
+                ) : (
+                  <NavLink
+                    onClick={handleNavLinkClick}
+                    to="/login"
+                    className="member-link d-flex align-items-center mx-auto py-lg-2 py-6 px-lg-3 ms-lg-0 me-lg-6"
+                  >
+                    <img
+                      src={userBtn}
+                      className="d-none d-lg-block me-2"
+                      alt="user-button"
+                    />
+                    <img
+                      src={userBtnBlack}
+                      className="d-block d-lg-none me-2"
+                      alt="user-button"
+                    />
+                    <p>登入會員</p>
+                  </NavLink>
+                )}
                 <NavLink
-                  to="login"
-                  className="member-link d-flex align-items-center mx-auto py-lg-2 py-6 px-lg-3 ms-lg-0 me-lg-6"
-                >
-                  <img
-                    src={userBtn}
-                    className="d-none d-lg-block me-2"
-                    alt="user-button"
-                  />
-                  <img
-                    src={userBtnBlack}
-                    className="d-block d-lg-none me-2"
-                    alt="user-button"
-                  />
-                  <p>登入會員</p>
-                </NavLink>
-                <NavLink
-                  to="cart"
+                  to="/cart"
                   className="d-none position-relative d-lg-flex py-2 px-3"
                 >
                   <img src={cartBtn} alt="cart-button" />
