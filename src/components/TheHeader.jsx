@@ -70,7 +70,7 @@ export default function TheHeader() {
     if (userData.current) {
       dispatch(getCartList(userData.current.id));
     }
-  }, [userData.current]);
+  }, [userData.current, location.pathname]);
 
   return (
     <nav
