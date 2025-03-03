@@ -26,6 +26,8 @@ export default function CartPage() {
     userInfo.current = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo.current?.id) {
       dispatch(getCartList(userInfo.current.id));
+    } else {
+      navigate('/register')
     }
     getCharityProducts();
 
