@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 
 //Redux action
@@ -20,6 +20,7 @@ const Checkout = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const userInfo = useRef({});
 
   //判斷是否是從"直接購買"進入
   const isDirectPurchase = location.state?.type === 'direct';
@@ -57,9 +58,13 @@ const Checkout = () => {
 
   //取得購物車資訊 & 卻保有商品可以結帳
   useEffect(() => {
-    if (!isDirectPurchase && carts.length === 0) {
-      dispatch(getCartList());
+    userInfo.current = JSON.parse(localStorage.getItem('userInfo'));
+    if (userInfo.current?.id) {
+      if (!isDirectPurchase && carts.length === 0) {
+        dispatch(getCartList(userInfo.current.id));
+      }
     }
+    
     if (checkoutItem.length < 1 && (isDirectPurchase || carts.length < 1)) {
       navigate('/cart');
     }
