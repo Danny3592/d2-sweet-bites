@@ -45,8 +45,9 @@ export const cartSlice = createSlice({
 export const getCartList = createAsyncThunk(
   'cart/getCartList',
   async (payload, { dispatch }) => {
+    console.log(payload)
     try {
-      const res = await axios.get('/users/1/carts?_expand=product');
+      const res = await axios.get(`/users/${payload}/carts?_expand=product`);
       dispatch(setCarts(res.data));
     } catch (error) {
       alertError(error);
@@ -57,9 +58,9 @@ export const getCartList = createAsyncThunk(
 // 加入購物車
 export const addCart = createAsyncThunk(
   'cart/addCart',
-  async (payload, { dispatch }) => {
+  async ({ userId, cart }, { dispatch }) => {
     try {
-      await axios.post('/600/users/1/carts', payload);
+      await axios.post(`/600/users/${userId}/carts`, cart);
     } catch (error) {
       alertError(error);
     }

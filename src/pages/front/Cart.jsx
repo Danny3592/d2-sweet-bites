@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { alertError, alertDeleteConfirm } from "../../../util/sweetAlert";
 import Loading from "../../components/Loading";
@@ -13,6 +13,7 @@ export default function CartPage() {
   const navigate = useNavigate()
   const [charityProducts, setCharityProducts] = useState([]); //慈善商品
   const [isLoading, setIsLoading] = useState(false);
+  const userInfo = useRef({});
   const carts = useSelector((state) => {
     return state.cart.carts;
   });
@@ -22,7 +23,10 @@ export default function CartPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getCartList());
+    userInfo.current = JSON.parse(localStorage.getItem('userInfo'));
+    if (userInfo.current?.id) {
+      dispatch(getCartList(userInfo.current.id));
+    }
     getCharityProducts();
 
     const token = document.cookie
@@ -30,7 +34,7 @@ export default function CartPage() {
     .find(row => row.startsWith('dessertToken='))
     ?.split('=')[1];
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-  }, []);
+  }, [userInfo.current]);
 
   //取得所有慈善商品
   const getCharityProducts = async () => {
@@ -51,11 +55,18 @@ export default function CartPage() {
     const cart = carts.find(cart => cart.productId === productId);
     if (cart) {
       qty += cart.qty;
-      await dispatch(updateCart({ cartId: cart.id, productId, qty }))
+      await dispatch(updateCart({
+        cartId: cart.id,
+        productId,
+        qty,
+      }))
     } else {
-      await dispatch(addCart({ productId, qty: 1 }));
+      await dispatch(addCart({
+        userId: userInfo.current.id,
+        cart: { productId, qty: 1 }
+      }));
     }
-    await dispatch(getCartList());
+    await dispatch(getCartList(userInfo.current.id));
   }
 
   // 更新購物車
@@ -66,7 +77,7 @@ export default function CartPage() {
     } else if (type === 'minus') {
       await dispatch(updateCart({ cartId, productId: cart.product.id, qty: cart.qty - 1 }));
     }
-    await dispatch(getCartList());
+    await dispatch(getCartList(userInfo.current.id));
   }
 
   // 刪除購物車
@@ -75,7 +86,7 @@ export default function CartPage() {
     if (res.isConfirmed) {
       await dispatch(deleteCart(cartId));
     }
-    await dispatch(getCartList());
+    await dispatch(getCartList(userInfo.current.id));
   }
 
   // 刪除全部購物車
@@ -84,20 +95,7 @@ export default function CartPage() {
     if (res.isConfirmed) {
       await dispatch(deleteAllCart());
     }
-    await dispatch(getCartList());
-  }
-
-  const login = async () => {
-    try {
-      const res = await axios.post('/login', {
-        email: 'Shin@gmail.com',
-        password: '123456',
-      });
-      const { accessToken } = res.data;
-      document.cookie = `dessertToken=${accessToken}; max-age=86400;`;
-    } catch (error) {
-      console.log(error);
-    }
+    await dispatch(getCartList(userInfo.current.id));
   }
 
   function handleOrderCheck(){
@@ -109,12 +107,6 @@ export default function CartPage() {
     <>
       { cartStatus === 'loading' && (<Loading type="spin" color="#D4A58E"/>)  }
       <div className="cart-page pb-md-33 pb-18">
-        <div className="d-flex justify-content-center">
-          <button type="button"
-            onClick={login}>
-            登入
-          </button>
-        </div>
         <div className="container">
           <div className="row">
             <div className="col-12">
