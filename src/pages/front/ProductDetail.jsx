@@ -36,6 +36,7 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { productId } = useParams();
+  const userInfo = useRef({});
 
   // Redux 狀態
   const { status: cartStatus, carts } = useSelector((state) => state.cart);
@@ -76,8 +77,10 @@ const ProductDetail = () => {
    * ===================== */
   useEffect(() => {
     // 登入 + 取得購物車 + 取得收藏
-    login();
-    dispatch(getCartList());
+    userInfo.current = JSON.parse(localStorage.getItem('userInfo'));
+    if (userInfo.current?.id) {
+      dispatch(getCartList(userInfo.current.id));
+    }
     dispatch(getFavorites(USER_ID));
 
     // 從 Cookie 抓 token 後統一設置 axios header
@@ -181,7 +184,7 @@ const ProductDetail = () => {
   const updateCartItem = async (cartId, productId, newQty) => {
     if (newQty < 1) return; // 防止數量小於 1
     await dispatch(updateCart({ cartId, productId, qty: newQty }));
-    dispatch(getCartList());
+    dispatch(getCartList(userInfo.current.id));;
   };
 
   const addCartItem = useCallback(
@@ -209,7 +212,7 @@ const ProductDetail = () => {
               imageUrl: product.imageUrl,
             }),
           );
-          dispatch(getCartList());
+          dispatch(getCartList(userInfo.current.id));
         }
       } catch (error) {
         console.error(error);
