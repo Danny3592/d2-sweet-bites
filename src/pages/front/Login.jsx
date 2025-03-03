@@ -37,8 +37,10 @@ export default function Login() {
       const res = await axios.post('/login', data);
       const { accessToken, user } = res.data;
       const userInfo = {
-        name: user.name,
+        name: user.userName,
         imageUrl: user?.imageUrl,
+        id: user.id,
+        email: user.email
       };
       localStorage.setItem('userInfo', JSON.stringify(userInfo));
       document.cookie = `dessertToken=${accessToken}; max-age=86400;`;
