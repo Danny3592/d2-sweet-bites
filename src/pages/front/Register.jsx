@@ -135,18 +135,18 @@ export default function Register() {
             </div>
 
             <div className="mb-3">
-              <label htmlFor="name" className="form-label">
+              <label htmlFor="userName" className="form-label">
                 使用者名稱
               </label>
               <input
-                {...register('name', {
+                {...register('userName', {
                   required: '使用者名稱欄位必填',
                   minLength: {
                     value: 2,
                     message: '使用者名稱至少需要 2 個字元',
                   },
                 })}
-                id="name"
+                id="userName"
                 type="text"
                 className={`form-control ${errors.name ? 'is-invalid' : ''}`}
                 placeholder="請輸入用戶名"

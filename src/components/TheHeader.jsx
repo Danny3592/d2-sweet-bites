@@ -14,6 +14,7 @@ import { getCartList } from '../slice/cartSlice';
 
 export default function TheHeader() {
   const location = useLocation();
+  const userData = useRef({});
   const isHome = location.pathname === '/'; // 判斷是否為首頁
   const [backgroundColor, setBackgroundColor] = useState(
     isHome ? 'transparent' : '#000000A8'
@@ -65,8 +66,11 @@ export default function TheHeader() {
 
   //取得購物車資料
   useEffect(() => {
-    dispatch(getCartList());
-  }, []);
+    userData.current = JSON.parse(localStorage.getItem('userInfo'));
+    if (userData.current) {
+      dispatch(getCartList(userData.current.id));
+    }
+  }, [userData.current]);
 
   return (
     <nav
@@ -198,7 +202,7 @@ export default function TheHeader() {
                       alt="user-avatar"
                       style={{ width: 32, height: 32 }}
                     />
-                    <p>{userInfo.name}</p>
+                    <p>{userInfo.userName}</p>
                   </NavLink>
                 ) : (
                   <NavLink
