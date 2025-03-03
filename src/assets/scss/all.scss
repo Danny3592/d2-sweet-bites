@@ -18,8 +18,8 @@
 @import "./components/card";
 @import "./components/pagination";
 
-@import './layout/header';
-@import './layout/footer';
+@import "./layout/header";
+@import "./layout/footer";
 
 @import "./pages/home";
 @import "./pages/checkout";
@@ -31,5 +31,7 @@
 @import "./pages/admin/admin-login";
 @import "./pages/admin/admin-register";
 @import "./pages/admin/admin-products";
+@import "./pages/admin/admin-users";
 @import "./components/admin-layout";
+@import "./pages/user/coupon";
 @import "./vendor/sweet-alert";

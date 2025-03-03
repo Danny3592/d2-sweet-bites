@@ -65,6 +65,29 @@
   background-color: #fcf7f6;
   padding: 0;
   margin: 0;
+
+  .charity-item {
+    transition: all 0.5s;
+  }
+  .charity-item:hover {
+    background: #f3f4f5;
+  }
+  .similar-item-box{
+    overflow: hidden;
+    width: 100%;
+
+  }
+  .similar-item {
+    img{
+      transition: all 0.5s;
+    }
+
+  }
+  .similar-item:hover {
+    img {
+      transform: scale(1.2);
+    }
+  }
   .arrow {
     cursor: pointer;
     width: 36px;
@@ -137,7 +160,6 @@
     @media (max-width: 450px) {
       gap: 0px;
     }
-
   }
 
   .swiper-slide {
@@ -151,7 +173,6 @@
         height: 250px;
       }
     }
-
   }
 
   .similar-products-imgs {
@@ -190,6 +211,7 @@
   }
 
   .btn-action {
+    transition: all 0.5s;
     &-1,
     &-2 {
       background: transparent;
@@ -201,6 +223,12 @@
       flex-grow: 1;
     }
     &-3 {
+      background: #bf0e46;
+      color: #fff;
+    }
+
+    &-1:hover,
+    &-2:hover {
       background: #bf0e46;
       color: #fff;
     }
