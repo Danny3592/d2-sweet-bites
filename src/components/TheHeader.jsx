@@ -170,7 +170,7 @@ export default function TheHeader() {
                   <NavLink
                     onClick={handleNavLinkClick}
                     className="nav-link"
-                    to="/charity-plan"
+                    to="/charity"
                   >
                     公益方案
                   </NavLink>
