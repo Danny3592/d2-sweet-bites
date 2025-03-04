@@ -38,18 +38,26 @@ export default function Home() {
                 讓每一份甜點，成為傳遞幸福的橋樑 ——— 幸福，也可以共享
               </h4>
               <div className="mt-18 mt-8 btn-container">
-                <button className="btn btn--main bg-primary-600 me-sm-5 px-sm-11">
-                  開啟幸福之旅
-                  <img
-                    src={buttonIconWhite}
-                    alt="buttonIconWhie"
-                    className="ms-4 btn--main-img"
-                  />
-                </button>
-                <button className="btn  btn--sub border border-primary px-sm-11 ">
-                  一起改變世界
-                  <img src={buttonIconWhite} alt="buttonIconWhie" className='btn--sub-img' />
-                </button>
+                <Link to="/product-list">
+                  <button className="btn btn--main bg-primary-600 me-sm-5 px-sm-11">
+                    開啟幸福之旅
+                    <img
+                      src={buttonIconWhite}
+                      alt="buttonIconWhie"
+                      className="ms-4 btn--main-img"
+                    />
+                  </button>
+                </Link>
+                <Link to="/product-list">
+                  <button className="btn  btn--sub border border-primary px-sm-11 ">
+                    一起改變世界
+                    <img
+                      src={buttonIconWhite}
+                      alt="buttonIconWhie"
+                      className="btn--sub-img"
+                    />
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -278,7 +286,7 @@ export default function Home() {
         </div>
         <ul className="index-charity-plans d-flex flex-column flex-md-row justify-content-center pt-md-24 list-unstyled px-0">
           <li className="index-charity-plan position-relative mt-12 mt-md-0 mb-2 mb-md-0 me-md-2">
-            <Link to='/charity/甜蜜助學計畫'>
+            <Link to="/charity/甜蜜助學計畫">
               <img
                 className="w-100 h-100 object-fit-cover"
                 src={charityPlanKid}
@@ -292,7 +300,7 @@ export default function Home() {
             </Link>
           </li>
           <li className="index-charity-plan position-relative mb-2 mb-md-0 me-md-2">
-            <Link to='/charity/幸福愛寵行動'>
+            <Link to="/charity/幸福愛寵行動">
               <img
                 className="w-100 h-100 object-fit-cover"
                 src={charityPlanPet}
@@ -306,7 +314,7 @@ export default function Home() {
             </Link>
           </li>
           <li className="index-charity-plan position-relative">
-            <Link to='/charity/綠色希望專案'>
+            <Link to="/charity/綠色希望專案">
               <img
                 className="w-100 h-100 object-fit-cover"
                 src={charityPlanTrees}
