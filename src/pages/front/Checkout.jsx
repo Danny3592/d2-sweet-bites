@@ -20,7 +20,7 @@ const Checkout = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userInfo = useRef({});
+  const userInfoId = useRef({});
 
   //判斷是否是從"直接購買"進入
   const isDirectPurchase = location.state?.type === 'direct';
@@ -29,12 +29,10 @@ const Checkout = () => {
   const totalPrice = location.state?.totalPrice;
   const discount = location.state?.discount;
   const finalPrice = location.state?.finalPrice;
-  const [orderId, setOrderId] = useState("");
+  const [orderId, setOrderId] = useState('');
 
   //取得redux狀態
-  const { checkoutItem, successMsg, errorMsg, loader } = useSelector(
-    (state) => state.checkout,
-  );
+  const { checkoutItem, successMsg } = useSelector((state) => state.checkout);
   const carts = useSelector((state) => state.cart.carts);
 
   //表單管理
@@ -45,6 +43,18 @@ const Checkout = () => {
     watch,
     formState: { errors },
   } = useForm();
+
+  const paymentMethod = watch('paymentMethod'); // 監聽付款方式
+
+  useEffect(() => {
+    if (paymentMethod !== 'creditcard') {
+      // 當付款方式不是信用卡時，清空信用卡相關欄位
+      setValue('cardNumber', '');
+      setValue('validDate', '');
+      setValue('CVC', '');
+    }
+  }, [paymentMethod, setValue]);
+
   let token;
   useEffect(() => {
     if (!token) {
@@ -58,13 +68,13 @@ const Checkout = () => {
 
   //取得購物車資訊 & 卻保有商品可以結帳
   useEffect(() => {
-    userInfo.current = JSON.parse(localStorage.getItem('userInfo'));
-    if (userInfo.current?.id) {
+    userInfoId.current = JSON.parse(localStorage.getItem('userInfo'));
+    if (userInfoId.current?.id) {      
       if (!isDirectPurchase && carts.length === 0) {
-        dispatch(getCartList(userInfo.current.id));
+        dispatch(getCartList(userInfoId.current.id));
       }
     }
-    
+
     if (checkoutItem.length < 1 && (isDirectPurchase || carts.length < 1)) {
       navigate('/cart');
     }
@@ -75,12 +85,12 @@ const Checkout = () => {
     if (successMsg === 'make payment success') {
       dispatch(clearCheckoutItem());
       dispatch(deleteAllCart());
-      dispatch(getCartList(userInfo.current?.id)); // 重新獲取購物車數據
+      dispatch(getCartList(userInfoId.current?.id)); // 重新獲取購物車數據
       dispatch(clearMsg())
       navigate('/order-complete',{
         state: {
           orderId: orderId,
-        }
+        },
       }); //前往完成付款頁面
     }
   }, [successMsg, dispatch]);
@@ -140,9 +150,10 @@ const Checkout = () => {
           return { ...item, isCharity: false };
         });
         setOrderId(generateRandomID('order', dateFormat));
+        
         dispatch(
           makePayment({
-            userId: 1,
+            userId: userInfoId.current.id,
             displayOrderId: orderId,
             recentItems,
             totalAmount,
@@ -308,74 +319,89 @@ const Checkout = () => {
                   </div>
                 </div>
 
-                <div className="d-flex gap-3">
-                  <div className="d-flex flex-column mb-6 card-number">
-                    <label className="mb-5" htmlFor="card-number">
-                      信用卡卡號
-                    </label>
-                    <input
-                      className="input py-3 ps-3 "
-                      id="card-number"
-                      type="text"
-                      placeholder="0000 0000 0000 0000"
-                      {...register('cardNumber', {
-                        required: '請輸入有效的信用卡卡號',
-                      })}
-                      value={watch('cardNumber', '')}
-                      onChange={handleCardNumberChange}
-                      maxLength="19"
-                    />
-                    {errors.cardNumber && (
-                      <p style={{ color: 'red' }}>
-                        {errors.cardNumber.message}
-                      </p>
-                    )}
-                  </div>
+                {paymentMethod === 'creditcard' && (
+                   
+                    <div className="d-flex gap-3">
+                      <div className="d-flex flex-column mb-6 card-number">
+                        <label className="mb-5" htmlFor="card-number">
+                          信用卡卡號
+                        </label>
+                        <input
+                          className="input py-3 ps-3 "
+                          id="card-number"
+                          type="text"
+                          placeholder="0000 0000 0000 0000"
+                          {...register('cardNumber', {
+                            required:
+                              paymentMethod === 'creditcard'
+                                ? '請輸入有效的信用卡卡號'
+                                : false,
+                          })}
+                          value={watch('cardNumber', '')}
+                          onChange={handleCardNumberChange}
+                          maxLength="19"
+                        />
+                        {errors.cardNumber && (
+                          <p style={{ color: 'red' }}>
+                            {errors.cardNumber.message}
+                          </p>
+                        )}
+                      </div>
 
-                  <div className="d-flex flex-column mb-6 valid-date">
-                    <label className="mb-5" htmlFor="valid-date">
-                      有效期限（月/年）
-                    </label>
-                    <input
-                      className="input py-3 ps-3"
-                      id="valid-date"
-                      type="text"
-                      placeholder="MM/YY"
-                      {...register('validDate', {
-                        required: '請輸入信用卡的有效期限',
-                        pattern: {
-                          value: /^(0[1-9]|1[0-2])\/\d{2}$/,
-                          message: '格式錯誤，請輸入 MM/YY，例如 04/25',
-                        },
-                      })}
-                      value={watch('validDate', '')}
-                      onChange={handleExpiryDateChange}
-                      maxLength="5"
-                    />
-                    {errors.validDate && (
-                      <p style={{ color: 'red' }}>{errors.validDate.message}</p>
-                    )}
-                  </div>
+                      <div className="d-flex flex-column mb-6 valid-date">
+                        <label className="mb-5" htmlFor="valid-date">
+                          有效期限（月/年）
+                        </label>
+                        <input
+                          className="input py-3 ps-3"
+                          id="valid-date"
+                          type="text"
+                          placeholder="MM/YY"
+                          {...register('validDate', {
+                            required:
+                              paymentMethod === 'creditcard'
+                                ? '請輸入信用卡的有效期限'
+                                : false,
+                            pattern: {
+                              value: /^(0[1-9]|1[0-2])\/\d{2}$/,
+                              message: '格式錯誤，請輸入 MM/YY，例如 04/25',
+                            },
+                          })}
+                          value={watch('validDate', '')}
+                          onChange={handleExpiryDateChange}
+                          maxLength="5"
+                        />
+                        {errors.validDate && (
+                          <p style={{ color: 'red' }}>
+                            {errors.validDate.message}
+                          </p>
+                        )}
+                      </div>
 
-                  <div className="d-flex flex-column mb-6 CVC">
-                    <label className="mb-5" htmlFor="CVC">
-                      背面末3碼
-                    </label>
-                    <input
-                      maxLength="3"
-                      className="input py-3 ps-3"
-                      id="CVC"
-                      type="text"
-                      placeholder="CVC"
-                      {...register('CVC', {
-                        required: '請輸入信用卡背面的安全碼（末三碼）',
-                      })}
-                    />
-                    {errors.email && (
-                      <p style={{ color: 'red' }}>{errors.email.message}</p>
-                    )}
-                  </div>
-                </div>
+                      <div className="d-flex flex-column mb-6 CVC">
+                        <label className="mb-5" htmlFor="CVC">
+                          背面末3碼
+                        </label>
+                        <input
+                          maxLength="3"
+                          className="input py-3 ps-3"
+                          id="CVC"
+                          type="text"
+                          placeholder="CVC"
+                          {...register('CVC', {
+                            required:
+                              paymentMethod === 'creditcard'
+                                ? '請輸入信用卡背面的安全碼（末三碼）'
+                                : false,
+                          })}
+                        />
+                        {errors.CVC && (
+                          <p style={{ color: 'red' }}>{errors.CVC.message}</p>
+                        )}
+                      </div>
+                    </div>
+                
+                )}
               </div>
 
               <div className="col-6 mb-6">

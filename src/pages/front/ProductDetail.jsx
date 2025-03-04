@@ -48,9 +48,6 @@ const ProductDetail = () => {
     (state) => state.favorite,
   );
 
-  // 取得 userId（此處 Demo：沒有則預設 1）
-  const USER_ID = localStorage.getItem('userId') || 1;
-
   // 商品 & 慈善 & 相似商品
   const [productDetails, setProductDetails] = useState({});
   const [charityProducts, setCharityProducts] = useState([]);
@@ -81,12 +78,14 @@ const ProductDetail = () => {
    * ===================== */
   useEffect(() => {
     // 登入 + 取得購物車 + 取得收藏
+
     userInfo.current = JSON.parse(localStorage.getItem('userInfo'));
-    if (userInfo.current?.id) {
-      dispatch(getCartList(userInfo.current.id));
-      dispatch(getFavorites(userInfo.current.id));
+
+    if (userInfo?.current?.id) {
+      dispatch(getCartList(userInfo?.current?.id));
+      dispatch(getFavorites(userInfo?.current?.id));
     }
-    
+
     // 從 Cookie 抓 token 後統一設置 axios header
     const token = document.cookie
       .split('; ')
@@ -126,7 +125,7 @@ const ProductDetail = () => {
         alertError('取得商品資料失敗');
       })
       .finally(() => setIsLoading(false));
-  }, [USER_ID, productId, dispatch]);
+  }, [productId, dispatch]);
 
   /* =====================
    *  每當收藏或商品更新時，判斷當前商品是否在收藏清單內
@@ -187,7 +186,7 @@ const ProductDetail = () => {
   const updateCartItem = async (cartId, productId, newQty) => {
     if (newQty < 1) return; // 防止數量小於 1
     await dispatch(updateCart({ cartId, productId, qty: newQty }));
-    dispatch(getCartList(userInfo.current.id));;
+    dispatch(getCartList(userInfo.current.id));
   };
 
   const addCartItem = useCallback(
@@ -211,8 +210,11 @@ const ProductDetail = () => {
               userId: userInfo.current.id,
               cart: {
                 productId: product.id,
-                qty: newQty
-              }
+                title: product.title,
+                price: product.price,
+                qty: newQty,
+                imageUrl: product.imageUrl,
+              },
             }),
           );
           dispatch(getCartList(userInfo.current.id));
@@ -290,7 +292,11 @@ const ProductDetail = () => {
    *  收藏 / 移除收藏
    * ===================== */
   const handleToggleFavorite = async (id) => {
-    const obj = { userId: USER_ID, productId: id };
+    if (!userInfo?.current?.id) {
+      navigate('/login');
+    }
+
+    const obj = { userId: userInfo.current.id, productId: id };
     const existItem = favorites.find((item) => item.productId === id);
 
     try {
@@ -303,7 +309,7 @@ const ProductDetail = () => {
         setIsFavorite(true);
         setNotification('商品已保存至您的收藏清單');
       }
-      dispatch(getFavorites(USER_ID));
+      dispatch(getFavorites(userInfo.current.id));
     } catch (error) {
       console.error(error);
       alertError('操作收藏清單失敗');
@@ -606,7 +612,7 @@ const ProductDetail = () => {
                           style={{ cursor: 'pointer', color: 'black' }}
                         >
                           <li className="position-relative similar-item">
-                            <div className='similar-item-box'>
+                            <div className="similar-item-box">
                               <img src={product.imageUrl} alt="" />
                             </div>
 
