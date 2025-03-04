@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Components
@@ -8,24 +8,32 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getPaymentForOneUser } from '../../slice/checkoutSlice';
 
 const UserCharity = () => {
+
+  
   const dispatch = useDispatch();
 
   const userId = localStorage.getItem('userId') || 1;
 
   // 分頁資訊
-  const parPage = 3; // 每頁顯示 3 個項目
+  const parPage = 10; // 每頁顯示 3 個項目
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [charityItems, setCharityItems] = useState([]);
 
   // Redux 狀態
   const { payments, loader } = useSelector((state) => state.checkout);
+  const userInfo = useRef({});
 
   // 取得捐款資料
   useEffect(() => {
-    if (payments.length < 1) {
-      dispatch(getPaymentForOneUser({ userId, page: currentPage }));
+    userInfo.current = JSON.parse(localStorage.getItem('userInfo'));
+
+    if (userInfo.current?.id){
+      if (payments.length < 1) {
+        dispatch(getPaymentForOneUser({ userId:userInfo.current?.id, page: currentPage }));
+      }
     }
+    
   }, [dispatch, payments.length, userId, currentPage]);
 
   // 處理捐款資料 & 分頁
