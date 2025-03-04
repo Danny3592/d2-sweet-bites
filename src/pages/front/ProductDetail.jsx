@@ -13,6 +13,7 @@ import 'swiper/css';
 // Components & Styles
 import CharityCard from '../../components/front/product-detail/CharityCard';
 import Notification from '../../components/front/product-detail/Notification';
+import Breadcrumb from '../../components/front/Breadcrumb';
 import {
   mainProdImgStyle,
   similarProdsImgStyle,
@@ -29,7 +30,6 @@ import {
 import { setCheckoutItem } from '../../slice/checkoutSlice';
 
 // Utils
-import { login } from '../../../util/http';
 import { alertError } from '../../../util/sweetAlert';
 
 const ProductDetail = () => {
@@ -37,6 +37,10 @@ const ProductDetail = () => {
   const dispatch = useDispatch();
   const { productId } = useParams();
   const userInfo = useRef({});
+  const breadcrumbPath = [{
+    path: '/product-list',
+    name: '全部商品'
+  }];
 
   // Redux 狀態
   const { status: cartStatus, carts } = useSelector((state) => state.cart);
@@ -80,9 +84,9 @@ const ProductDetail = () => {
     userInfo.current = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo.current?.id) {
       dispatch(getCartList(userInfo.current.id));
+      dispatch(getFavorites(userInfo.current.id));
     }
-    dispatch(getFavorites(USER_ID));
-
+    
     // 從 Cookie 抓 token 後統一設置 axios header
     const token = document.cookie
       .split('; ')
@@ -119,7 +123,6 @@ const ProductDetail = () => {
         }
       })
       .catch((error) => {
-        console.error(error);
         alertError('取得商品資料失敗');
       })
       .finally(() => setIsLoading(false));
@@ -323,7 +326,18 @@ const ProductDetail = () => {
         <Loading type="spin" color="#D4A58E" />
       )}
       {notification && <Notification text={notification} key={notification} />}
-
+      <div className="bg-primary-50">
+        <div className="container py-4 py-md-15">
+          <div className="row align-items-center justify-content-between">
+            <div className="col-auto col-md-9">
+              <Breadcrumb
+                currentCategory={productDetails.category}
+                breadcrumbPath={breadcrumbPath}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="product-details">
         <div className="container p-0">
           <div className="row d-flex gx-lg-12 gx-0">
