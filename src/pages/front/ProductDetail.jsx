@@ -29,7 +29,6 @@ import {
 import { setCheckoutItem } from '../../slice/checkoutSlice';
 
 // Utils
-import { login } from '../../../util/http';
 import { alertError } from '../../../util/sweetAlert';
 
 const ProductDetail = () => {
@@ -44,9 +43,6 @@ const ProductDetail = () => {
     (state) => state.favorite,
   );
 
-  // 取得 userId（此處 Demo：沒有則預設 1）
-  userInfo.current.id = localStorage.getItem('userInfo') || 1;
-  
   // 商品 & 慈善 & 相似商品
   const [productDetails, setProductDetails] = useState({});
   const [charityProducts, setCharityProducts] = useState([]);
@@ -77,11 +73,13 @@ const ProductDetail = () => {
    * ===================== */
   useEffect(() => {
     // 登入 + 取得購物車 + 取得收藏
+
     userInfo.current = JSON.parse(localStorage.getItem('userInfo'));
-    if (userInfo.current?.id) {
-      dispatch(getCartList(userInfo.current.id));
+
+    if (userInfo?.current?.id) {
+      dispatch(getCartList(userInfo?.current?.id));
+      dispatch(getFavorites(userInfo?.current?.id));
     }
-    dispatch(getFavorites(userInfo.current.id));
 
     // 從 Cookie 抓 token 後統一設置 axios header
     const token = document.cookie
@@ -123,7 +121,7 @@ const ProductDetail = () => {
         alertError('取得商品資料失敗');
       })
       .finally(() => setIsLoading(false));
-  }, [userInfo.current.id, productId, dispatch]);
+  }, [productId, dispatch]);
 
   /* =====================
    *  每當收藏或商品更新時，判斷當前商品是否在收藏清單內
@@ -205,11 +203,14 @@ const ProductDetail = () => {
           // 否則直接加入購物車
           await dispatch(
             addCart({
-              productId: product.id,
-              title: product.title,
-              price: product.price,
-              qty: newQty,
-              imageUrl: product.imageUrl,
+              userId: userInfo.current.id,
+              cart: {
+                productId: product.id,
+                title: product.title,
+                price: product.price,
+                qty: newQty,
+                imageUrl: product.imageUrl,
+              },
             }),
           );
           dispatch(getCartList(userInfo.current.id));
@@ -284,6 +285,10 @@ const ProductDetail = () => {
    *  收藏 / 移除收藏
    * ===================== */
   const handleToggleFavorite = async (id) => {
+    if (!userInfo?.current?.id) {
+      navigate('/login');
+    }
+
     const obj = { userId: userInfo.current.id, productId: id };
     const existItem = favorites.find((item) => item.productId === id);
 
