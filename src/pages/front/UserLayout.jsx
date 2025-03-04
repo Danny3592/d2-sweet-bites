@@ -47,7 +47,7 @@ export default function UserLayout() {
             </NavLink>
           </li>
           <li className="my-5">
-            <NavLink className="fs-6" to="/profile/:userId">
+            <NavLink className="fs-6" to="/user/profile">
               編輯個人資訊
             </NavLink>
           </li>
