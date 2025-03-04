@@ -85,8 +85,9 @@ const Checkout = () => {
     if (successMsg === 'make payment success') {
       dispatch(clearCheckoutItem());
       dispatch(deleteAllCart());
-      dispatch(clearMsg());
-      navigate('/order-complete', {
+      dispatch(getCartList(userInfoId.current?.id)); // 重新獲取購物車數據
+      dispatch(clearMsg())
+      navigate('/order-complete',{
         state: {
           orderId: orderId,
         },

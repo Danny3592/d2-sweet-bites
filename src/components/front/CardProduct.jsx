@@ -1,7 +1,8 @@
+import { Link } from "react-router-dom"
 export default function CardProduct({ product }) {
   return (
     <div className="card-product position-relative">
-      <a href="#" className="stretched-link"></a>
+      <Link to={`/product-details/${product.id}`} className="stretched-link"></Link>
       <div className="card-product__image mb-4 position-relative overflow-hidden">
         <img
           className="w-100 object-fit-cover object-position-center"    

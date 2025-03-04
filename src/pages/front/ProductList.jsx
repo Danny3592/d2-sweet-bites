@@ -150,7 +150,7 @@ export default function ProductList() {
                     ))
                   }
                 </div>
-                <ul className="d-none d-md-block list-unstyled position-sticky top-10">
+                <ul className="d-none d-md-block list-unstyled position-sticky top-15">
                   <li className="mb-4">
                     <a href="#"
                       className={`text-danger-hover transition-base ${currentCategory ? 'text-dark' : 'text-danger'}`}

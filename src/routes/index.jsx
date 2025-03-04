@@ -27,6 +27,9 @@ import NewsDetail from "../pages/front/NewsDetail";
 import AdminOrder from './../pages/dashboard/AdminOrder';
 import Login from '../pages/front/Login';
 import Register from '../pages/front/Register';
+import Charity from '../pages/front/Charity';
+import CharityPlan from '../pages/front/CharityPlan';
+
 
 const routes = [
   {
@@ -79,6 +82,14 @@ const routes = [
           {
             path: 'register',
             element: <Register />,
+          },
+          {
+            path: 'charity',
+            element: <Charity />,
+          },
+          {
+            path: 'charity/:title',
+            element: <CharityPlan />,
           },
         ],
       },
