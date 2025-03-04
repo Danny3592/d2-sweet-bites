@@ -92,7 +92,7 @@ export default function TheHeader() {
         </NavLink>
         <div className="d-flex align-items-center">
           {isLogin && userInfo ? (
-            <NavLink to="/user" className="d-lg-none py-2 px-3">
+            <NavLink to="/profile/:userId" className="d-lg-none py-2 px-3">
               <img
                 src={userInfo.imageUrl || userBtn}
                 className="rounded-circle object-fit-cover"
