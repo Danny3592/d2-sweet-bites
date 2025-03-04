@@ -102,7 +102,7 @@ const routes = [
             element: <UserFavorite />,
           },
           {
-            path: "profile/:userId",
+            path: "profile",
             element: <UserProfile />,
           },
           {

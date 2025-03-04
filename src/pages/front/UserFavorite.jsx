@@ -9,6 +9,7 @@ export default function UserFavorite() {
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+
   const getFavoriteProducts = async (page = 1) => {
     setIsLoading(true);
     try {
