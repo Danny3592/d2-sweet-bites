@@ -208,11 +208,11 @@ const ProductDetail = () => {
           // 否則直接加入購物車
           await dispatch(
             addCart({
-              productId: product.id,
-              title: product.title,
-              price: product.price,
-              qty: newQty,
-              imageUrl: product.imageUrl,
+              userId: userInfo.current.id,
+              cart: {
+                productId: product.id,
+                qty: newQty
+              }
             }),
           );
           dispatch(getCartList(userInfo.current.id));
