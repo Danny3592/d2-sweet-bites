@@ -4,6 +4,8 @@ import { NavLink } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { logout } from "../../slice/authSlice";
+import { setCarts } from "../../slice/cartSlice";
+
 export default function UserLayout() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -13,20 +15,9 @@ export default function UserLayout() {
   ?.split('=')[1];
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-  // const login = async () => {
-  //   try {
-  //     const res = await axios.post('/login', {
-  //       email: 'Shin@gmail.com',
-  //       password: '123456',
-  //     });
-  //     const { accessToken } = res.data;
-  //     document.cookie = `dessertToken=${accessToken}; max-age=86400;`;
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(setCarts([])); // 清空購物車
     navigate('/')
   };
 

@@ -27,6 +27,7 @@ export default function CartPage() {
     if (userInfo.current?.id) {
       dispatch(getCartList(userInfo.current.id));
     } else {
+      alertError("請先註冊或登入會員");
       navigate('/register')
     }
     getCharityProducts();

@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 
 //Redux action
-import { clearCheckoutItem } from '../../slice/checkoutSlice';
+import { clearCheckoutItem, clearMsg } from '../../slice/checkoutSlice';
 import { deleteAllCart, getCartList } from '../../slice/cartSlice';
 import { makePayment } from '../../slice/checkoutSlice';
 
@@ -75,6 +75,8 @@ const Checkout = () => {
     if (successMsg === 'make payment success') {
       dispatch(clearCheckoutItem());
       dispatch(deleteAllCart());
+      dispatch(getCartList(userInfo.current?.id)); // 重新獲取購物車數據
+      dispatch(clearMsg())
       navigate('/order-complete',{
         state: {
           orderId: orderId,

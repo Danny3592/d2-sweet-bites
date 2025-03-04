@@ -45,7 +45,6 @@ export const cartSlice = createSlice({
 export const getCartList = createAsyncThunk(
   'cart/getCartList',
   async (payload, { dispatch }) => {
-    console.log(payload)
     try {
       const res = await axios.get(`/users/${payload}/carts?_expand=product`);
       dispatch(setCarts(res.data));
