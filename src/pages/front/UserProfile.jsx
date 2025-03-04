@@ -1,13 +1,12 @@
 
 import axios from "axios"
-import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom";
+import { useEffect, useState, useRef } from "react"
 import { alertError, toastAlert } from "../../../util/sweetAlert";
 import userLogo from '../../assets/images/user/user-logo.svg';
 import Loading from "../../components/Loading";
 export default function UserProfile() {
-  const { userId } = useParams();
   const [isLoading, setIsLoading] = useState(false);
+  const userInfo = useRef({});
   const [user, setUser] = useState({});
   const [tempData, setTempData] = useState({
     imageUrl: '',
@@ -57,8 +56,8 @@ export default function UserProfile() {
           password: tempData.password,
         }
       }
-      await axios.patch(`/600/users/${userId}`, data);
-      await getUser(userId);
+      await axios.patch(`/600/users/${userInfo.current.id}`, data);
+      await getUser(userInfo.current.id);;
       setTempData({imageUrl: '', password: ''});
       setIsImageEdit(false);
       setIsPasswordEdit(false);
@@ -70,8 +69,11 @@ export default function UserProfile() {
     }
   }
   useEffect(() => {
-    getUser(userId);
-  }, [userId]);
+    userInfo.current = JSON.parse(localStorage.getItem('userInfo'));
+    if (userInfo.current.id) {
+      getUser(userInfo.current.id);
+    }
+  }, []);
 
   return (
     <>
