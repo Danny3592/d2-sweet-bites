@@ -280,7 +280,10 @@ const ProductDetail = () => {
       }),
     );
 
-    navigate('/checkout', { state: { type: 'direct' } });
+    navigate('/checkout', { state: { type: 'direct',
+      totalPrice: price * order.productQty,
+      discount: 0,
+      finalPrice: price * order.productQty, } });
   };
 
   /* =====================

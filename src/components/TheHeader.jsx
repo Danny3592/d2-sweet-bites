@@ -14,7 +14,7 @@ import { getCartList } from '../slice/cartSlice';
 
 export default function TheHeader() {
   const location = useLocation();
-  const userData = useRef({});
+  const dispatch = useDispatch();
   const isHome = location.pathname === '/'; // 判斷是否為首頁
   const [backgroundColor, setBackgroundColor] = useState(
     isHome ? 'transparent' : '#000000A8'
@@ -58,19 +58,22 @@ export default function TheHeader() {
     if (isOffcanvasOpen) closeOffcanvas();
   };
 
-  const carts = useSelector((state) => state.cart.carts);
-
-  const dispatch = useDispatch();
   //取得登入狀態與資料
-  const {isLogin, userInfo} = useSelector((state) => state.auth)
-
+  const { isLogin, userInfo } = useSelector((state) => state.auth);
+  const carts = useSelector((state) => state.cart.carts);
+  const [cartCount, setCartCount] = useState(0);
   //取得購物車資料
   useEffect(() => {
-    userData.current = JSON.parse(localStorage.getItem('userInfo'));
-    if (userData.current) {
-      dispatch(getCartList(userData.current.id));
+    if (userInfo) {
+      dispatch(getCartList(userInfo.id));
+    } else {
+      setCartCount(0);
     }
-  }, [userData.current, location.pathname]);
+  }, [userInfo]);
+
+  useEffect(() => {
+    setCartCount(carts.length); // 只在 cart 長度變化時更新
+  }, [carts]);
 
   return (
     <nav
@@ -111,7 +114,7 @@ export default function TheHeader() {
                 left: '24px',
               }}
             >
-              {carts.length < 1 ? '' : carts.length}
+              {cartCount < 1 ? '' : cartCount}
             </span>
           </NavLink>
           <button
@@ -235,7 +238,7 @@ export default function TheHeader() {
                       left: '24px',
                     }}
                   >
-                    {carts.length < 1 ? '' : carts.length}
+                    {cartCount < 1 ? '' : cartCount}
                   </span>
                 </NavLink>
               </div>
