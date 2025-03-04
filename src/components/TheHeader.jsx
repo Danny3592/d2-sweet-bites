@@ -92,7 +92,7 @@ export default function TheHeader() {
         </NavLink>
         <div className="d-flex align-items-center">
           {isLogin && userInfo ? (
-            <NavLink to="/profile/:userId" className="d-lg-none py-2 px-3">
+            <NavLink to="/user/profile" className="d-lg-none py-2 px-3">
               <img
                 src={userInfo.imageUrl || userBtn}
                 className="rounded-circle object-fit-cover"
@@ -188,7 +188,7 @@ export default function TheHeader() {
               <div className="d-flex align-items-center nav-icons">
                 {isLogin && userInfo ? (
                   <NavLink
-                    to="/user"
+                    to="/user/profile"
                     className={`${
                       isOffcanvasOpen ? 'd-none' : ''
                     } member-link d-flex align-items-center mx-auto py-lg-2 py-6 px-lg-3 ms-lg-0 me-lg-6`}
