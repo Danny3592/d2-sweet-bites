@@ -3,8 +3,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import ReactLoading from "react-loading";
+import { login } from './../../../util/http';
 
 export default function AdminLogin() {
+  
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -21,10 +23,6 @@ export default function AdminLogin() {
     try {
       const res = await axios.post("/login", data);
       const { accessToken, user } = res.data;
-
-      if (user.role[0] !== "admin") {
-        return setErrorMessage("登入失敗，請確認是否為後台人員帳號");
-      }
 
       document.cookie = `dessertToken=${accessToken}; max-age=86400;`;
       reset();

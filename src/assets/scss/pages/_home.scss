@@ -5,11 +5,45 @@
   background-repeat: no-repeat;
   height: 100vh;
   animation: bannerBackgroundZoom 5s ease-out forwards;
+
+  .btn--main {
+    cursor: pointer;
+    &:hover {
+      filter: brightness(120%);
+    }
+  }
+  .btn--main-img {
+    transform: translateX(10px);
+  }
+  .btn--sub-img {
+    transform: translateX(10px);
+  }
+
+  .btn--main:hover .btn--main-img {
+    animation: arrowMove 0.5s ease infinite alternate;
+  }
+  .btn--sub:hover .btn--sub-img {
+    animation: arrowMove 0.5s ease infinite alternate;
+  }
+  .btn--sub {
+    cursor: pointer;
+    &:hover {
+      filter: brightness(80%);
+    }
+  }
+
+  @media (max-width: 1525px) {
+    animation: none;
+    background-position: top;
+    height: 80vh;
+  }
+
   @media (max-width: 842px) {
     animation: none;
     background-position: top;
     height: 70vh;
   }
+
   @include media-breakpoint-down(sm) {
     justify-content: start;
     background-image: url('../images/index-bannner/banner-sm.jpg');
@@ -40,16 +74,25 @@
   }
 }
 
+@keyframes arrowMove {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(1rem);
+  }
+}
+
 .index-recommend {
   width: 100%;
   min-height: 100vh;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url("../../assets/images/index-recommend/section02_background_mobile.png");
+  background-image: url('../../assets/images/index-recommend/section02_background_mobile.png');
 
   @include media-breakpoint-up(md) {
-    background-image: url("../../assets/images/index-recommend/section02_background_desktop.png");
+    background-image: url('../../assets/images/index-recommend/section02_background_desktop.png');
   }
 
   .recommend-row-title {
@@ -95,7 +138,7 @@
         .recommend-line1,
         .recommend-line2 {
           display: block;
-          font-family: "Noto Serif TC";
+          font-family: 'Noto Serif TC';
 
           @include media-breakpoint-up(md) {
             display: inline;
@@ -104,7 +147,7 @@
 
         .recommend-comma {
           display: none;
-          font-family: "Noto Serif TC";
+          font-family: 'Noto Serif TC';
 
           @include media-breakpoint-up(md) {
             display: inline;
@@ -216,7 +259,7 @@
           font-weight: bold;
           color: $dark;
           margin-bottom: 12px;
-          font-family: "Noto Serif TC";
+          font-family: 'Noto Serif TC';
           font-weight: 500;
         }
 
@@ -235,12 +278,12 @@
 
           .recommend-currency {
             font-size: 1rem;
-            font-family: "Noto Serif TC";
+            font-family: 'Noto Serif TC';
           }
 
           .recommend-amount {
             font-size: 1.25rem;
-            font-family: "Noto Serif TC";
+            font-family: 'Noto Serif TC';
           }
         }
       }
@@ -248,7 +291,7 @@
   }
 }
 .index-news {
-  background-image: url("../images/index-news/index-news-bg-1.svg");
+  background-image: url('../images/index-news/index-news-bg-1.svg');
   background-position: top right;
   background-repeat: no-repeat;
   background-size: 231px 131px;
@@ -261,5 +304,68 @@
   }
   &__card:hover h3 {
     color: $primary;
+  }
+}
+
+.index-charity {
+  width: 100%;
+  height: 1536px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url('../images/index-charity/section04_background.png');
+
+  @include media-breakpoint-up(md) {
+    height: 1192px;
+  }
+  &-title {
+    height: 152px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('../images/index-charity/index-charity-title-bg-mobile.jpg');
+
+    @include media-breakpoint-up(md) {
+      height: 216px;
+      background-image: url('../images/index-charity/section04_title_background.png');
+    }
+  }
+  &-plan{
+    position: relative;
+    height: 416px;
+    @include media-breakpoint-up(md) {
+      height: 752px;
+    }
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-color: #000000;
+      opacity: 0.33;
+      transition: opacity 0.3s;
+    }
+    &:hover::after{
+      opacity: 0.5;
+    }
+  }
+}
+.index-thanks{
+  width: 100%;
+  height: 1780px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url('../images/index-charity/section05_background.png');
+
+  @include media-breakpoint-up(md) {
+    height: 1094px;
+  }
+  &-join{
+    background-color: $primary-700;
+    height: 153px;
   }
 }
