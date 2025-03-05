@@ -170,14 +170,14 @@ export default function OrderCheck() {
               <div className="coupon-section mb-3">
                 <div className="card">
                   <div className="card-body">
-                    <div className="d-md-flex justify-content-between align-items-center">  
-                      <h5 className="mb-6 text-dark fs-5">
+                    <div className="d-md-flex justify-content-between align-items-center mb-6">  
+                      <h5 className="text-dark fs-5">
                         輸入優惠券，享受甜蜜折扣!
                       </h5>
                       <button type="button"
-                        className='btn p-0'
+                        className='btn text-primary-500 p-0'
                         onClick={openCouponModal}>
-                        選擇優惠券
+                        查看可套用優惠券
                       </button>
                     </div>
                     <div className="d-flex align-items-center justify-content-between mb-6">
