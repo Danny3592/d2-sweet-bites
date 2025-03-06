@@ -35,7 +35,10 @@
 }
 .navbar-nav .nav-link.active {
   position: relative;
-  color: #fff;
+  color: $primary;
+  @include media-breakpoint-up(lg) {
+    color: #fff;
+  }
   &::after {
     content: '';
     position: absolute;
