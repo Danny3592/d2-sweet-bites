@@ -15,3 +15,10 @@ export const checkInputFill = (obj, requireInputs) => {
     }
   })
 }
+
+// 比較傳入日期是否過期
+export const compareDateExpired = (date) => {
+  const today = new Date(); // 取得今天日期
+  const targetDate = new Date(date);
+  return today > targetDate;
+}
