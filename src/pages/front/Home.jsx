@@ -1,8 +1,3 @@
-import strawberryImg from '../../assets/images/index-recommend/cake01_berry.png';
-import peachImg from '../../assets/images/index-recommend/cake02_peach.png';
-import chocolateImg from '../../assets/images/index-recommend/cake03_chocolate.png';
-import lemonImg from '../../assets/images/index-recommend/cake04_lemon.png';
-
 import newsImages1 from '../../assets/images/index-news/news01_cakes.png';
 import newsImages2 from '../../assets/images/index-news/news02_pets.png';
 import newsImages3 from '../../assets/images/index-news/news03_trees.png';
@@ -24,7 +19,18 @@ import buttonIconBrown from '../../assets/images/icons/button-arrow-brown.png';
 import buttonIconWhite from '../../assets/images/icons/button-arrow-white.png';
 import { Link } from 'react-router-dom';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { getProducts, selectRandomProducts } from '../../slice/productSlice';
+import { useEffect } from 'react';
+import CardProduct from '../../components/front/CardProduct';
+
 export default function Home() {
+  const dispatch = useDispatch();
+  const products = useSelector((state) => selectRandomProducts(state, 4));
+
+  useEffect(() => {
+    dispatch(getProducts());
+  }, []);
   return (
     <main>
       <section className="index-banner d-flex justify-content-center flex-column  w-100">
@@ -63,8 +69,8 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="index-recommend">
-        <div className="container ">
+      <section className="index-recommend pb-18 pb-lg-53">
+        <div className="container">
           <div className="row recommend-row-title">
             <div className="col-12 recommend-col">
               <h2 className="recommend-main-title">
@@ -103,83 +109,17 @@ export default function Home() {
               </p>
             </div>
           </div>
-
-          <div className="row recommend-row-image">
-            <div className="col-lg-3 col-md-6 col-12">
-              <div className="recommend-product-card">
-                <div className="image-wrapper">
-                  <img src={strawberryImg} alt="莓好時光" />
-                  <button className="recommend-btn-cart">加入購物車</button>
-                </div>
-                <div className="recommend-product-info">
-                  <h3 className="recommend-product-name">莓好時光</h3>
-                  <p className="recommend-product-description">
-                    主打草莓搭配綿密口感的鮮奶油，傳遞甜蜜美好。
+          <div className="row gy-12">
+            { products.map(product => (
+              <div className="col-lg-3 col-md-6 col-12"
+                key={product.id}>
+                <CardProduct product={product}>
+                  <p className='py-3 px-4 text-center'>
+                    {product.description}
                   </p>
-                  <div className="recommend-product-price">
-                    <span className="recommend-currency">NT$</span>
-                    <span className="recommend-amount">600</span>
-                  </div>
-                </div>
+                </CardProduct>
               </div>
-            </div>
-
-            <div className=" col-lg-3 col-md-6 col-12">
-              <div className="recommend-product-card">
-                <div className="image-wrapper">
-                  <img src={peachImg} alt="蜜桃初戀" />
-                  <button className="recommend-btn-cart">加入購物車</button>
-                </div>
-                <div className="recommend-product-info">
-                  <h3 className="recommend-product-name">蜜桃初戀</h3>
-                  <p className="recommend-product-description">
-                    適合喜歡果味或果粒口感的甜點，柔美而帶點驚喜。
-                  </p>
-                  <div className="recommend-product-price">
-                    <span className="recommend-currency">NT$</span>
-                    <span className="recommend-amount">560</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-lg-3 col-md-6 col-12">
-              <div className="recommend-product-card">
-                <div className="image-wrapper">
-                  <img src={chocolateImg} alt="榛心醇意" />
-                  <button className="recommend-btn-cart">加入購物車</button>
-                </div>
-                <div className="recommend-product-info">
-                  <h3 className="recommend-product-name">榛心醇意</h3>
-                  <p className="recommend-product-description">
-                    榛果與濃郁純巧克力的搭配，濃郁又帶一點微醺的香氣。
-                  </p>
-                  <div className="recommend-product-price">
-                    <span className="recommend-currency">NT$</span>
-                    <span className="recommend-amount">800</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-lg-3 col-md-6 col-12">
-              <div className="recommend-product-card">
-                <div className="image-wrapper">
-                  <img src={lemonImg} alt="檸檬輕舞" />
-                  <button className="recommend-btn-cart">加入購物車</button>
-                </div>
-                <div className="recommend-product-info mb-6">
-                  <h3 className="recommend-product-name">檸檬輕舞</h3>
-                  <p className="recommend-product-description">
-                    適合清新系甜點，如檸檬塔或檸檬蛋糕，清爽又怡人。
-                  </p>
-                  <div className="recommend-product-price">
-                    <span className="recommend-currency">NT$</span>
-                    <span className="recommend-amount">500</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
