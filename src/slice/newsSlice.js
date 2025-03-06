@@ -2,21 +2,22 @@ import { createSlice, createAsyncThunk, isAnyOf } from '@reduxjs/toolkit';
 import { alertError } from '../../util/sweetAlert';
 import axios from 'axios';
 
-export const productSlice = createSlice({
-  name: 'product',
+
+export const newsSlice = createSlice({
+  name: 'news',
   initialState: {
-    products: [],
+    news: [],
     status: 'idle',
   },
   reducers: {
-    setProducts(state, action) {
-      state.products = action.payload;
+    setNews(state, action) {
+      state.news = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder.addMatcher(
       isAnyOf(
-        getProducts.pending,
+        getNews.pending,
       ),
       (state) => {
         state.status = 'loading';
@@ -24,7 +25,7 @@ export const productSlice = createSlice({
     );
     builder.addMatcher(
       isAnyOf(
-        getProducts.fulfilled,
+        getNews.fulfilled,
       ),
       (state) => {
         state.status = 'success';
@@ -33,23 +34,20 @@ export const productSlice = createSlice({
   },
 });
 
-// 取得商品資料
-export const getProducts = createAsyncThunk(
-  'cart/getProducts',
+
+// 取得購物車資料
+export const getNews = createAsyncThunk(
+  'cart/getNews',
   async (payload, { dispatch }) => {
     try {
-      const res = await axios.get(`/products`);
-      dispatch(setProducts(res.data));
+      const res = await axios.get(`/news`);
+      dispatch(setNews(res.data));
     } catch (error) {
       alertError(error);
     }
   },
 );
 
-// 隨機選取指定數量的甜點
-export const selectProducts = (state) => {
-  return state.product.products
-}
-
-export const { setProducts } = productSlice.actions;
-export default productSlice.reducer;
+export const selectNews = (state) => state.news.news;
+export const { setNews } = newsSlice.actions;
+export default newsSlice.reducer;

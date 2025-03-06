@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import newsReducer from './slice/newsSlice';
 import productReducer from './slice/productSlice';
 import cartReducer from './slice/cartSlice';
 import favoriteReducer from './slice/favoriteSlice';
@@ -13,5 +14,6 @@ export const store = configureStore({
     favorite: favoriteReducer,
     checkout: checkoutReducer,
     auth: authReducer,
+    news: newsReducer,
   },
 });

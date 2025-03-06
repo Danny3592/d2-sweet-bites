@@ -15,3 +15,15 @@ export const checkInputFill = (obj, requireInputs) => {
     }
   })
 }
+
+export const getRandomProducts = (products, num) => {
+  const desserts = products.filter(product => product.category !== '慈善');
+  const result = new Set();
+  if (desserts.length) {
+    while (result.size < num) {
+      const randomIndex = Math.floor(Math.random() * desserts.length);
+      result.add(desserts[randomIndex]);
+    }
+  }
+  return [...result];
+}

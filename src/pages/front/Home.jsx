@@ -1,7 +1,3 @@
-import newsImages1 from '../../assets/images/index-news/news01_cakes.png';
-import newsImages2 from '../../assets/images/index-news/news02_pets.png';
-import newsImages3 from '../../assets/images/index-news/news03_trees.png';
-
 import charityHeart from '../../assets/images/index-charity/heart.png';
 import charityHeartSmall from '../../assets/images/index-charity/heart_mobile.png';
 import charityCorner from '../../assets/images/index-charity/corner.png';
@@ -20,16 +16,21 @@ import buttonIconWhite from '../../assets/images/icons/button-arrow-white.png';
 import { Link } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { getProducts, selectRandomProducts } from '../../slice/productSlice';
+import { getProducts, selectProducts } from '../../slice/productSlice';
+import { getNews, selectNews } from '../../slice/newsSlice';
 import { useEffect } from 'react';
 import CardProduct from '../../components/front/CardProduct';
+import { getRandomProducts } from '../../../util/tools';
 
 export default function Home() {
   const dispatch = useDispatch();
-  const products = useSelector((state) => selectRandomProducts(state, 4));
+  const products = useSelector(selectProducts);
+  const randomProducts = getRandomProducts(products, 4);
+  const news = useSelector(selectNews);
 
   useEffect(() => {
     dispatch(getProducts());
+    dispatch(getNews());
   }, []);
   return (
     <main>
@@ -110,7 +111,7 @@ export default function Home() {
             </div>
           </div>
           <div className="row gy-12">
-            { products.map(product => (
+            { randomProducts.map(product => (
               <div className="col-lg-3 col-md-6 col-12"
                 key={product.id}>
                 <CardProduct product={product}>
@@ -129,75 +130,85 @@ export default function Home() {
           <p className="mb-12 mb-lg-32">
             探索最新公益成果，與我們一起改變世界。
           </p>
-          <div className="row mb-12">
-            <div className="col-md-6 mb-6 mb-md-0">
-              <div className="index-news__card position-relative pb-6 pb-md-0 border-bottom border-gray-400 border-bottom-md-0">
-                <img
-                  className="object-fit-cover w-100 mb-2 mb-lg-3 h-xl-472px"
-                  src={newsImages1}
-                  alt="newsImages1"
-                />
-                <p className="text-gray-700 fs-8 mb-2 mb-lg-3">
-                  2024 年 12 月 24 日
-                </p>
-                <h3 className="fs-6 fs-lg-4 mb-2 mb-lg-3">
-                  一起分享幸福，送出500份溫暖餐點！
-                </h3>
-                <a
-                  href="#"
-                  className="text-gray-700 fs-8 fs-lg-7 stretched-link"
-                >
-                  您的甜點，正在改變世界。
-                </a>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="index-news__card position-relative pb-6 border-bottom border-gray-400">
-                <div className="row">
-                  <div className="col-md-6">
+          { news.length > 0 && (
+            <div className="row mb-12">
+              <div className="col-md-6 mb-6 mb-md-0">
+                <div className="index-news__card position-relative pb-6 pb-md-0 border-bottom border-gray-400 border-bottom-md-0">
+                  <div className="img-container overflow-hidden h-xl-472px mb-2 mb-lg-3">
                     <img
-                      className="object-fit-cover w-100 mb-2 mb-md-0"
-                      src={newsImages2}
+                      className="object-fit-cover w-100 h-100"
+                      src={news[0].image}
                       alt="newsImages1"
                     />
                   </div>
-                  <div className="col ps-lg-1">
-                    <p className="text-gray-700 fs-8 mb-2">
-                      2024 年 9 月 28 日
-                    </p>
-                    <h3 className="fs-6 fs-md-7 fs-lg-6 mb-2">
-                      小甜點，大愛心，為毛孩帶來滿滿能量！
-                    </h3>
-                    <a href="#" className="text-gray-700 fs-8 stretched-link">
-                      和幸享屋一起，讓流浪毛孩不再挨餓！
-                    </a>
-                  </div>
+                  <p className="text-gray-700 fs-8 mb-2 mb-lg-3">
+                    { news[0].create_at }
+                  </p>
+                  <h3 className="fs-6 fs-lg-4 text-dark mb-2 mb-lg-3">
+                    { news[0].title }
+                  </h3>
+                  <Link
+                    to={`/news-detail/${news[0].id}`}
+                    className="text-gray-700 fs-8 fs-lg-7 stretched-link"
+                  >
+                    { news[0].description }
+                  </Link>
                 </div>
               </div>
-              <div className="index-news__card position-relative pt-6">
-                <div className="row">
-                  <div className="col-md-6">
-                    <img
-                      className="object-fit-cover w-100 mb-2 mb-md-0"
-                      src={newsImages3}
-                      alt="newsImages1"
-                    />
+              <div className="col-md-6">
+                <div className="index-news__card position-relative pb-6 border-bottom border-gray-400">
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="img-container overflow-hidden">
+                        <img
+                          className="object-fit-cover w-100 h-100 mb-2 mb-md-0"
+                          src={news[1].image}
+                          alt="newsImages1"
+                        />
+                      </div>
+                    </div>
+                    <div className="col ps-lg-1">
+                      <p className="text-gray-700 fs-8 mb-2">
+                        { news[1].create_at }
+                      </p>
+                      <h3 className="fs-6 fs-md-7 text-dark fs-lg-6 mb-2">
+                        { news[1].title }
+                      </h3>
+                      <Link to={`/news-detail/${news[1].id}`}
+                        className="text-gray-700 fs-8 stretched-link">
+                        { news[1].description }
+                      </Link>
+                    </div>
                   </div>
-                  <div className="col ps-lg-1">
-                    <p className="text-gray-700 fs-8 mb-2">
-                      2024 年 3 月 21 日
-                    </p>
-                    <h3 className="fs-6 fs-md-7 fs-lg-6 mb-2">
-                      甜點與地球同行，種下100棵新希望！
-                    </h3>
-                    <a href="#" className="text-gray-700 fs-8 stretched-link">
-                      甜點與綠意同行，我們和地球都感謝您！
-                    </a>
+                </div>
+                <div className="index-news__card position-relative pt-6">
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="img-container overflow-hidden">
+                        <img
+                          className="object-fit-cover w-100 h-100 mb-2 mb-md-0"
+                          src={ news[2].image }
+                          alt="newsImages1"
+                        />
+                      </div>
+                    </div>
+                    <div className="col ps-lg-1">
+                      <p className="text-gray-700 fs-8 mb-2">
+                        { news[2].create_at }
+                      </p>
+                      <h3 className="fs-6 fs-md-7 fs-lg-6 text-dark mb-2">
+                        { news[2].title }
+                      </h3>
+                      <Link to={`/news-detail/${news[2].id}`}
+                        className="text-gray-700 fs-8 stretched-link">
+                        { news[2].description }
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
           <div className="d-flex justify-content-center justify-content-md-end">
             <a href="#" className="btn text-primary-600 pe-lg-0">
               <span className="me-4">全部消息</span>

@@ -298,12 +298,17 @@
   @include media-breakpoint-up(lg) {
     background-size: 435px 247px;
   }
-  &__card h3 {
-    color: $dark;
-    transition: $transition-base;
+  &__card .img-container{
+    height: 243px;
+    @include media-breakpoint-up(lg) {
+      height: 212px;
+    }
   }
-  &__card:hover h3 {
-    color: $primary;
+  &__card img {
+    transition: transform 400ms ease-in-out;
+  }
+  &__card:hover img {
+    transform: scale(1.1);
   }
 }
 
