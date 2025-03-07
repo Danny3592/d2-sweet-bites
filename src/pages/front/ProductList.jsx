@@ -5,41 +5,38 @@ import Pagination from "../../components/Pagination";
 import Breadcrumb from "../../components/front/Breadcrumb";
 import SearchInput from "../../components/SearchInput";
 import Loading from "../../components/Loading";
-import axios from "axios";
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  getProducts as getProductAllList,
+  getProductsByPage,
+  selectProducts,
+  selectProductsByPage,
+  selectProductsTotalPages,
+  selectProductStatus,
+} from "../../slice/productSlice";
+import { getProductCategories } from "../../../util/tools";
+
 export default function ProductList() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
+  const productStatus = useSelector(selectProductStatus);
   const breadcrumbPath = [{
     path: '/product-list',
     name: '全部商品'
   }];
+  const dispatch = useDispatch();
   
   // 商品列表
-  const [products, setProducts] = useState([]);
-  const getProducts = async ({ page, category, searchText }) => {
-    setIsLoading(true);
-    try {
-      let url = `/products?_page=${page}&_limit=6`;
-      if (category) {
-        url += `&category=${category}`;
-      }
-      if (searchText) {
-        url = `/products?title_like=${searchText}`;
-      }
-      const res = await axios.get(url);
-      setTotalPages(Math.ceil(res.headers.get("X-Total-Count") / 6));
-      setProducts(res.data);
-    } catch(error) {
-      alertError(error.message);
-    } finally {
-      setIsLoading(false);
-    }
+  const pageLimit = 6;
+  const products = useSelector(selectProductsByPage);
+  const productsTotalPages = useSelector(selectProductsTotalPages);
+  const getProducts = ({ page, category, searchText }) => {
+    dispatch(getProductsByPage({ page, category, searchText, pageLimit }));
   }
   
   // 商品類別
-  const [productCategories, setProductCategories] = useState([]);
+  const allProducts = useSelector(selectProducts);
+  const productCategories = getProductCategories(allProducts);
   const [currentCategory, setCurrentCategory] = useState('');
   const setCategory = (event, category) => {
     event.preventDefault();
@@ -47,28 +44,10 @@ export default function ProductList() {
     setCurrentPage(1);
     setCurrentCategory(category);
   }
-  const getAllProducts = async () => {
-    setIsLoading(true);
-    try {
-      const res = await axios.get(`/products`);
-      const categoryCount = res.data.reduce((count, product) => {
-        if (!count[product.category]) {
-          count[product.category] = 1;
-        } else {
-          count[product.category] += 1;
-        }
-        return count;
-      }, {});
-      setProductCategories(Object.entries(categoryCount));
-    } catch(error) {
-      alertError(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  }
+
   useEffect(() => {
-    getAllProducts();
-  }, []);
+    dispatch(getProductAllList());
+  }, [dispatch]);
 
   // 搜尋商品
   const [searchText, setSearchText] = useState('');
@@ -83,7 +62,7 @@ export default function ProductList() {
 
   return (
     <>
-      { isLoading && <Loading type="spin" color="#D4A58E"/> }
+      { productStatus === 'loading' && <Loading type="spin" color="#D4A58E"/> }
       <div className="bg-primary-50">
         <div className="container py-4 py-md-15">
           { !isSearchOpen && (
@@ -194,7 +173,7 @@ export default function ProductList() {
                       {!searchText && (
                         <Pagination
                           currentPage={currentPage}
-                          totalPages={totalPages}
+                          totalPages={productsTotalPages}
                           setCurrentPage={setCurrentPage}
                         />
                       )}

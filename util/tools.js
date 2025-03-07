@@ -27,3 +27,15 @@ export const getRandomProducts = (products, num) => {
   }
   return [...result];
 }
+
+export const getProductCategories = (products) => {
+  const categoryCount = products.reduce((count, product) => {
+    if (!count[product.category]) {
+      count[product.category] = 1;
+    } else {
+      count[product.category] += 1;
+    }
+    return count;
+  }, {});
+  return Object.entries(categoryCount);
+}
