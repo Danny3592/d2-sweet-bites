@@ -210,10 +210,13 @@ export default function Home() {
             </div>
           )}
           <div className="d-flex justify-content-center justify-content-md-end">
-            <a href="#" className="btn text-primary-600 pe-lg-0">
+            <Link to="news-list"
+              className="btn btn-arrow text-primary-600 text-primary-700-hover pe-lg-0">
               <span className="me-4">全部消息</span>
-              <img src={buttonIconBrown} alt="buttonIconWhie" />
-            </a>
+              <img className="arrow-icon"
+                src={buttonIconBrown}
+                alt="buttonIconWhie" />
+            </Link>
           </div>
         </div>
       </section>
