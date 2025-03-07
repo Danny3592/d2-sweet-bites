@@ -3,6 +3,7 @@ import { alertError } from '../../../util/sweetAlert';
 import CardProduct from "../../components/front/CardProduct";
 import Pagination from "../../components/Pagination";
 import Breadcrumb from "../../components/front/Breadcrumb";
+import SearchInput from "../../components/SearchInput";
 import Loading from "../../components/Loading";
 import axios from "axios";
 export default function ProductList() {
@@ -109,24 +110,22 @@ export default function ProductList() {
                     <path fillRule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z" clipRule="evenodd" />
                   </svg>
                 </button>
-                <input
-                  type="text"
-                  className="form-control rounded-0 d-none d-md-block"
-                  placeholder="搜尋商品"
-                  value={searchText}
-                  onChange={(e) => setSearchText(e.target.value.trim())}
-                  onKeyDown={(e) => e.key === 'Enter' && searchProducts()}/>
+                <SearchInput
+                  className="d-none d-md-block"
+                  searchText={searchText}
+                  setSearchText={setSearchText}
+                  searchMethod={searchProducts}
+                />
               </div>
             </div>
           )}
           { isSearchOpen && (
-            <input
-              type="text"
-              className="form-control rounded-0 d-md-none"
-              placeholder="搜尋商品"
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value.trim())}
-              onKeyDown={(e) => e.key === 'Enter' && searchProducts()}/>
+            <SearchInput
+              className="d-md-none"
+              searchText={searchText}
+              setSearchText={setSearchText}
+              searchMethod={searchProducts}
+            />
           )}
         </div>
         <div className="container">
