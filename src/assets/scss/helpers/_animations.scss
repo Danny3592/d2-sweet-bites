@@ -6,3 +6,18 @@
     background-size: 110%;  
   }
 }
+
+@keyframes iconTopToBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(-50%);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(50%);
+  }
+}

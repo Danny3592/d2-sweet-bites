@@ -227,7 +227,7 @@ export default function Home() {
             <p className="text-gray-800 mb-4 mb-md-0">
               購買甜點，選擇捐款方案，讓幸福也可以共享。
             </p>
-            <picture className="mb-2 mb-md-0">
+            <picture className="heart-icon mb-2 mb-md-0">
               <source srcSet={charityHeart} media="(min-width: 796px)" />
               <img src={charityHeartSmall} />
             </picture>
@@ -240,44 +240,59 @@ export default function Home() {
         </div>
         <ul className="index-charity-plans d-flex flex-column flex-md-row justify-content-center pt-md-24 list-unstyled px-0">
           <li className="index-charity-plan position-relative mt-12 mt-md-0 mb-2 mb-md-0 me-md-2">
-            <Link to="/charity/甜蜜助學計畫">
-              <img
-                className="w-100 h-100 object-fit-cover"
-                src={charityPlanKid}
-                alt=""
-              />
+            <Link to="/charity/甜蜜助學計畫"
+             className='stretched-link'>
+              <div className="w-100 h-100 overflow-hidden">
+                <img
+                  className="main-img w-100 h-100 object-fit-cover"
+                  src={charityPlanKid}
+                  alt=""
+                />
+              </div>
               <div className="index-charity-plan-content position-absolute top-50 start-50 translate-middle text-white text-center z-1">
-                <img src={charitySchoolIcon} alt="" />
-                <h3>甜蜜助學計畫</h3>
-                <p>捐助營養餐</p>
+                <div className="text-content">
+                  <img src={charitySchoolIcon} alt="" />
+                  <h3>甜蜜助學計畫</h3>
+                  <p>捐助營養餐</p>
+                </div>
               </div>
             </Link>
           </li>
           <li className="index-charity-plan position-relative mb-2 mb-md-0 me-md-2">
-            <Link to="/charity/幸福愛寵行動">
-              <img
-                className="w-100 h-100 object-fit-cover"
-                src={charityPlanPet}
-                alt=""
-              />
+            <Link to="/charity/幸福愛寵行動"
+              className='stretched-link'>
+              <div className="w-100 h-100 overflow-hidden">
+                <img
+                  className="main-img w-100 h-100 object-fit-cover"
+                  src={charityPlanPet}
+                  alt=""
+                />
+              </div>
               <div className="index-charity-plan-content position-absolute top-50 start-50 translate-middle text-white text-center z-1">
-                <img src={charityDogIcon} alt="" />
-                <h3>幸福愛寵行動</h3>
-                <p>捐助罐罐</p>
+                <div className="text-content">
+                  <img src={charityDogIcon} alt="" />
+                  <h3>幸福愛寵行動</h3>
+                  <p>捐助罐罐</p>
+                </div>
               </div>
             </Link>
           </li>
           <li className="index-charity-plan position-relative">
-            <Link to="/charity/綠色希望專案">
-              <img
-                className="w-100 h-100 object-fit-cover"
-                src={charityPlanTrees}
-                alt=""
-              />
+            <Link to="/charity/綠色希望專案"
+              className='stretched-link'>
+              <div className="w-100 h-100 overflow-hidden">
+                <img
+                  className="main-img w-100 h-100 object-fit-cover"
+                  src={charityPlanTrees}
+                  alt=""
+                />
+              </div>
               <div className="index-charity-plan-content position-absolute top-50 start-50 translate-middle text-white text-center z-1">
-                <img src={charityPlantIcon} alt="" />
-                <h3>綠色希望專案</h3>
-                <p>保護環境永續</p>
+                <div className="text-content">
+                  <img src={charityPlantIcon} alt="" />
+                  <h3>綠色希望專案</h3>
+                  <p>保護環境永續</p>
+                </div>
               </div>
             </Link>
           </li>

@@ -335,6 +335,10 @@
       background-image: url('../images/index-charity/section04_title_background.png');
     }
   }
+  .heart-icon {
+    display: inline-block;
+    animation: iconTopToBottom 1.5s ease-in-out infinite;
+  }
   &-plan{
     position: relative;
     height: 416px;
@@ -351,10 +355,20 @@
       left: 0;
       background-color: #000000;
       opacity: 0.33;
-      transition: opacity 0.3s;
+      transition: opacity 0.5s;
     }
     &:hover::after{
       opacity: 0.5;
+    }
+    .main-img,
+    .text-content {
+      transition: transform 0.5s;
+    }
+    &:hover .main-img {
+      transform: scale(1.1);
+    }
+    &:hover .text-content {
+      transform: translateY(-15%);
     }
   }
 }
