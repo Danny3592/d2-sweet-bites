@@ -298,12 +298,17 @@
   @include media-breakpoint-up(lg) {
     background-size: 435px 247px;
   }
-  &__card h3 {
-    color: $dark;
-    transition: $transition-base;
+  &__card .img-container{
+    height: 243px;
+    @include media-breakpoint-up(lg) {
+      height: 212px;
+    }
   }
-  &__card:hover h3 {
-    color: $primary;
+  &__card img {
+    transition: transform 400ms ease-in-out;
+  }
+  &__card:hover img {
+    transform: scale(1.1);
   }
 }
 
@@ -330,6 +335,10 @@
       background-image: url('../images/index-charity/section04_title_background.png');
     }
   }
+  .heart-icon {
+    display: inline-block;
+    animation: iconTopToBottom 1.5s ease-in-out infinite;
+  }
   &-plan{
     position: relative;
     height: 416px;
@@ -346,10 +355,20 @@
       left: 0;
       background-color: #000000;
       opacity: 0.33;
-      transition: opacity 0.3s;
+      transition: opacity 0.5s;
     }
     &:hover::after{
       opacity: 0.5;
+    }
+    .main-img,
+    .text-content {
+      transition: transform 0.5s;
+    }
+    &:hover .main-img {
+      transform: scale(1.1);
+    }
+    &:hover .text-content {
+      transform: translateY(-15%);
     }
   }
 }

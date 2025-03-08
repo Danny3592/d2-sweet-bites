@@ -1,6 +1,7 @@
 .card-product {
   &__image img{
     height: 358px;
+    transition: all 400ms ease-in;
     @include media-breakpoint-up(md) {
       height: 240px;
     }
@@ -11,10 +12,17 @@
   &__button {
     position: absolute;
     left: 0;
-    bottom: -66px;
-    transition: $transition-base;
-  }
-  &:hover &__button {
     bottom: 0;
+    opacity: 0;
+    transition: opacity 400ms ease-in-out;
+  }
+
+  &:hover &__button {
+    opacity: 1;
+  }
+
+  &:hover &__image img {
+    filter: brightness(70%);
+    transform: scale(1.2);
   }
 }

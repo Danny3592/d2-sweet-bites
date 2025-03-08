@@ -1,12 +1,3 @@
-import strawberryImg from '../../assets/images/index-recommend/cake01_berry.png';
-import peachImg from '../../assets/images/index-recommend/cake02_peach.png';
-import chocolateImg from '../../assets/images/index-recommend/cake03_chocolate.png';
-import lemonImg from '../../assets/images/index-recommend/cake04_lemon.png';
-
-import newsImages1 from '../../assets/images/index-news/news01_cakes.png';
-import newsImages2 from '../../assets/images/index-news/news02_pets.png';
-import newsImages3 from '../../assets/images/index-news/news03_trees.png';
-
 import charityHeart from '../../assets/images/index-charity/heart.png';
 import charityHeartSmall from '../../assets/images/index-charity/heart_mobile.png';
 import charityCorner from '../../assets/images/index-charity/corner.png';
@@ -24,7 +15,23 @@ import buttonIconBrown from '../../assets/images/icons/button-arrow-brown.png';
 import buttonIconWhite from '../../assets/images/icons/button-arrow-white.png';
 import { Link } from 'react-router-dom';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { getProducts, selectProducts } from '../../slice/productSlice';
+import { getNews, selectNews } from '../../slice/newsSlice';
+import { useEffect } from 'react';
+import CardProduct from '../../components/front/CardProduct';
+import { getRandomProducts } from '../../../util/tools';
+
 export default function Home() {
+  const dispatch = useDispatch();
+  const products = useSelector(selectProducts);
+  const randomProducts = getRandomProducts(products, 4);
+  const news = useSelector(selectNews);
+
+  useEffect(() => {
+    dispatch(getProducts());
+    dispatch(getNews());
+  }, []);
   return (
     <main>
       <section className="index-banner d-flex justify-content-center flex-column  w-100">
@@ -63,8 +70,8 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="index-recommend">
-        <div className="container ">
+      <section className="index-recommend pb-18 pb-lg-53">
+        <div className="container">
           <div className="row recommend-row-title">
             <div className="col-12 recommend-col">
               <h2 className="recommend-main-title">
@@ -103,83 +110,17 @@ export default function Home() {
               </p>
             </div>
           </div>
-
-          <div className="row recommend-row-image">
-            <div className="col-lg-3 col-md-6 col-12">
-              <div className="recommend-product-card">
-                <div className="image-wrapper">
-                  <img src={strawberryImg} alt="莓好時光" />
-                  <button className="recommend-btn-cart">加入購物車</button>
-                </div>
-                <div className="recommend-product-info">
-                  <h3 className="recommend-product-name">莓好時光</h3>
-                  <p className="recommend-product-description">
-                    主打草莓搭配綿密口感的鮮奶油，傳遞甜蜜美好。
+          <div className="row gy-12">
+            { randomProducts.map(product => (
+              <div className="col-lg-3 col-md-6 col-12"
+                key={product.id}>
+                <CardProduct product={product}>
+                  <p className='py-3 px-4 text-center'>
+                    {product.description}
                   </p>
-                  <div className="recommend-product-price">
-                    <span className="recommend-currency">NT$</span>
-                    <span className="recommend-amount">600</span>
-                  </div>
-                </div>
+                </CardProduct>
               </div>
-            </div>
-
-            <div className=" col-lg-3 col-md-6 col-12">
-              <div className="recommend-product-card">
-                <div className="image-wrapper">
-                  <img src={peachImg} alt="蜜桃初戀" />
-                  <button className="recommend-btn-cart">加入購物車</button>
-                </div>
-                <div className="recommend-product-info">
-                  <h3 className="recommend-product-name">蜜桃初戀</h3>
-                  <p className="recommend-product-description">
-                    適合喜歡果味或果粒口感的甜點，柔美而帶點驚喜。
-                  </p>
-                  <div className="recommend-product-price">
-                    <span className="recommend-currency">NT$</span>
-                    <span className="recommend-amount">560</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-lg-3 col-md-6 col-12">
-              <div className="recommend-product-card">
-                <div className="image-wrapper">
-                  <img src={chocolateImg} alt="榛心醇意" />
-                  <button className="recommend-btn-cart">加入購物車</button>
-                </div>
-                <div className="recommend-product-info">
-                  <h3 className="recommend-product-name">榛心醇意</h3>
-                  <p className="recommend-product-description">
-                    榛果與濃郁純巧克力的搭配，濃郁又帶一點微醺的香氣。
-                  </p>
-                  <div className="recommend-product-price">
-                    <span className="recommend-currency">NT$</span>
-                    <span className="recommend-amount">800</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-lg-3 col-md-6 col-12">
-              <div className="recommend-product-card">
-                <div className="image-wrapper">
-                  <img src={lemonImg} alt="檸檬輕舞" />
-                  <button className="recommend-btn-cart">加入購物車</button>
-                </div>
-                <div className="recommend-product-info mb-6">
-                  <h3 className="recommend-product-name">檸檬輕舞</h3>
-                  <p className="recommend-product-description">
-                    適合清新系甜點，如檸檬塔或檸檬蛋糕，清爽又怡人。
-                  </p>
-                  <div className="recommend-product-price">
-                    <span className="recommend-currency">NT$</span>
-                    <span className="recommend-amount">500</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -189,80 +130,93 @@ export default function Home() {
           <p className="mb-12 mb-lg-32">
             探索最新公益成果，與我們一起改變世界。
           </p>
-          <div className="row mb-12">
-            <div className="col-md-6 mb-6 mb-md-0">
-              <div className="index-news__card position-relative pb-6 pb-md-0 border-bottom border-gray-400 border-bottom-md-0">
-                <img
-                  className="object-fit-cover w-100 mb-2 mb-lg-3 h-xl-472px"
-                  src={newsImages1}
-                  alt="newsImages1"
-                />
-                <p className="text-gray-700 fs-8 mb-2 mb-lg-3">
-                  2024 年 12 月 24 日
-                </p>
-                <h3 className="fs-6 fs-lg-4 mb-2 mb-lg-3">
-                  一起分享幸福，送出500份溫暖餐點！
-                </h3>
-                <a
-                  href="#"
-                  className="text-gray-700 fs-8 fs-lg-7 stretched-link"
-                >
-                  您的甜點，正在改變世界。
-                </a>
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="index-news__card position-relative pb-6 border-bottom border-gray-400">
-                <div className="row">
-                  <div className="col-md-6">
+          { news.length > 0 && (
+            <div className="row mb-12">
+              <div className="col-md-6 mb-6 mb-md-0">
+                <div className="index-news__card position-relative pb-6 pb-md-0 border-bottom border-gray-400 border-bottom-md-0">
+                  <div className="img-container overflow-hidden h-xl-472px mb-2 mb-lg-3">
                     <img
-                      className="object-fit-cover w-100 mb-2 mb-md-0"
-                      src={newsImages2}
+                      className="object-fit-cover w-100 h-100"
+                      src={news[0].image}
                       alt="newsImages1"
                     />
                   </div>
-                  <div className="col ps-lg-1">
-                    <p className="text-gray-700 fs-8 mb-2">
-                      2024 年 9 月 28 日
-                    </p>
-                    <h3 className="fs-6 fs-md-7 fs-lg-6 mb-2">
-                      小甜點，大愛心，為毛孩帶來滿滿能量！
-                    </h3>
-                    <a href="#" className="text-gray-700 fs-8 stretched-link">
-                      和幸享屋一起，讓流浪毛孩不再挨餓！
-                    </a>
-                  </div>
+                  <p className="text-gray-700 fs-8 mb-2 mb-lg-3">
+                    { news[0].create_at }
+                  </p>
+                  <h3 className="fs-6 fs-lg-4 text-dark mb-2 mb-lg-3">
+                    { news[0].title }
+                  </h3>
+                  <Link
+                    to={`/news-detail/${news[0].id}`}
+                    className="text-gray-700 fs-8 fs-lg-7 stretched-link"
+                  >
+                    { news[0].description }
+                  </Link>
                 </div>
               </div>
-              <div className="index-news__card position-relative pt-6">
-                <div className="row">
-                  <div className="col-md-6">
-                    <img
-                      className="object-fit-cover w-100 mb-2 mb-md-0"
-                      src={newsImages3}
-                      alt="newsImages1"
-                    />
+              <div className="col-md-6">
+                <div className="index-news__card position-relative pb-6 border-bottom border-gray-400">
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="img-container overflow-hidden">
+                        <img
+                          className="object-fit-cover w-100 h-100 mb-2 mb-md-0"
+                          src={news[1].image}
+                          alt="newsImages1"
+                        />
+                      </div>
+                    </div>
+                    <div className="col ps-lg-1">
+                      <p className="text-gray-700 fs-8 mb-2">
+                        { news[1].create_at }
+                      </p>
+                      <h3 className="fs-6 fs-md-7 text-dark fs-lg-6 mb-2">
+                        { news[1].title }
+                      </h3>
+                      <Link to={`/news-detail/${news[1].id}`}
+                        className="text-gray-700 fs-8 stretched-link">
+                        { news[1].description }
+                      </Link>
+                    </div>
                   </div>
-                  <div className="col ps-lg-1">
-                    <p className="text-gray-700 fs-8 mb-2">
-                      2024 年 3 月 21 日
-                    </p>
-                    <h3 className="fs-6 fs-md-7 fs-lg-6 mb-2">
-                      甜點與地球同行，種下100棵新希望！
-                    </h3>
-                    <a href="#" className="text-gray-700 fs-8 stretched-link">
-                      甜點與綠意同行，我們和地球都感謝您！
-                    </a>
+                </div>
+                <div className="index-news__card position-relative pt-6">
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="img-container overflow-hidden">
+                        <img
+                          className="object-fit-cover w-100 h-100 mb-2 mb-md-0"
+                          src={ news[2].image }
+                          alt="newsImages1"
+                        />
+                      </div>
+                    </div>
+                    <div className="col ps-lg-1">
+                      <p className="text-gray-700 fs-8 mb-2">
+                        { news[2].create_at }
+                      </p>
+                      <h3 className="fs-6 fs-md-7 fs-lg-6 text-dark mb-2">
+                        { news[2].title }
+                      </h3>
+                      <Link to={`/news-detail/${news[2].id}`}
+                        className="text-gray-700 fs-8 stretched-link">
+                        { news[2].description }
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
           <div className="d-flex justify-content-center justify-content-md-end">
-            <a href="#" className="btn text-primary-600 pe-lg-0">
+            <Link to="news-list"
+              className="btn btn-arrow text-primary-600 text-primary-700-hover pe-lg-0">
               <span className="me-4">全部消息</span>
-              <img src={buttonIconBrown} alt="buttonIconWhie" />
-            </a>
+              <img className="arrow-icon"
+                src={buttonIconBrown}
+                alt="buttonIconWhie" />
+            </Link>
           </div>
         </div>
       </section>
@@ -273,7 +227,7 @@ export default function Home() {
             <p className="text-gray-800 mb-4 mb-md-0">
               購買甜點，選擇捐款方案，讓幸福也可以共享。
             </p>
-            <picture className="mb-2 mb-md-0">
+            <picture className="heart-icon mb-2 mb-md-0">
               <source srcSet={charityHeart} media="(min-width: 796px)" />
               <img src={charityHeartSmall} />
             </picture>
@@ -286,44 +240,59 @@ export default function Home() {
         </div>
         <ul className="index-charity-plans d-flex flex-column flex-md-row justify-content-center pt-md-24 list-unstyled px-0">
           <li className="index-charity-plan position-relative mt-12 mt-md-0 mb-2 mb-md-0 me-md-2">
-            <Link to="/charity/甜蜜助學計畫">
-              <img
-                className="w-100 h-100 object-fit-cover"
-                src={charityPlanKid}
-                alt=""
-              />
+            <Link to="/charity/甜蜜助學計畫"
+             className='stretched-link'>
+              <div className="w-100 h-100 overflow-hidden">
+                <img
+                  className="main-img w-100 h-100 object-fit-cover"
+                  src={charityPlanKid}
+                  alt=""
+                />
+              </div>
               <div className="index-charity-plan-content position-absolute top-50 start-50 translate-middle text-white text-center z-1">
-                <img src={charitySchoolIcon} alt="" />
-                <h3>甜蜜助學計畫</h3>
-                <p>捐助營養餐</p>
+                <div className="text-content">
+                  <img src={charitySchoolIcon} alt="" />
+                  <h3>甜蜜助學計畫</h3>
+                  <p>捐助營養餐</p>
+                </div>
               </div>
             </Link>
           </li>
           <li className="index-charity-plan position-relative mb-2 mb-md-0 me-md-2">
-            <Link to="/charity/幸福愛寵行動">
-              <img
-                className="w-100 h-100 object-fit-cover"
-                src={charityPlanPet}
-                alt=""
-              />
+            <Link to="/charity/幸福愛寵行動"
+              className='stretched-link'>
+              <div className="w-100 h-100 overflow-hidden">
+                <img
+                  className="main-img w-100 h-100 object-fit-cover"
+                  src={charityPlanPet}
+                  alt=""
+                />
+              </div>
               <div className="index-charity-plan-content position-absolute top-50 start-50 translate-middle text-white text-center z-1">
-                <img src={charityDogIcon} alt="" />
-                <h3>幸福愛寵行動</h3>
-                <p>捐助罐罐</p>
+                <div className="text-content">
+                  <img src={charityDogIcon} alt="" />
+                  <h3>幸福愛寵行動</h3>
+                  <p>捐助罐罐</p>
+                </div>
               </div>
             </Link>
           </li>
           <li className="index-charity-plan position-relative">
-            <Link to="/charity/綠色希望專案">
-              <img
-                className="w-100 h-100 object-fit-cover"
-                src={charityPlanTrees}
-                alt=""
-              />
+            <Link to="/charity/綠色希望專案"
+              className='stretched-link'>
+              <div className="w-100 h-100 overflow-hidden">
+                <img
+                  className="main-img w-100 h-100 object-fit-cover"
+                  src={charityPlanTrees}
+                  alt=""
+                />
+              </div>
               <div className="index-charity-plan-content position-absolute top-50 start-50 translate-middle text-white text-center z-1">
-                <img src={charityPlantIcon} alt="" />
-                <h3>綠色希望專案</h3>
-                <p>保護環境永續</p>
+                <div className="text-content">
+                  <img src={charityPlantIcon} alt="" />
+                  <h3>綠色希望專案</h3>
+                  <p>保護環境永續</p>
+                </div>
               </div>
             </Link>
           </li>
