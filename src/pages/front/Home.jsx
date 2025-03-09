@@ -21,6 +21,8 @@ import { getNews, selectNews } from '../../slice/newsSlice';
 import { useEffect } from 'react';
 import CardProduct from '../../components/front/CardProduct';
 import { getRandomProducts } from '../../../util/tools';
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // 引入 AOS 樣式
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -31,6 +33,11 @@ export default function Home() {
   useEffect(() => {
     dispatch(getProducts());
     dispatch(getNews());
+    AOS.init({
+      duration: 1000, // 動畫持續時間 (毫秒)
+      once: true, // 滑動回到頂部時不會再次觸發
+      easing: 'ease-in', // 動畫效果
+    });
   }, []);
   return (
     <main>
@@ -74,7 +81,8 @@ export default function Home() {
         <div className="container">
           <div className="row recommend-row-title">
             <div className="col-12 recommend-col">
-              <h2 className="recommend-main-title">
+              <h2 className="recommend-main-title"
+                data-aos="fade-up">
                 {/* 手機版顯示三行 */}
                 <span className="d-block d-md-none">
                   <span className="recommend-line1 fw-medium">甜蜜推薦</span>
@@ -90,7 +98,8 @@ export default function Home() {
                 </span>
               </h2>
 
-              <p className="recommend-sub-title d-block d-md-none">
+              <p className="recommend-sub-title d-block d-md-none"
+                data-aos="fade-up">
                 <span className="d-block">嚴選美味，專屬您的甜點時光！</span>
                 <span className="d-block">
                   每一款都是我們的用心之作，帶來甜蜜的驚喜與幸福。
@@ -100,7 +109,8 @@ export default function Home() {
                 </span>
               </p>
 
-              <p className="recommend-sub-title d-none d-md-block">
+              <p className="recommend-sub-title d-none d-md-block"
+                data-aos="fade-up">
                 <span className="d-block">
                   嚴選美味，專屬您的甜點時光！每一款都是我們的用心之作，帶來甜蜜的驚喜與幸福。
                 </span>
@@ -111,9 +121,11 @@ export default function Home() {
             </div>
           </div>
           <div className="row gy-12">
-            { randomProducts.map(product => (
+            { randomProducts.map((product, index) => (
               <div className="col-lg-3 col-md-6 col-12"
-                key={product.id}>
+                key={product.id}
+                data-aos="fade-up"
+                data-aos-delay={100 * (index + 1)}>
                 <CardProduct product={product}>
                   <p className='py-3 px-4 text-center'>
                     {product.description}
@@ -126,13 +138,18 @@ export default function Home() {
       </section>
       <section className="index-news py-18 py-lg-36">
         <div className="container">
-          <h2 className="fs-3 fs-lg-2 mb-4 text-primary-800">最新消息</h2>
-          <p className="mb-12 mb-lg-32">
+          <h2 className="fs-3 fs-lg-2 mb-4 text-primary-800"
+            data-aos="fade-up">
+            最新消息
+          </h2>
+          <p className="mb-12 mb-lg-32"
+            data-aos="fade-up">
             探索最新公益成果，與我們一起改變世界。
           </p>
           { news.length > 0 && (
             <div className="row mb-12">
-              <div className="col-md-6 mb-6 mb-md-0">
+              <div className="col-md-6 mb-6 mb-md-0"
+                data-aos="fade-up">
                 <div className="index-news__card position-relative pb-6 pb-md-0 border-bottom border-gray-400 border-bottom-md-0">
                   <div className="img-container overflow-hidden h-xl-472px mb-2 mb-lg-3">
                     <img
@@ -157,7 +174,9 @@ export default function Home() {
               </div>
               <div className="col-md-6">
                 <div className="index-news__card position-relative pb-6 border-bottom border-gray-400">
-                  <div className="row">
+                  <div className="row"
+                    data-aos="fade-up"
+                    data-aos-delay={100}>
                     <div className="col-md-6">
                       <div className="img-container overflow-hidden">
                         <img
@@ -182,7 +201,9 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="index-news__card position-relative pt-6">
-                  <div className="row">
+                  <div className="row"
+                    data-aos="fade-up"
+                    data-aos-delay={150}>
                     <div className="col-md-6">
                       <div className="img-container overflow-hidden">
                         <img
@@ -223,8 +244,12 @@ export default function Home() {
       <section className="index-charity">
         <div className="index-charity-title pt-6 pt-md-12">
           <div className="container text-center position-relative">
-            <h2 className="fs-3 fs-lg-2 mb-4 text-primary-800">幸福共享專案</h2>
-            <p className="text-gray-800 mb-4 mb-md-0">
+            <h2 className="fs-3 fs-lg-2 mb-4 text-primary-800"
+              data-aos="fade-up">
+              幸福共享專案
+            </h2>
+            <p className="text-gray-800 mb-4 mb-md-0"
+              data-aos="fade-up">
               購買甜點，選擇捐款方案，讓幸福也可以共享。
             </p>
             <picture className="heart-icon mb-2 mb-md-0">
@@ -242,7 +267,8 @@ export default function Home() {
           </div>
         </div>
         <ul className="index-charity-plans d-flex flex-column flex-md-row justify-content-center pt-md-24 list-unstyled px-0">
-          <li className="index-charity-plan position-relative mt-12 mt-md-0 mb-2 mb-md-0 me-md-2">
+          <li className="index-charity-plan position-relative mt-12 mt-md-0 mb-2 mb-md-0 me-md-2"
+            data-aos="fade-up">
             <Link to="/charity/甜蜜助學計畫"
              className='stretched-link'>
               <div className="w-100 h-100 overflow-hidden">
@@ -261,7 +287,10 @@ export default function Home() {
               </div>
             </Link>
           </li>
-          <li className="index-charity-plan position-relative mb-2 mb-md-0 me-md-2">
+          <li className="index-charity-plan position-relative mb-2 mb-md-0 me-md-2"
+            data-aos="fade-up"
+            data-aos-delay={100}
+            >
             <Link to="/charity/幸福愛寵行動"
               className='stretched-link'>
               <div className="w-100 h-100 overflow-hidden">
@@ -280,7 +309,9 @@ export default function Home() {
               </div>
             </Link>
           </li>
-          <li className="index-charity-plan position-relative">
+          <li className="index-charity-plan position-relative"
+            data-aos="fade-up"
+            data-aos-delay={150}>
             <Link to="/charity/綠色希望專案"
               className='stretched-link'>
               <div className="w-100 h-100 overflow-hidden">
@@ -303,16 +334,22 @@ export default function Home() {
       </section>
       <section className="index-thanks">
         <div className="index-thanks-title container text-white pt-18 pt-lg-36">
-          <h2 className="fs-3 fs-lg-2 mb-6 mb-lg-4">感謝有您</h2>
-          <p className="fs-8 fs-lg-7 mb-2">
+          <h2 className="fs-3 fs-lg-2 mb-6 mb-lg-4"
+            data-aos="fade-up">
+            感謝有您
+          </h2>
+          <p className="fs-8 fs-lg-7 mb-2"
+            data-aos="fade-up">
             您的每一次捐款，都是一個幸福的故事。
           </p>
-          <p className="fs-8 fs-lg-7">
+          <p className="fs-8 fs-lg-7"
+            data-aos="fade-up">
             在這裡，我們記錄每一份善意，分享每一個改變的瞬間。
           </p>
         </div>
         <div className="container">
-          <ul className="list-unstyled row flex-column g-4 align-items-center align-items-md-start ps-0 flex-md-row mt-12 mt-lg-20 noto-serif-tc">
+          <ul className="list-unstyled row flex-column g-4 align-items-center align-items-md-start ps-0 flex-md-row mt-12 mt-lg-20 noto-serif-tc"
+            data-aos="fade-up">
             <li className="col text-center text-black position-relative mt-md-50">
               <img src={thanksAchievement} alt="" />
               <div className="fs-6 position-absolute top-50 start-50 translate-middle">
