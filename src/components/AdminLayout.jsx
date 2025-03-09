@@ -28,7 +28,7 @@ export default function AdminLayout() {
           <h2 className="m-dec-left mb-10">幸享屋</h2>
           <ul className="ps-0">
             <li className="active0">
-              <NavLink to="/dashboard" className="border-0">
+              <NavLink to="/dashboard/order" className="border-0">
                 <div className="menu-item">
                   <svg
                     enableBackground="new 0 0 64 64"
@@ -82,7 +82,7 @@ export default function AdminLayout() {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/dashboard" className="border-0">
+              <NavLink to="/dashboard/users" className="border-0">
                 <div className="menu-item">
                   <svg
                     enableBackground="new 0 0 64 64"
