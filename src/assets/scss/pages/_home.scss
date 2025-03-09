@@ -71,6 +71,14 @@
   .btn {
     color: #fff;
     border-radius: 0rem 16px 0rem 16px;
+    @media (max-width: 600px) {
+      width: 16rem;
+      height:4rem;
+      margin-top: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }
 
