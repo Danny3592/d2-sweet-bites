@@ -173,10 +173,10 @@ export default function Home() {
                 </div>
               </div>
               <div className="col-md-6">
-                <div className="index-news__card position-relative pb-6 border-bottom border-gray-400">
-                  <div className="row"
-                    data-aos="fade-up"
-                    data-aos-delay={100}>
+                <div className="index-news__card position-relative pb-6 border-bottom border-gray-400"
+                  data-aos="fade-up"
+                  data-aos-delay={100}>
+                  <div className="row">
                     <div className="col-md-6">
                       <div className="img-container overflow-hidden">
                         <img
@@ -200,10 +200,10 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-                <div className="index-news__card position-relative pt-6">
-                  <div className="row"
-                    data-aos="fade-up"
-                    data-aos-delay={150}>
+                <div className="index-news__card position-relative pt-6"
+                  data-aos="fade-up"
+                  data-aos-delay={150}>
+                  <div className="row">
                     <div className="col-md-6">
                       <div className="img-container overflow-hidden">
                         <img
