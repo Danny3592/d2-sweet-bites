@@ -234,7 +234,10 @@ export default function Home() {
             <img
               src={charityCorner}
               alt="corner"
-              className="position-absolute top-100 start-50 translate-middle-x"
+              className="position-absolute start-50 translate-middle-x"
+              style={{
+                top: '97%',
+              }}
             />
           </div>
         </div>
@@ -309,20 +312,20 @@ export default function Home() {
           </p>
         </div>
         <div className="container">
-          <ul className="list-unstyled row flex-column g-4 align-items-center align-items-md-start ps-0 flex-md-row mt-12 mt-lg-20">
+          <ul className="list-unstyled row flex-column g-4 align-items-center align-items-md-start ps-0 flex-md-row mt-12 mt-lg-20 noto-serif-tc">
             <li className="col text-center text-black position-relative mt-md-50">
               <img src={thanksAchievement} alt="" />
               <div className="fs-6 position-absolute top-50 start-50 translate-middle">
                 <p className="mb-6">
                   <span className="fs-2 text-primary-800">300</span>多隻
                 </p>
-                <p>流浪動物得到溫暖</p>
+                <p className='fw-medium'>流浪動物得到溫暖</p>
               </div>
             </li>
             <li className="col text-center text-black position-relative">
               <img src={thanksAchievement} alt="" />
               <div className="fs-6 position-absolute top-50 start-50 translate-middle">
-                <p className="mb-6">已募集愛心</p>
+                <p className="mb-6 fw-medium">已募集愛心</p>
                 <p>
                   <span className="fs-2 text-primary-800">800,000</span>元
                 </p>
@@ -334,7 +337,7 @@ export default function Home() {
                 <p className="mb-6">
                   <span className="fs-2 text-primary-800">500</span>位
                 </p>
-                <p>弱勢兒童得到營養</p>
+                <p className='fw-medium'>弱勢兒童得到營養</p>
               </div>
             </li>
             <li className="col text-center text-black position-relative">
@@ -343,7 +346,7 @@ export default function Home() {
                 <p className="mb-6">
                   <span className="fs-2 text-primary-800">200</span>顆
                 </p>
-                <p>新種植的樹木</p>
+                <p className='fw-medium'>新種植的樹木</p>
               </div>
             </li>
           </ul>
