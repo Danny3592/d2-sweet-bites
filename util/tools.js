@@ -16,6 +16,7 @@ export const checkInputFill = (obj, requireInputs) => {
   })
 }
 
+
 export const getRandomProducts = (products, num) => {
   const desserts = products.filter(product => product.category !== '慈善');
   const result = new Set();
@@ -38,4 +39,11 @@ export const getProductCategories = (products) => {
     return count;
   }, {});
   return Object.entries(categoryCount);
+}
+
+// 比較傳入日期是否過期
+export const compareDateExpired = (date) => {
+  const today = new Date(); // 取得今天日期
+  const targetDate = new Date(date);
+  return today > targetDate;
 }
