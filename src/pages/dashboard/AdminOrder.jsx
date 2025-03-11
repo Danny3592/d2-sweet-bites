@@ -1,14 +1,20 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Modal } from 'bootstrap';
 import {
   alertDeleteConfirm,
   toastAlert,
   alertError,
 } from '../../../util/sweetAlert';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  getProducts,
+  selectProducts,
+} from "../../slice/productSlice";
 import Pagination from '../../components/Pagination';
 import Loading from '../../components/Loading';
 import axios from 'axios';
 import AdminOrderModal from '../../components/dashboard/AdminOrderModal';
+import C3PieChart from '../../components/C3PieChart';
 
 export default function AdminProducts() {
   const [orders, setOrders] = useState([]);
@@ -16,11 +22,13 @@ export default function AdminProducts() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+  const allProducts = useSelector(selectProducts);
+  console.log('products', allProducts)
   const getOrders = async (page = 1) => {
     setIsLoading(true);
     try {
       const res = await axios.get(`660/orders?_page=${page}&_limit=10`);
-      console.log(res.data);
       setOrders(res.data);
       setTotalPages(Math.ceil(res.headers.get('X-Total-Count') / 10));
     } catch (error) {
@@ -31,7 +39,9 @@ export default function AdminProducts() {
   };
   useEffect(() => {
     getOrders(currentPage);
+    dispatch(getProducts());
   }, [currentPage]);
+  console.log(orders);
 
   const orderModal = useRef(null);
   const modalRef = useRef(null);
@@ -66,6 +76,22 @@ export default function AdminProducts() {
     }
   };
 
+  // c3圖表 各品項營收比
+  const incomeByProducts = useMemo(() => {
+    const incomes = orders.reduce((count, order) => {
+      order.recentItems.forEach(item => {
+        const productName = allProducts.find(product => product.id === item.productId)?.title;
+        if (!count[item.productId]) {
+          count[productName] = item.qty * item.price;
+        } else {
+          count[productName] += item.qty * item.price;
+        }
+      });
+      return count;
+    }, {});
+    return Object.entries(incomes);
+  }, [orders, allProducts]);
+
   return (
     <>
       {isLoading && <Loading type="spin" color="#D4A58E" />}
@@ -92,7 +118,6 @@ export default function AdminProducts() {
           </thead>
           <tbody>
             {orders?.map((order) => {
-              console.log(order);
               const formattedAmount = order.totalAmount.toLocaleString(
                 'zh-TW',
                 {
@@ -137,6 +162,16 @@ export default function AdminProducts() {
           totalPages={totalPages}
           setCurrentPage={setCurrentPage}
         />
+        { incomeByProducts.length && (
+          <>
+            <p className='text-center mt-5'>各品項營收比</p>
+            <div className="pt-5 pb-10 overflow-x-hidden d-flex justify-content-center">
+              <div className="w-75">
+                <C3PieChart data={incomeByProducts}/>
+              </div>
+            </div>
+          </>
+        )}
       </main>
     </>
   );
