@@ -81,7 +81,7 @@ export default function AdminProducts() {
     const incomes = orders.reduce((count, order) => {
       order.recentItems.forEach(item => {
         const productName = allProducts.find(product => product.id === item.productId)?.title;
-        if (!count[item.productId]) {
+        if (!count[productName]) {
           count[productName] = item.qty * item.price;
         } else {
           count[productName] += item.qty * item.price;
