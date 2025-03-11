@@ -21,6 +21,11 @@ export default function AdminLayout() {
     }
   }, [token, navigate]);
 
+  const logOut = () => {
+    document.cookie = "dessertToken=; path=/;";
+    navigate("/admin-login");
+  }
+
   return (
     <>
       <div className="admin__container">
@@ -194,7 +199,11 @@ export default function AdminLayout() {
         <div className="admin__box">
           <header className="admin__header">
             <div className="logout-box">
-              <button className="btn-logout">登出</button>
+              <button className="btn-logout"
+                onClick={logOut}
+                type="button">
+                登出
+              </button>
             </div>
           </header>
           <main className="admin__content">
