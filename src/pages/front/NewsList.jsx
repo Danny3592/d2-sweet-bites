@@ -1,9 +1,6 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
 import { alertError } from "../../../util/sweetAlert";
-
 import Loading from "../../components/Loading";
 import NewsSwiper from "../../components/NewsSwiper";
 import Breadcrumb from "../../components/front/Breadcrumb";
@@ -12,8 +9,6 @@ import arrowWhite from "../../assets/images/news-list/arrow_right_white.svg";
 import { Link } from "react-router-dom";
 
 export default function NewsList() {
-  const navigate = useNavigate();
-
   // breadcrumb 路徑
   const breadcrumbPath = [
     {
@@ -26,6 +21,7 @@ export default function NewsList() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [newsList, setNewsList] = useState([]);
+  const [searchNewsList, setSearchNewsList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   //carousel
@@ -63,22 +59,36 @@ export default function NewsList() {
     setIsLoading(true);
     try {
       let url = `/news?_page=${page}&_limit=6`;
-
       if (searchText) {
         url = `/news?title_like=${searchText}`;
       }
-
       const res = await axios.get(url);
-
       // 只保留 `isPublic: true` 的新聞
       const publicNews = res.data.filter((news) => Number(news.isPublic) === 1);
-      setNewsList(publicNews);
+      if (searchText) {
+        setSearchNewsList(publicNews);
+      } else {
+        setNewsList(publicNews);
+      }
     } catch (error) {
       alertError(error.message);
     } finally {
       setIsLoading(false);
     }
   };
+
+  const sortedNewsByDateTop3 = newsList.sort((a, b) => new Date(b.create_at) - new Date(a.create_at))
+    .slice(0, 3);
+  const sortedNewsByDate = newsList.sort((a, b) => new Date(b.create_at) - new Date(a.create_at));
+  const [isMoreNewsOpen, setIsMoreNewsOpen] = useState(false);
+  let displayNews = [];
+  if (searchText) {
+    displayNews = searchNewsList;
+  } else if (isMoreNewsOpen) {
+    displayNews = sortedNewsByDate;
+  } else if (!isMoreNewsOpen) {
+    displayNews = sortedNewsByDateTop3;
+  }
 
   useEffect(() => {
     getCarouselNews();
@@ -163,11 +173,11 @@ export default function NewsList() {
           {/* 新聞區塊*/}
 
           <div className="container py-18 py-md-36">
-            {!newsList.length && searchText ? (
+            {!searchNewsList.length && searchText ? (
               <p className="text-center fs-4">您搜尋的新聞不存在</p>
             ) : (
               <>
-                {newsList.map((news, index) => (
+                {displayNews.map((news, index) => (
                   <div key={news.id}
                     className="position-relative news-card">
                     <div className="row">
@@ -216,17 +226,17 @@ export default function NewsList() {
             )}
 
             {/* 閱讀更多按鈕 */}
-            {newsList.length > 0 && (
+            {(newsList.length > 0 && !isMoreNewsOpen) && (
               <div className="d-flex justify-content-end mt-18 mt-md-36">
                 <button
                   className="btn btn-primary-600 text-white fs-7 px-10 py-5 read-more-btn"
                   type="button"
+                  onClick={() => setIsMoreNewsOpen(true)}
                 >
                   <span className="me-4">閱讀更多</span>
                   <img
                     src={arrowWhite}
                     alt="閱讀更多按鈕連結"
-                    className=""
                     style={{
                       width: "48px",
                       height: "8px",

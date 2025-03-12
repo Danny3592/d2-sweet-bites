@@ -5,11 +5,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { Navigation, Pagination } from "swiper/modules";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { Link } from "react-router-dom";
 
 export default function NewsSwiper({ carouselData }) {
-  console.log(carouselData);
   return (
     <div className="news-section">
       <div className="container px-0 px-sm-3">
@@ -19,18 +18,18 @@ export default function NewsSwiper({ carouselData }) {
             nextEl: ".custom-swiper-button-next",
             prevEl: ".custom-swiper-button-prev",
           }}
+          autoplay={{
+            delay: 2500,         // 自動播放間隔 (毫秒)
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
           pagination={{
             el: ".swiper-pagination",
             clickable: true,
           }}
-          modules={[Navigation, Pagination]}
+          modules={[Navigation, Pagination, Autoplay]}
           className="mySwiper "
           spaceBetween={24}
-          breakpoints={{
-            320: { slidesPerView: 1 },
-            768: { slidesPerView: 1 },
-            1024: { slidesPerView: 1 },
-          }}
         >
           {carouselData.map((item) => (
             <SwiperSlide key={item.id}>
