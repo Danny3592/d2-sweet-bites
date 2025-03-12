@@ -19,3 +19,10 @@
 .cursor-pointer {
   cursor: pointer;
 }
+
+.vh-body {
+  height: calc(100vh - 72px);
+  @include media-breakpoint-up(lg) {
+    height: calc(100vh - 90px);
+  }
+}
