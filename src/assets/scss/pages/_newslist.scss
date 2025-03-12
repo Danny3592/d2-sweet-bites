@@ -21,9 +21,14 @@
     @include media-breakpoint-up(lg) {
       height: 729px;
     }
+
+    &:hover .slide-image {
+      transform: scale(1.1);
+    }
   }
 
   .slide-image {
+    transition: all 400ms linear;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -105,13 +110,23 @@
     height: 1px;
     background-color: $gray-400;
   }
+  
+  .news-card:hover .news-img{
+    transform: scale(1.1);
+  }
 
-  .news-img {
+  .news-img-container {
     height: 243px; // 確保所有圖片高度
     height: auto;
     @include media-breakpoint-up(md) {
       height: 288px;
     }
+  }
+
+  .news-img {
+    transition: all 400ms linear;
+    height: 100%;
+    width: 100%;
   }
 
   .know-more-btn {

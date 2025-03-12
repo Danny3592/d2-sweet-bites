@@ -1,4 +1,3 @@
-import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -8,9 +7,9 @@ import { alertError } from "../../../util/sweetAlert";
 import Loading from "../../components/Loading";
 import NewsSwiper from "../../components/NewsSwiper";
 import Breadcrumb from "../../components/front/Breadcrumb";
-
-import arrowBrown from "../../assets/images/news-list/arrow_right.svg";
+import buttonIconBrown from '../../assets/images/icons/button-arrow-brown.png';
 import arrowWhite from "../../assets/images/news-list/arrow_right_white.svg";
+import { Link } from "react-router-dom";
 
 export default function NewsList() {
   const navigate = useNavigate();
@@ -169,31 +168,23 @@ export default function NewsList() {
             ) : (
               <>
                 {newsList.map((news, index) => (
-                  <div key={news.id}>
+                  <div key={news.id}
+                    className="position-relative news-card">
                     <div className="row">
                       {/* 左側圖片 */}
                       <div className="col-12 col-md-4">
-                        <a
-                          href={`/news/${news.id}`}
-                          className="d-block"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            navigate(`/news-detail/${news.id}`);
-                          }}
-                        >
+                        <div className="news-img-container overflow-hidden">
                           <img
                             src={news.image}
                             alt={news.title}
                             className="news-img rounded-0 w-100 object-fit-cover mb-2 mb-md-0"
                           />
-                        </a>
+                        </div>
                       </div>
 
                       {/* 右側內容區塊 */}
                       <div
-                        className="col-12 col-md-8 d-flex flex-column justify-content-between"
-                        onClick={() => navigate(`/news-detail/${news.id}`)}
-                      >
+                        className="col-12 col-md-8 d-flex flex-column justify-content-between">
                         <div className="align-self-start">
                           <p className="text-gray-700 fs-md-7 fs-8 mb-2 mb-md-6">
                             {news.create_at}
@@ -206,21 +197,13 @@ export default function NewsList() {
                           </p>
                         </div>
                         <div className="d-flex d-none d-md-block align-self-md-start text-md-start">
-                          <button
-                            className="btn btn-link px-0 py-3 text-primary-600 know-more-btn"
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation(); // 防止外層的 onClick 觸發
-                              navigate(`/news-detail/${news.id}`);
-                            }}
-                          >
-                            <span className=" me-4 fs-7">了解更多</span>
-                            <img
-                              src={arrowBrown}
-                              alt="了解更多按鈕連結"
-                              style={{ width: "48px", height: "8px" }}
-                            />
-                          </button>
+                          <Link to={`/news-detail/${news.id}`}
+                            className="btn btn-arrow text-primary-600 text-primary-700-hover py-3 px-0 stretched-link">
+                            <span className="me-4">了解更多</span>
+                            <img className="arrow-icon"
+                              src={buttonIconBrown}
+                              alt="buttonIconWhie" />
+                          </Link>
                         </div>
                       </div>
                     </div>

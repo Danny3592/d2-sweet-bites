@@ -6,8 +6,10 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
+import { Link } from "react-router-dom";
 
 export default function NewsSwiper({ carouselData }) {
+  console.log(carouselData);
   return (
     <div className="news-section">
       <div className="container px-0 px-sm-3">
@@ -32,25 +34,29 @@ export default function NewsSwiper({ carouselData }) {
         >
           {carouselData.map((item) => (
             <SwiperSlide key={item.id}>
-              <div className="slide-container">
-                <img
-                  src={item.image}
-                  alt={`Slide ${item.id}`}
-                  className="slide-image"
-                />
-                <div className="overlay"></div>
-                <h1 className="slide-title position-absolute text-start fw-bold ps-3 ps-md-12 fs-5 fs-md-2 text-white">
-                  {item.description}
-                </h1>
-
-                {/* 導航按鈕緊貼圖片內側 */}
-                <div className="custom-swiper-button-prev d-flex top-50 position-absolute rounded-0 align-items-center justify-content-center">
-                  <img src={chevronLeft} alt="Previous" />
+              <Link to={`/news-detail/${item.id}`}
+                className="d-block">
+                <div className="slide-container">
+                  <div className="h-100 overflow-hidden">
+                    <img
+                      src={item.image}
+                      alt={`Slide ${item.id}`}
+                      className="slide-image"
+                    />
+                  </div>
+                  <div className="overlay"></div>
+                  <h1 className="slide-title position-absolute text-start fw-bold ps-3 ps-md-12 fs-5 fs-md-2 text-white">
+                    {item.description}
+                  </h1>
+                  {/* 導航按鈕緊貼圖片內側 */}
+                  <div className="custom-swiper-button-prev d-flex top-50 position-absolute rounded-0 align-items-center justify-content-center">
+                    <img src={chevronLeft} alt="Previous" />
+                  </div>
+                  <div className="custom-swiper-button-next d-flex top-50 position-absolute rounded-0 align-items-center justify-content-center">
+                    <img src={chevronRight} alt="Next" />
+                  </div>
                 </div>
-                <div className="custom-swiper-button-next d-flex top-50 position-absolute rounded-0 align-items-center justify-content-center">
-                  <img src={chevronRight} alt="Next" />
-                </div>
-              </div>
+              </Link>
             </SwiperSlide>
           ))}
         </Swiper>
