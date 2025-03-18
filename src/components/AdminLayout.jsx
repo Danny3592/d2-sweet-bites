@@ -21,6 +21,11 @@ export default function AdminLayout() {
     }
   }, [token, navigate]);
 
+  const logOut = () => {
+    document.cookie = "dessertToken=; path=/;";
+    navigate("/admin-login");
+  }
+
   return (
     <>
       <div className="admin__container">
@@ -28,7 +33,7 @@ export default function AdminLayout() {
           <h2 className="m-dec-left mb-10">幸享屋</h2>
           <ul className="ps-0">
             <li className="active0">
-              <NavLink to="/dashboard" className="border-0">
+              <NavLink to="/dashboard/order" className="border-0">
                 <div className="menu-item">
                   <svg
                     enableBackground="new 0 0 64 64"
@@ -82,7 +87,7 @@ export default function AdminLayout() {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/dashboard" className="border-0">
+              <NavLink to="/dashboard/users" className="border-0">
                 <div className="menu-item">
                   <svg
                     enableBackground="new 0 0 64 64"
@@ -194,7 +199,11 @@ export default function AdminLayout() {
         <div className="admin__box">
           <header className="admin__header">
             <div className="logout-box">
-              <button className="btn-logout">登出</button>
+              <button className="btn-logout"
+                onClick={logOut}
+                type="button">
+                登出
+              </button>
             </div>
           </header>
           <main className="admin__content">

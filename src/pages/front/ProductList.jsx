@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { alertError } from '../../../util/sweetAlert';
 import CardProduct from "../../components/front/CardProduct";
 import Pagination from "../../components/Pagination";
 import Breadcrumb from "../../components/front/Breadcrumb";

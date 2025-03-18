@@ -1,20 +1,14 @@
-import React from "react";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
 import { alertError } from "../../../util/sweetAlert";
-
 import Loading from "../../components/Loading";
 import NewsSwiper from "../../components/NewsSwiper";
 import Breadcrumb from "../../components/front/Breadcrumb";
-
-import arrowBrown from "../../assets/images/news-list/arrow_right.svg";
+import buttonIconBrown from '../../assets/images/icons/button-arrow-brown.png';
 import arrowWhite from "../../assets/images/news-list/arrow_right_white.svg";
+import { Link } from "react-router-dom";
 
 export default function NewsList() {
-  const navigate = useNavigate();
-
   // breadcrumb 路徑
   const breadcrumbPath = [
     {
@@ -27,6 +21,7 @@ export default function NewsList() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [newsList, setNewsList] = useState([]);
+  const [searchNewsList, setSearchNewsList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   //carousel
@@ -64,22 +59,36 @@ export default function NewsList() {
     setIsLoading(true);
     try {
       let url = `/news?_page=${page}&_limit=6`;
-
       if (searchText) {
         url = `/news?title_like=${searchText}`;
       }
-
       const res = await axios.get(url);
-
       // 只保留 `isPublic: true` 的新聞
       const publicNews = res.data.filter((news) => Number(news.isPublic) === 1);
-      setNewsList(publicNews);
+      if (searchText) {
+        setSearchNewsList(publicNews);
+      } else {
+        setNewsList(publicNews);
+      }
     } catch (error) {
       alertError(error.message);
     } finally {
       setIsLoading(false);
     }
   };
+
+  const sortedNewsByDateTop3 = newsList.sort((a, b) => new Date(b.create_at) - new Date(a.create_at))
+    .slice(0, 3);
+  const sortedNewsByDate = newsList.sort((a, b) => new Date(b.create_at) - new Date(a.create_at));
+  const [isMoreNewsOpen, setIsMoreNewsOpen] = useState(false);
+  let displayNews = [];
+  if (searchText) {
+    displayNews = searchNewsList;
+  } else if (isMoreNewsOpen) {
+    displayNews = sortedNewsByDate;
+  } else if (!isMoreNewsOpen) {
+    displayNews = sortedNewsByDateTop3;
+  }
 
   useEffect(() => {
     getCarouselNews();
@@ -164,36 +173,28 @@ export default function NewsList() {
           {/* 新聞區塊*/}
 
           <div className="container py-18 py-md-36">
-            {!newsList.length && searchText ? (
+            {!searchNewsList.length && searchText ? (
               <p className="text-center fs-4">您搜尋的新聞不存在</p>
             ) : (
               <>
-                {newsList.map((news, index) => (
-                  <div key={news.id}>
+                {displayNews.map((news, index) => (
+                  <div key={news.id}
+                    className="position-relative news-card">
                     <div className="row">
                       {/* 左側圖片 */}
                       <div className="col-12 col-md-4">
-                        <a
-                          href={`/news/${news.id}`}
-                          className="d-block"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            navigate(`/news-detail/${news.id}`);
-                          }}
-                        >
+                        <div className="news-img-container overflow-hidden">
                           <img
                             src={news.image}
                             alt={news.title}
                             className="news-img rounded-0 w-100 object-fit-cover mb-2 mb-md-0"
                           />
-                        </a>
+                        </div>
                       </div>
 
                       {/* 右側內容區塊 */}
                       <div
-                        className="col-12 col-md-8 d-flex flex-column justify-content-between"
-                        onClick={() => navigate(`/news-detail/${news.id}`)}
-                      >
+                        className="col-12 col-md-8 d-flex flex-column justify-content-between">
                         <div className="align-self-start">
                           <p className="text-gray-700 fs-md-7 fs-8 mb-2 mb-md-6">
                             {news.create_at}
@@ -206,21 +207,13 @@ export default function NewsList() {
                           </p>
                         </div>
                         <div className="d-flex d-none d-md-block align-self-md-start text-md-start">
-                          <button
-                            className="btn btn-link px-0 py-3 text-primary-600 know-more-btn"
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation(); // 防止外層的 onClick 觸發
-                              navigate(`/news-detail/${news.id}`);
-                            }}
-                          >
-                            <span className=" me-4 fs-7">了解更多</span>
-                            <img
-                              src={arrowBrown}
-                              alt="了解更多按鈕連結"
-                              style={{ width: "48px", height: "8px" }}
-                            />
-                          </button>
+                          <Link to={`/news-detail/${news.id}`}
+                            className="btn btn-arrow text-primary-600 text-primary-700-hover py-3 px-0 stretched-link">
+                            <span className="me-4">了解更多</span>
+                            <img className="arrow-icon"
+                              src={buttonIconBrown}
+                              alt="buttonIconWhie" />
+                          </Link>
                         </div>
                       </div>
                     </div>
@@ -233,17 +226,17 @@ export default function NewsList() {
             )}
 
             {/* 閱讀更多按鈕 */}
-            {newsList.length > 0 && (
+            {(newsList.length > 0 && !isMoreNewsOpen) && (
               <div className="d-flex justify-content-end mt-18 mt-md-36">
                 <button
                   className="btn btn-primary-600 text-white fs-7 px-10 py-5 read-more-btn"
                   type="button"
+                  onClick={() => setIsMoreNewsOpen(true)}
                 >
                   <span className="me-4">閱讀更多</span>
                   <img
                     src={arrowWhite}
                     alt="閱讀更多按鈕連結"
-                    className=""
                     style={{
                       width: "48px",
                       height: "8px",
