@@ -20,6 +20,7 @@ export default function AdminDonate() {
     }
   }
 
+
   const donateOrders = useMemo(() => {
     const orderData = orders.map(order => {
       return order.recentItems.map(item => {
@@ -27,7 +28,7 @@ export default function AdminDonate() {
         return {
           ...item,
           productName,
-          name: order.useInfo.name,
+          name: order.userInfo?.name,
         }
       })
     }).flat();
@@ -105,8 +106,10 @@ export default function AdminDonate() {
             setCurrentPage={setCurrentPage}
           />
           <p className='text-center mt-5'>各捐款方案金額佔比</p>
-          <div className="pt-5 pb-10 w-100">
-            <C3PieChart data={c3Data}/>
+          <div className="pt-5 pb-10 overflow-x-hidden d-flex justify-content-center">
+            <div className="w-75">
+              <C3PieChart data={c3Data}/>
+            </div>
           </div>
         </>
       ) : (

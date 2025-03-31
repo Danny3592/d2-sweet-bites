@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
@@ -8,7 +8,9 @@ import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { FiHeart } from 'react-icons/fi';
 import { FaHeart } from 'react-icons/fa';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
+import { Navigation, Pagination } from 'swiper/modules';
+import arrowRightLight from '../../assets/images/icons/chevron-right-light.svg';
+import arrowLeftLight from '../../assets/images/icons/chevron-left-light.svg';
 
 // Components & Styles
 import CharityCard from '../../components/front/product-detail/CharityCard';
@@ -127,10 +129,22 @@ const ProductDetail = () => {
       .finally(() => setIsLoading(false));
   }, [productId, dispatch]);
 
+  // 上方swiper 輪播
+  const swiperProducts = useMemo(() => {
+    if (!productDetails.imagesUrl) return [];
+    return [
+      productDetails.imageUrl,
+      ...productDetails.imagesUrl,
+    ]
+  }, [productDetails]);
+  console.log('swiperProducts', swiperProducts);
+
+
   /* =====================
    *  每當收藏或商品更新時，判斷當前商品是否在收藏清單內
    * ===================== */
   useEffect(() => {
+    console.log('productDetails', productDetails)
     if (favorites.length > 0 && productDetails?.id) {
       setIsFavorite(
         favorites.some((item) => item.productId === +productDetails.id),
@@ -351,8 +365,7 @@ const ProductDetail = () => {
         <div className="container p-0">
           <div className="row d-flex gx-lg-12 gx-0">
             {/* ===================== 左區：圖片列表 ===================== */}
-            <div className="product-img-list col-12 col-lg-6 position-relative">
-              {/* 手機板輪播 */}
+            {/* <div className="product-img-list col-12 col-lg-6 position-relative">
               <div className="d-block d-lg-none">
                 <div
                   id="main-img"
@@ -406,8 +419,6 @@ const ProductDetail = () => {
                   </button>
                 </div>
               </div>
-
-              {/* 電腦板圖片區 */}
               <div className="d-none d-lg-block">
                 <div>
                   <img
@@ -436,8 +447,51 @@ const ProductDetail = () => {
                   ))}
                 </ul>
               </div>
+            </div> */}
+            <div className="col-12 col-lg-6">
+              <Swiper
+                spaceBetween={0}
+                slidesPerView={1}
+                modules={[Navigation, Pagination]}
+                navigation={{
+                  nextEl: '.swiper-button-next-banner',
+                  prevEl: '.swiper-button-prev-banner'
+                }}
+                pagination={{
+                  clickable: true,
+                  el: '.swiper-pagination-banner',
+                  renderBullet: (index, className) => {
+                  // 使用 swiperProducts 中的圖片作為分頁
+                  return `
+                    <div class="${className}">
+                      <img src="${swiperProducts[index]}" alt="pagination-image"
+                      class="swiper-pagination-img" />
+                    </div>
+                  `;
+                }}}
+                
+                className='mb-0 mb-lg-6'
+              >
+                <div className='position-relative'>
+                  {swiperProducts.map((product, index) => (
+                      <SwiperSlide key={index}>
+                        <img src={product}
+                          className='swiper-product-img image'
+                          alt="prduct-img" />
+                      </SwiperSlide>
+                  ))}
+                </div>
+                <div className="swiper-button-prev-banner">
+                  <img src={arrowLeftLight} alt="" />
+                </div>
+                <div className="swiper-button-next-banner">
+                  <img src={arrowRightLight} alt="" />
+                </div>
+              </Swiper>
+              <div className="d-none d-lg-block">
+                <div className="swiper-pagination-banner"></div>
+              </div>
             </div>
-
             {/* ===================== 右區：商品內容 ===================== */}
             <div className="col-12 col-lg-6 px-lg-8 px-3 py-lg-0 py-6 position-relative">
               {/* 手機板收藏按鈕 */}

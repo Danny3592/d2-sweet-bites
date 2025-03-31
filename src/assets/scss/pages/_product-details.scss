@@ -101,6 +101,28 @@
       transform: translate(-65%);
     }
   }
+  img.swiper-product-img.image{
+    height: 375px;
+    @include media-breakpoint-up(lg) {
+      height: 634px;
+    } 
+  }
+  // navigation
+  .swiper-pagination-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+  }
+  .swiper-pagination-bullet {
+    width: 86px;
+    height: 86px;
+    opacity: 1;
+    border-radius: 0;
+  }
+  .swiper-pagination-bullet-active {
+    border: 2px solid $primary-700;
+  }
   .heart {
     color: #bf0e46;
     width: 30px;
@@ -151,7 +173,7 @@
     }
   }
 
-  .swiper-wrapper {
+  .similar-items .swiper-wrapper {
     display: flex;
 
     @media (max-width: 785px) {
