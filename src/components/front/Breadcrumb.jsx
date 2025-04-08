@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Fragment } from "react";
+import PropTypes from 'prop-types';
 export default function Breadcrumb({ currentCategory, breadcrumbPath }) {
   return (
     <nav aria-label="breadcrumb">
@@ -52,4 +53,9 @@ export default function Breadcrumb({ currentCategory, breadcrumbPath }) {
       </ol>
     </nav>
   )
+}
+
+Breadcrumb.propTypes = {
+  currentCategory: PropTypes.string,
+  breadcrumbPath: PropTypes.array,
 }

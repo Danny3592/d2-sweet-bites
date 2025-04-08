@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import PropTypes from 'prop-types';
 export default function CardProduct({ children, product }) {
   return (
     <div className="card-product position-relative">
@@ -22,3 +23,9 @@ export default function CardProduct({ children, product }) {
     </div>
   )
 }
+
+CardProduct.propTypes = {
+  children: PropTypes.node,
+  product: PropTypes.object
+}
+

@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { alertError, alertDeleteConfirm } from '../../../util/sweetAlert';
+import { alertError } from '../../../util/sweetAlert';
 import Loading from '../../components/Loading';
-import Pagination from '../../components/Pagination';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   getProducts as getProductAllList,
@@ -153,11 +151,6 @@ export default function UserOrders() {
           </tbody>
         </table>
       </div>
-      {/* <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        setCurrentPage={setCurrentPage}
-      /> */}
     </>
   );
 }

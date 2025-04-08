@@ -31,8 +31,6 @@ export default function AdminRegister() {
 
     const { confirmPassword, ...requestData } = data; // 移除確認密碼
 
-    console.log(data)
-
     try {
       await axios.post("/register", {
         ...requestData,

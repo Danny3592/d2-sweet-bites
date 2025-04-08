@@ -1,5 +1,5 @@
 import { TiTick } from 'react-icons/ti';
-
+import PropTypes from 'prop-types';
 
 const CheckBox = ({ id, charitySet, handleAddCharity, className }) => (
   <div
@@ -21,4 +21,11 @@ const CheckBox = ({ id, charitySet, handleAddCharity, className }) => (
   </div>
 );
 
-export default CheckBox
+export default CheckBox;
+
+CheckBox.propTypes = {
+  className: PropTypes.string,
+  handleAddCharity: PropTypes.func,
+  id: PropTypes.number,
+  charitySet: PropTypes.array
+}

@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { compareDateExpired } from "../../../util/tools";
+import PropTypes from 'prop-types';
 
 export default function CouponModal({ modalRef, coupons, closeCouponModal, setCouponCode }) {
   const [selectCoupon, setSelectCoupon] = useState('');
@@ -77,4 +78,11 @@ export default function CouponModal({ modalRef, coupons, closeCouponModal, setCo
       </div>
     </div>
   )
+}
+
+CouponModal.propTypes = {
+  modalRef: PropTypes.object,
+  coupons: PropTypes.object,
+  closeCouponModal: PropTypes.func,
+  setCouponCode: PropTypes.func
 }

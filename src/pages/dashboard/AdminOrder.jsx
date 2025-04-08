@@ -24,7 +24,6 @@ export default function AdminProducts() {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const allProducts = useSelector(selectProducts);
-  console.log('products', allProducts)
   const getOrders = async (page = 1) => {
     setIsLoading(true);
     try {
@@ -40,8 +39,7 @@ export default function AdminProducts() {
   useEffect(() => {
     getOrders(currentPage);
     dispatch(getProducts());
-  }, [currentPage]);
-  console.log(orders);
+  }, [currentPage, dispatch]);
 
   const orderModal = useRef(null);
   const modalRef = useRef(null);
