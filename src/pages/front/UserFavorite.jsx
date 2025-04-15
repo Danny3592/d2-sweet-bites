@@ -16,7 +16,6 @@ export default function UserFavorite() {
     try {
       userInfo.current = JSON.parse(localStorage.getItem('userInfo'));
       if (userInfo.current?.id) {
-        console.log('userInfo.current.id= ', userInfo.current.id);
         const res = await axios.get(
           `/600/users/${userInfo.current.id}/favorites?_expand=product&_page=${page}&_limit=10`,
         );

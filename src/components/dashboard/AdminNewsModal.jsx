@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { toastAlert, alertError } from "../../../util/sweetAlert";
 import { getToday, checkInputFill } from '../../../util/tools';
+import PropTypes from 'prop-types';
 export default function AdminNewsModal({ modalRef, closeNewsModal, getNews, type, tempNews, currentPage }) {
   const [tempData, setTempData] = useState({
     title: "", // 文章名稱
@@ -255,4 +256,13 @@ export default function AdminNewsModal({ modalRef, closeNewsModal, getNews, type
       </div>
     </div>
   );
+}
+
+AdminNewsModal.propTypes = {
+  modalRef: PropTypes.object,
+  closeNewsModal: PropTypes.func,
+  getNews: PropTypes.func,
+  type: PropTypes.string,
+  tempNews: PropTypes.object,
+  currentPage: PropTypes.number
 }

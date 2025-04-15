@@ -29,7 +29,10 @@ export default function UserLayout() {
         </NavLink>
         <ul className="list-unstyled">
           <li className="my-5">
-            <NavLink className="fs-6">我的訂單</NavLink>
+            <NavLink className="fs-6"
+              to="/user/orders">
+              我的訂單
+            </NavLink>
           </li>
           <li className="my-5">
             <NavLink className="fs-6" to="/user/favorite">

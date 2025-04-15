@@ -20,7 +20,6 @@ export default function AdminDonate() {
     }
   }
 
-
   const donateOrders = useMemo(() => {
     const orderData = orders.map(order => {
       return order.recentItems.map(item => {

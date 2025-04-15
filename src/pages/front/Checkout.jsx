@@ -98,7 +98,7 @@ const Checkout = () => {
     }
 
     checkout();
-  }, [successMsg, dispatch]);
+  }, [successMsg, dispatch, navigate, orderId]);
 
   //提交結帳表單
   const onSubmit = async (userInfo) => {

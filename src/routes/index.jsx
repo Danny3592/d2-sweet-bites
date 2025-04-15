@@ -20,6 +20,7 @@ import UserLayout from "../pages/front/UserLayout";
 import UserCharity from "../pages/front/UserCharity";
 import UserFavorite from "../pages/front/UserFavorite";
 import UserProfile from "../pages/front/UserProfile";
+import UserOrders from "../pages/front/UserOrders";
 import OrderCheck from "../pages/front/OrderCheck";
 import OrderComplete from "../pages/front/OrderComplete";
 import NewsList from "../pages/front/NewsList";
@@ -112,6 +113,10 @@ const routes = [
           {
             path: "coupon",
             element: <UserCoupons />,
+          },
+          {
+            path: "orders",
+            element: <UserOrders />,
           },
           {
             path: "charity",

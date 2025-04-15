@@ -111,7 +111,8 @@ export default function Charity() {
         <div className="container mt-12 mt-lg-40">
           <ul className="list-unstyled row flex-md-row g-4 flex-column">
             {thanksMessages.map((message) => (
-              <li className="col-lg-6">
+              <li className="col-lg-6"
+                key={message.message}>
                 <div className="d-flex align-items-center bg-white rounded-4 p-4" style={{ height: 150 }}>
                   <img
                     className="me-2 rounded-circle object-fit-cover"

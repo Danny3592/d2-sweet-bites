@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { alertError } from './sweetAlert';
 
 export const login = async () => {
   try {
@@ -8,9 +9,8 @@ export const login = async () => {
     });
     const { accessToken } = res.data;
     document.cookie = `dessertToken=${accessToken}; max-age=86400;`;
-    console.log('login');
   } catch (error) {
-    console.log(error);
+    alertError(error);
   }
 };
 
@@ -24,13 +24,9 @@ export function generateRandomID(para,date) {
     return newID;
   }else{
     const prefix = 'ORD';
-    console.log('date = ',date);
-    
     const [year, month, day] = date.split('/');
     const randomNum = Math.floor(Math.random() * 1000); 
     const newID = `${prefix}-${year}${month}${day}-${randomNum}` 
-
-    console.log('newID = ',newID);
     return newID;
   }
 }

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { alertError } from '../../../util/sweetAlert';
+import PropTypes from 'prop-types';
 
 export default function AdminOrderModal({
   modalRef,
@@ -8,7 +9,6 @@ export default function AdminOrderModal({
   order,
 }) {
   const [products, setProducts] = useState([]);
-
   useEffect(() => {
     axios('/products')
       .then((res) => {
@@ -29,12 +29,7 @@ export default function AdminOrderModal({
             // 否則返回原本的 product
             return product;
           });
-
-          console.log('matchedProducts = ',matchedProducts);
-
           setProducts(matchedProducts);
-
-
         }
       })
       .catch((error) => {
@@ -122,4 +117,10 @@ export default function AdminOrderModal({
       </div>
     </div>
   );
+}
+
+AdminOrderModal.propTypes = {
+  modalRef: PropTypes.object,
+  closeOrderModal: PropTypes.func,
+  order: PropTypes.array
 }

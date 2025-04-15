@@ -12,7 +12,7 @@ export default function CharityPlan() {
       const res = await axios.get(`/products?category=慈善&title=${title}`);
       setCharityPlanData(res.data[0]);
     } catch (error) {
-      alertError('取得公益方案失敗');
+      alertError(`取得公益方案失敗 ${error}`);
     }
   };
 

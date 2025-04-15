@@ -1,4 +1,4 @@
-
+import PropTypes from 'prop-types';
 
 export default function SearchInput({ className, searchText, setSearchText, searchMethod }) {
   return (
@@ -20,3 +20,12 @@ export default function SearchInput({ className, searchText, setSearchText, sear
     </div>
   )
 }
+
+SearchInput.propTypes = {
+  className: PropTypes.string,
+  searchText: PropTypes.string,
+  setSearchText: PropTypes.func,
+  searchMethod: PropTypes.func
+}
+
+

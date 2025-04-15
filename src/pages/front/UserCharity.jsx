@@ -1,5 +1,4 @@
-import { useEffect, useReducer, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
 
 // Components
 import Pagination from '../../components/Pagination';
