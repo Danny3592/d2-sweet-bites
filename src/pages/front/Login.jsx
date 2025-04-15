@@ -49,7 +49,7 @@ export default function Login() {
 
       reset();
       navigate('/');
-    } catch (error) {
+    } catch {
       setErrorMessage('登入失敗，請檢查您的帳號密碼是否正確');
     } finally {
       setIsLoading(false);

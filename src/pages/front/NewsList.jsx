@@ -42,7 +42,7 @@ export default function NewsList() {
         }));
 
       setCarouselData(filteredData);
-    } catch (error) {
+    } catch {
       alertError("無法載入最新消息");
     } finally {
       setIsLoading(false);

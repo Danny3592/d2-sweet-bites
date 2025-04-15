@@ -25,11 +25,16 @@ export default function AdminRegister() {
       setErrorMessage("兩次輸入密碼不一致");
       return;
     }
-
     setIsLoading(true);
     setErrorMessage(""); // 清空之前的錯誤訊息
 
-    const { confirmPassword, ...requestData } = data; // 移除確認密碼
+    const requestData = {
+      email: data.email,
+      name: data.name,
+      password: data.password,
+      terms: data.terms
+    }
+    console.log(requestData)
 
     try {
       await axios.post("/register", {
@@ -42,7 +47,7 @@ export default function AdminRegister() {
         navigate("/admin-login");
       }, 2000);
 
-    } catch (error) {
+    } catch {
       setErrorMessage("註冊失敗，請檢查您的資料是否正確");
     } finally {
       setIsLoading(false);

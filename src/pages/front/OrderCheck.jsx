@@ -77,7 +77,7 @@ export default function OrderCheck() {
         setError('優惠券不存在或不可用');
         setDiscount(0);
       }
-    } catch (err) {
+    } catch {
       setError('優惠券驗證失敗');
       setDiscount(0);
     }
