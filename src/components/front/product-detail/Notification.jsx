@@ -1,4 +1,4 @@
-import React from 'react';
+import PropTypes from 'prop-types';
 
 const NotificationBox = ({ iconClass, textClass, text }) => {
   return (
@@ -38,3 +38,13 @@ const Notification = ({ text }) => {
 };
 
 export default Notification;
+
+NotificationBox.propTypes = {
+  iconClass: PropTypes.string,
+  textClass: PropTypes.string,
+  text: PropTypes.string,
+}
+
+Notification.propTypes = {
+  text: PropTypes.string
+}

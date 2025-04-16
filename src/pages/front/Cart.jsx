@@ -37,7 +37,7 @@ export default function CartPage() {
     .find(row => row.startsWith('dessertToken='))
     ?.split('=')[1];
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-  }, [userInfo.current]);
+  }, [dispatch, navigate]);
 
   //取得所有慈善商品
   const getCharityProducts = async () => {
@@ -46,7 +46,7 @@ export default function CartPage() {
       const res = await axios.get(`/products?category=慈善`);
       setCharityProducts(res.data);
     } catch (error) {
-      alertError("取得慈善商品失敗");
+      alertError(`取得慈善商品失敗 ${error}`);
     } finally {
       setIsLoading(false);
     }

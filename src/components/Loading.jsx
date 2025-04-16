@@ -1,4 +1,5 @@
 import ReactLoading from 'react-loading';
+import PropTypes from 'prop-types';
 
 export default function Loading({ type, color }) {
   return (
@@ -10,4 +11,9 @@ export default function Loading({ type, color }) {
       <ReactLoading type={type} color={color} height={40} width={80}/>
     </div>
   )
+}
+
+Loading.propTypes = {
+  type: PropTypes.string,
+  color: PropTypes.string,
 }

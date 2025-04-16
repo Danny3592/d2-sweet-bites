@@ -15,3 +15,35 @@ export const checkInputFill = (obj, requireInputs) => {
     }
   })
 }
+
+
+export const getRandomProducts = (products, num) => {
+  const desserts = products.filter(product => product.category !== '慈善');
+  const result = new Set();
+  if (desserts.length) {
+    while (result.size < num) {
+      const randomIndex = Math.floor(Math.random() * desserts.length);
+      result.add(desserts[randomIndex]);
+    }
+  }
+  return [...result];
+}
+
+export const getProductCategories = (products) => {
+  const categoryCount = products.reduce((count, product) => {
+    if (!count[product.category]) {
+      count[product.category] = 1;
+    } else {
+      count[product.category] += 1;
+    }
+    return count;
+  }, {});
+  return Object.entries(categoryCount);
+}
+
+// 比較傳入日期是否過期
+export const compareDateExpired = (date) => {
+  const today = new Date(); // 取得今天日期
+  const targetDate = new Date(date);
+  return today > targetDate;
+}

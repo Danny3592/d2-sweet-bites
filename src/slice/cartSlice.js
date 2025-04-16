@@ -57,7 +57,7 @@ export const getCartList = createAsyncThunk(
 // 加入購物車
 export const addCart = createAsyncThunk(
   'cart/addCart',
-  async ({ userId, cart }, { dispatch }) => {
+  async ({ userId, cart }) => {
     try {
       await axios.post(`/600/users/${userId}/carts`, cart);
     } catch (error) {
@@ -69,7 +69,7 @@ export const addCart = createAsyncThunk(
 // 更新購物車
 export const updateCart = createAsyncThunk(
   'cart/updateCart',
-  async ({ cartId, productId, qty }, { dispatch }) => {
+  async ({ cartId, productId, qty }) => {
     try {
       await axios.patch(`/600/carts/${cartId}`, { productId, qty });
     } catch (error) {
@@ -81,7 +81,7 @@ export const updateCart = createAsyncThunk(
 // 刪除單一購物車
 export const deleteCart = createAsyncThunk(
   'cart/deleteCart',
-  async (payload, { dispatch }) => {
+  async (payload) => {
     try {
       await axios.delete(`/600/carts/${payload}`);
     } catch (error) {

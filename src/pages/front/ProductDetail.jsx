@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
@@ -8,7 +8,9 @@ import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { FiHeart } from 'react-icons/fi';
 import { FaHeart } from 'react-icons/fa';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
+import { Navigation, Pagination } from 'swiper/modules';
+import arrowRightLight from '../../assets/images/icons/chevron-right-light.svg';
+import arrowLeftLight from '../../assets/images/icons/chevron-left-light.svg';
 
 // Components & Styles
 import CharityCard from '../../components/front/product-detail/CharityCard';
@@ -122,10 +124,19 @@ const ProductDetail = () => {
         }
       })
       .catch((error) => {
-        alertError('取得商品資料失敗');
+        alertError(`取得商品資料失敗 ${error}`);
       })
       .finally(() => setIsLoading(false));
   }, [productId, dispatch]);
+
+  // 上方swiper 輪播
+  const swiperProducts = useMemo(() => {
+    if (!productDetails.imagesUrl) return [];
+    return [
+      productDetails.imageUrl,
+      ...productDetails.imagesUrl,
+    ]
+  }, [productDetails]);
 
   /* =====================
    *  每當收藏或商品更新時，判斷當前商品是否在收藏清單內
@@ -351,93 +362,50 @@ const ProductDetail = () => {
         <div className="container p-0">
           <div className="row d-flex gx-lg-12 gx-0">
             {/* ===================== 左區：圖片列表 ===================== */}
-            <div className="product-img-list col-12 col-lg-6 position-relative">
-              {/* 手機板輪播 */}
-              <div className="d-block d-lg-none">
-                <div
-                  id="main-img"
-                  className="carousel slide"
-                  data-bs-ride="carousel"
-                >
-                  <div
-                    className="carousel-inner d-flex align-items-center w-100"
-                    style={{ height: '635px' }}
-                  >
-                    <div className="carousel-item active">
-                      <img
-                        src={productDetails?.imageUrl}
-                        className="d-block w-100"
-                        alt="..."
-                        style={mainProdImgStyle()}
-                      />
+            <div className="col-12 col-lg-6">
+              <Swiper
+                spaceBetween={0}
+                slidesPerView={1}
+                modules={[Navigation, Pagination]}
+                navigation={{
+                  nextEl: '.swiper-button-next-banner',
+                  prevEl: '.swiper-button-prev-banner'
+                }}
+                pagination={{
+                  clickable: true,
+                  el: '.swiper-pagination-banner',
+                  renderBullet: (index, className) => {
+                  // 使用 swiperProducts 中的圖片作為分頁
+                  return `
+                    <div class="${className}">
+                      <img src="${swiperProducts[index]}" alt="pagination-image"
+                      class="swiper-pagination-img" />
                     </div>
-                    {productDetails?.imagesUrl?.map((img) => (
-                      <div
-                        className="carousel-item"
-                        key={img}
-                        style={mainProdImgStyle()}
-                      >
-                        <img
-                          src={img}
-                          className="d-block"
-                          alt="..."
-                          style={mainProdImgStyle()}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                  <button
-                    className="carousel-control-prev"
-                    type="button"
-                    data-bs-target="#main-img"
-                    data-bs-slide="prev"
-                  >
-                    <IoIosArrowBack className="d-block d-lg-none arrow arrow-left position-absolute fs-3 top-50 start-0" />
-                    <span className="visually-hidden">Previous</span>
-                  </button>
-                  <button
-                    className="carousel-control-next"
-                    type="button"
-                    data-bs-target="#main-img"
-                    data-bs-slide="next"
-                  >
-                    <IoIosArrowForward className="d-block d-lg-none arrow arrow-right position-absolute fs-3 top-50 end-0" />
-                    <span className="visually-hidden">Next</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* 電腦板圖片區 */}
-              <div className="d-none d-lg-block">
-                <div>
-                  <img
-                    src={productDetails.imageUrl}
-                    alt=""
-                    style={mainProdImgStyle()}
-                  />
-                </div>
-                <ul className="d-none d-lg-grid p-0 mt-4 products-imgs">
-                  {productDetails?.imagesUrl?.map((img) => (
-                    <li
-                      key={img}
-                      className="d-flex justify-content-center align-items-center overflow-hidden"
-                      style={{ width: '100px', height: '100px' }}
-                    >
-                      <img
-                        src={img}
-                        alt=""
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'cover',
-                        }}
-                      />
-                    </li>
+                  `;
+                }}}
+                
+                className='mb-0 mb-lg-6'
+              >
+                <div className='position-relative'>
+                  {swiperProducts.map((product, index) => (
+                      <SwiperSlide key={index}>
+                        <img src={product}
+                          className='swiper-product-img image'
+                          alt="prduct-img" />
+                      </SwiperSlide>
                   ))}
-                </ul>
+                </div>
+                <div className="swiper-button-prev-banner">
+                  <img src={arrowLeftLight} alt="" />
+                </div>
+                <div className="swiper-button-next-banner">
+                  <img src={arrowRightLight} alt="" />
+                </div>
+              </Swiper>
+              <div className="d-none d-lg-block">
+                <div className="swiper-pagination-banner"></div>
               </div>
             </div>
-
             {/* ===================== 右區：商品內容 ===================== */}
             <div className="col-12 col-lg-6 px-lg-8 px-3 py-lg-0 py-6 position-relative">
               {/* 手機板收藏按鈕 */}

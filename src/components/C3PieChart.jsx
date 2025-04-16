@@ -1,8 +1,9 @@
 import { useEffect, useRef, memo } from "react"
 import * as c3 from "c3";
 import "c3/c3.css";
+import PropTypes from 'prop-types';
 
-export default memo(function C3PieChart({ data }) {
+function C3PieChart({ data }) {
   const chartRef = useRef(null);
   useEffect(() => {
     c3.generate({
@@ -16,4 +17,9 @@ export default memo(function C3PieChart({ data }) {
   return (
     <div ref={chartRef} className="w-100"></div>
   )
-});
+}
+
+export default memo(C3PieChart);
+C3PieChart.propTypes = {
+  data: PropTypes.array
+}

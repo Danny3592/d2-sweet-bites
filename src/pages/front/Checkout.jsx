@@ -84,10 +84,11 @@ const Checkout = () => {
   useEffect(() => {
     async function checkout() {
       if (successMsg === 'make payment success') {
-        await dispatch(clearCheckoutItem());
-        await dispatch(deleteAllCart());
-        await dispatch(getCartList(userInfoId.current?.id)); // 重新獲取購物車數據
+        dispatch(clearCheckoutItem());
+        dispatch(deleteAllCart());
+        dispatch(getCartList(userInfoId.current?.id)); // 重新獲取購物車數據
         await dispatch(clearMsg());
+
         navigate('/order-complete', {
           state: {
             orderId: orderId,
@@ -97,78 +98,77 @@ const Checkout = () => {
     }
 
     checkout();
-  }, [successMsg, dispatch]);
+  }, [successMsg, dispatch, navigate, orderId]);
 
   //提交結帳表單
   const onSubmit = async (userInfo) => {
-    if (!checkoutItem && carts.length < 1) return;
-    let recentItems;
-    if (isDirectPurchase && checkoutItem) {
-      recentItems = checkoutItem.map((item) => {
-        return {
-          productId: item.productId,
-          qty: item.qty,
-          price: item.price,
-        };
-      });
-    } else {
-      recentItems = carts.map((item) => {
-        return {
-          productId: item.productId,
-          qty: item.qty,
-          price: item.product.price,
-        };
-      });
-    }
-    // const totalAmount = recentItem.reduce(
-    //   (acc, item) => acc + item.qty * item.price,
-    //   0
-    // );
-    const totalAmount = finalPrice;
-
-    userInfo.isPaid = userInfo.paymentMethod === 'credit-card' ? true : false;
-    const dateFormat = new Date()
-      .toLocaleDateString('zh-TW', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-      })
-      .replace(/\//g, '/');
-    axios
-      .get('/products?category=慈善')
-      .then(({ data }) => {
-        const CharityId = data.map((item) => item.id);
-        recentItems = recentItems.map((item) => {
-          if (CharityId.includes(item.productId)) {
-            return {
-              ...item,
-              isCharity: true,
-              charityContent: {
-                id: generateRandomID('charity'),
-                price: item.price * item.qty,
-                donationDate: dateFormat,
-                paymentStatus: userInfo.isPaid,
-              },
-            };
-          }
-          return { ...item, isCharity: false };
+    let displayOrderId, recentItems;
+    try {
+      if (!checkoutItem && carts.length < 1) return;
+      if (isDirectPurchase && checkoutItem) {
+        recentItems = checkoutItem.map((item) => {
+          return {
+            productId: item.productId,
+            qty: item.qty,
+            price: item.price,
+          };
         });
-        setOrderId(generateRandomID('order', dateFormat));
+      } else {
+        recentItems = carts.map((item) => {
+          return {
+            productId: item.productId,
+            qty: item.qty,
+            price: item.product.price,
+          };
+        });
+      }
+      const totalAmount = finalPrice;
 
-        dispatch(
-          makePayment({
-            userId: userInfoId.current.id,
-            displayOrderId: orderId,
-            recentItems,
-            totalAmount,
-            userInfo: userInfo,
-            date: dateFormat,
-          }),
-        );
-      })
-      .catch((error) => {
-        console.error(error);
+      userInfo.isPaid = userInfo.paymentMethod === 'credit-card' ? true : false;
+      const dateFormat = new Date()
+        .toLocaleDateString('zh-TW', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+        })
+        .replace(/\//g, '/');
+
+      setOrderId(() => {
+        displayOrderId = generateRandomID('order', dateFormat);
+        return displayOrderId;
       });
+
+      const charityItems = await axios.get('/products?category=慈善');
+      const charityId = await charityItems.data.map((item) => item.id);
+
+      recentItems = recentItems.map((item) => {
+        if (charityId.includes(item.productId)) {
+          return {
+            ...item,
+            isCharity: true,
+            charityContent: {
+              id: generateRandomID('charity'),
+              price: item.price * item.qty,
+              donationDate: dateFormat,
+              paymentStatus: userInfo.isPaid,
+            },
+          };
+        }
+        return { ...item, isCharity: false };
+      });
+      dispatch(
+        makePayment({
+          userId: userInfoId.current.id,
+          displayOrderId,
+          recentItems,
+          totalAmount,
+          userInfo: userInfo,
+          date: dateFormat,
+        }),
+      );
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const formatExpiryDate = (value) => {
@@ -260,7 +260,7 @@ const Checkout = () => {
                   <input
                     className="input py-3 ps-3"
                     id="tel"
-                    type="text"
+                    type="number"
                     placeholder="聯絡電話"
                     {...register('tel', { required: '請提供聯絡電話' })}
                   />
@@ -276,7 +276,7 @@ const Checkout = () => {
                   <input
                     className="input py-3 ps-3"
                     id="email"
-                    type="text"
+                    type="email"
                     placeholder="電子郵件信箱"
                     {...register('email', { required: '請輸入電子郵件' })}
                   />

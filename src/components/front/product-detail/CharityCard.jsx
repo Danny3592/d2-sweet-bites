@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import CheckBox from './Checkbox';
+import PropTypes from 'prop-types';
 
 const CharityCard = ({ title, price, img, id, setCharitySet, charitySet }) => {
   const handleAddCharity = (id) => {
@@ -43,3 +43,12 @@ const CharityCard = ({ title, price, img, id, setCharitySet, charitySet }) => {
 };
 
 export default CharityCard;
+
+CharityCard.propTypes = {
+  title: PropTypes.string,
+  price: PropTypes.number,
+  img: PropTypes.string,
+  id: PropTypes.number,
+  setCharitySet: PropTypes.func,
+  charitySet: PropTypes.array
+}

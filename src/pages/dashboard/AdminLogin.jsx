@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import ReactLoading from "react-loading";
-import { login } from './../../../util/http';
 
 export default function AdminLogin() {
   
@@ -22,12 +21,12 @@ export default function AdminLogin() {
     setIsLoading(true);
     try {
       const res = await axios.post("/login", data);
-      const { accessToken, user } = res.data;
+      const { accessToken } = res.data;
 
       document.cookie = `dessertToken=${accessToken}; max-age=86400;`;
       reset();
       navigate("/dashboard");
-    } catch (error) {
+    } catch {
       setErrorMessage("登入失敗，請檢查您的帳號密碼是否正確");
     } finally {
       setIsLoading(false);

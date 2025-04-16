@@ -1,4 +1,4 @@
-
+import PropTypes from 'prop-types';
 
 export default function Pagination({ currentPage, totalPages, setCurrentPage }) {
   return (
@@ -65,4 +65,10 @@ export default function Pagination({ currentPage, totalPages, setCurrentPage }) 
       </ul>
     </nav>
   )
+}
+
+Pagination.propTypes = {
+  currentPage: PropTypes.number,
+  totalPages: PropTypes.number,
+  setCurrentPage: PropTypes.func
 }

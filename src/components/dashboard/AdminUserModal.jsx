@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toastAlert, alertError } from "../../../util/sweetAlert";
+import PropTypes from 'prop-types';
 
 export default function AdminUserModal({
   modalRef,
@@ -31,7 +32,7 @@ export default function AdminUserModal({
   }, [type, tempUser]);
 
   const handleChange = (e) => {
-    const { name, value, checked, type } = e.target;
+    const { name, value, checked } = e.target;
 
     if (name === "is_enabled") {
       setUserData((prev) => ({
@@ -147,4 +148,13 @@ export default function AdminUserModal({
       </div>
     </div>
   );
+}
+
+AdminUserModal.propTypes = {
+  modalRef: PropTypes.object,
+  closeUserModal: PropTypes.func,
+  getUsers: PropTypes.func,
+  type: PropTypes.string,
+  tempUser: PropTypes.object,
+  currentPage: PropTypes.number,
 }

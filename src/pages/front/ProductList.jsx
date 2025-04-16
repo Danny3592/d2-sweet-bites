@@ -1,44 +1,41 @@
 import { useEffect, useState } from "react";
-import { alertError } from '../../../util/sweetAlert';
 import CardProduct from "../../components/front/CardProduct";
 import Pagination from "../../components/Pagination";
 import Breadcrumb from "../../components/front/Breadcrumb";
+import SearchInput from "../../components/SearchInput";
 import Loading from "../../components/Loading";
-import axios from "axios";
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  getProducts as getProductAllList,
+  getProductsByPage,
+  selectProducts,
+  selectProductsByPage,
+  selectProductsTotalPages,
+  selectProductStatus,
+} from "../../slice/productSlice";
+import { getProductCategories } from "../../../util/tools";
+
 export default function ProductList() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
+  const productStatus = useSelector(selectProductStatus);
   const breadcrumbPath = [{
     path: '/product-list',
     name: '全部商品'
   }];
+  const dispatch = useDispatch();
   
   // 商品列表
-  const [products, setProducts] = useState([]);
-  const getProducts = async ({ page, category, searchText }) => {
-    setIsLoading(true);
-    try {
-      let url = `/products?_page=${page}&_limit=6`;
-      if (category) {
-        url += `&category=${category}`;
-      }
-      if (searchText) {
-        url = `/products?title_like=${searchText}`;
-      }
-      const res = await axios.get(url);
-      setTotalPages(Math.ceil(res.headers.get("X-Total-Count") / 6));
-      setProducts(res.data);
-    } catch(error) {
-      alertError(error.message);
-    } finally {
-      setIsLoading(false);
-    }
+  const pageLimit = 6;
+  const products = useSelector(selectProductsByPage);
+  const productsTotalPages = useSelector(selectProductsTotalPages);
+  const getProducts = ({ page, category, searchText }) => {
+    dispatch(getProductsByPage({ page, category, searchText, pageLimit }));
   }
   
   // 商品類別
-  const [productCategories, setProductCategories] = useState([]);
+  const allProducts = useSelector(selectProducts);
+  const productCategories = getProductCategories(allProducts);
   const [currentCategory, setCurrentCategory] = useState('');
   const setCategory = (event, category) => {
     event.preventDefault();
@@ -46,28 +43,10 @@ export default function ProductList() {
     setCurrentPage(1);
     setCurrentCategory(category);
   }
-  const getAllProducts = async () => {
-    setIsLoading(true);
-    try {
-      const res = await axios.get(`/products`);
-      const categoryCount = res.data.reduce((count, product) => {
-        if (!count[product.category]) {
-          count[product.category] = 1;
-        } else {
-          count[product.category] += 1;
-        }
-        return count;
-      }, {});
-      setProductCategories(Object.entries(categoryCount));
-    } catch(error) {
-      alertError(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  }
+
   useEffect(() => {
-    getAllProducts();
-  }, []);
+    dispatch(getProductAllList());
+  }, [dispatch]);
 
   // 搜尋商品
   const [searchText, setSearchText] = useState('');
@@ -82,7 +61,7 @@ export default function ProductList() {
 
   return (
     <>
-      { isLoading && <Loading type="spin" color="#D4A58E"/> }
+      { productStatus === 'loading' && <Loading type="spin" color="#D4A58E"/> }
       <div className="bg-primary-50">
         <div className="container py-4 py-md-15">
           { !isSearchOpen && (
@@ -109,24 +88,22 @@ export default function ProductList() {
                     <path fillRule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z" clipRule="evenodd" />
                   </svg>
                 </button>
-                <input
-                  type="text"
-                  className="form-control rounded-0 d-none d-md-block"
-                  placeholder="搜尋商品"
-                  value={searchText}
-                  onChange={(e) => setSearchText(e.target.value.trim())}
-                  onKeyDown={(e) => e.key === 'Enter' && searchProducts()}/>
+                <SearchInput
+                  className="d-none d-md-block"
+                  searchText={searchText}
+                  setSearchText={setSearchText}
+                  searchMethod={searchProducts}
+                />
               </div>
             </div>
           )}
           { isSearchOpen && (
-            <input
-              type="text"
-              className="form-control rounded-0 d-md-none"
-              placeholder="搜尋商品"
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value.trim())}
-              onKeyDown={(e) => e.key === 'Enter' && searchProducts()}/>
+            <SearchInput
+              className="d-md-none"
+              searchText={searchText}
+              setSearchText={setSearchText}
+              searchMethod={searchProducts}
+            />
           )}
         </div>
         <div className="container">
@@ -195,7 +172,7 @@ export default function ProductList() {
                       {!searchText && (
                         <Pagination
                           currentPage={currentPage}
-                          totalPages={totalPages}
+                          totalPages={productsTotalPages}
                           setCurrentPage={setCurrentPage}
                         />
                       )}

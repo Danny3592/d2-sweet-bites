@@ -69,7 +69,7 @@ export default function TheHeader() {
     } else {
       setCartCount(0);
     }
-  }, [userInfo]);
+  }, [userInfo, dispatch]);
 
   useEffect(() => {
     setCartCount(carts.length); // 只在 cart 長度變化時更新

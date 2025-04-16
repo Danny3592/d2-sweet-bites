@@ -1,16 +1,17 @@
 import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { alertError } from '../../../util/sweetAlert';
 import Loading from '../../components/Loading';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCartList } from '../../slice/cartSlice';
+import { getCouponList } from '../../slice/couponSlice';
+import { Modal } from 'bootstrap';
+import CouponModal from '../../components/front/CouponModal';
 
 import continueshopping from '../../assets/images/icons/chevron-left.svg';
 import { useNavigate, Link } from 'react-router-dom';
 
 export default function OrderCheck() {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
   const [couponCode, setCouponCode] = useState(''); // 優惠券輸入
   const [discount, setDiscount] = useState(0); // 優惠折扣
   const [error, setError] = useState(''); // 優惠券錯誤訊息
@@ -23,6 +24,28 @@ export default function OrderCheck() {
   });
   const dispatch = useDispatch();
 
+  // 選擇優惠券
+  const coupons = useSelector((state) => {
+    return state.coupon.coupons;
+  });
+  const couponModal = useRef(null);
+  const modalRef = useRef(null);
+
+  const openCouponModal = () => {
+    couponModal.current.show();
+  }
+
+  const closeCouponModal = () => {
+    couponModal.current.hide();
+  }
+
+  useEffect(() => {
+    couponModal.current = new Modal(modalRef.current, {
+      backdrop: 'static'
+    });
+    dispatch(getCouponList());
+  }, [dispatch]);
+
   useEffect(() => {
     userInfo.current = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo.current?.id) {
@@ -34,7 +57,7 @@ export default function OrderCheck() {
       .find((row) => row.startsWith('dessertToken='))
       ?.split('=')[1];
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-  }, [])
+  }, [dispatch])
 
   const applyCoupon = async () => {
     setError(''); // 清除錯誤訊息
@@ -54,7 +77,7 @@ export default function OrderCheck() {
         setError('優惠券不存在或不可用');
         setDiscount(0);
       }
-    } catch (err) {
+    } catch {
       setError('優惠券驗證失敗');
       setDiscount(0);
     }
@@ -147,9 +170,16 @@ export default function OrderCheck() {
               <div className="coupon-section mb-3">
                 <div className="card">
                   <div className="card-body">
-                    <h5 className="mb-6 text-dark fs-5">
-                      輸入優惠券，享受甜蜜折扣!
-                    </h5>
+                    <div className="d-md-flex justify-content-between align-items-center mb-6">  
+                      <h5 className="text-dark fs-5">
+                        輸入優惠券，享受甜蜜折扣!
+                      </h5>
+                      <button type="button"
+                        className='btn text-primary-500 p-0'
+                        onClick={openCouponModal}>
+                        查看可套用優惠券
+                      </button>
+                    </div>
                     <div className="d-flex align-items-center justify-content-between mb-6">
                       <input
                         type="text"
@@ -226,6 +256,10 @@ export default function OrderCheck() {
           </div>
         </div>
       </div>
+      <CouponModal modalRef={modalRef}
+        coupons={coupons}
+        closeCouponModal={closeCouponModal}
+        setCouponCode={setCouponCode}/>
     </>
   );
 }

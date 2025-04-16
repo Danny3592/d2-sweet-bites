@@ -25,12 +25,15 @@ export default function Register() {
       setErrorMessage('兩次輸入密碼不一致');
       return;
     }
-
     setIsLoading(true);
     setErrorMessage(''); // 清空之前的錯誤訊息
-
-    const { confirmPassword, ...requestData } = data; // 移除確認密碼
-
+   
+    const requestData = {
+      email: data.email,
+      password: data.password,
+      terms: data.terms,
+      userName: data.userName,
+    }
     try {
       await axios.post('/register', {
         ...requestData,
@@ -41,7 +44,7 @@ export default function Register() {
       setTimeout(() => {
         navigate('/login');
       }, 2000);
-    } catch (error) {
+    } catch {
       setErrorMessage('註冊失敗，請檢查您的資料是否正確');
     } finally {
       setIsLoading(false);
