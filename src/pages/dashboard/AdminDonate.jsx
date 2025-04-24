@@ -1,9 +1,9 @@
 
-import Pagination from '../../components/Pagination';
-import { useState, useEffect, useMemo } from 'react';
-import { alertError } from '../../../util/sweetAlert';
-import C3PieChart from '../../components/C3PieChart';
 import axios from 'axios';
+import { useState, useEffect, useMemo } from 'react';
+import Pagination from '@/components/Pagination';
+import { alertError } from '../../../util/sweetAlert';
+import C3PieChart from '@/components/C3PieChart';
 export default function AdminDonate() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);

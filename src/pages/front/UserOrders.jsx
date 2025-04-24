@@ -1,12 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
-import { alertError } from '../../../util/sweetAlert';
-import Loading from '../../components/Loading';
+import axios from 'axios';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { alertError } from '../../../util/sweetAlert';
+import Loading from '@/components/Loading';
 import {
   getProducts as getProductAllList,
   selectProducts,
 } from "../../slice/productSlice";
-import axios from 'axios';
 export default function UserOrders() {
   const [isLoading, setIsLoading] = useState(false);
   const [orders, setOrders] = useState([]);
@@ -31,9 +31,9 @@ export default function UserOrders() {
   }
 
   const products = useSelector(selectProducts);
-  const getProducts = () => {
+  const getProducts = useCallback(() => {
     dispatch(getProductAllList());
-  }
+  }, [dispatch]);
   const toggleOpen = (orderId) => {
     setOrders(prevOrders => {
       const isCurrentlyOpen = prevOrders.find(order => order.id === orderId)?.isOpen;
@@ -47,7 +47,7 @@ export default function UserOrders() {
     userInfo.current = JSON.parse(localStorage.getItem('userInfo'));
     getOrders(userInfo.current.id);
     getProducts();
-  }, []);
+  }, [getProducts]);
 
   return (
     <>

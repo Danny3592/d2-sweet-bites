@@ -1,9 +1,9 @@
+import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { alertError, alertDeleteConfirm } from '../../../util/sweetAlert';
-import Loading from '../../components/Loading';
-import Pagination from '../../components/Pagination';
-import axios from 'axios';
+import Loading from '@/components/Loading';
+import Pagination from '@/components/Pagination';
 export default function UserFavorite() {
   const [favoriteProducts, setFavoriteProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -60,7 +60,7 @@ export default function UserFavorite() {
         <table className="table bg-transparent">
           <thead className="bg-transparent">
             <tr>
-              <th scope="col" className="ps-10">
+              <th scope="col" className="ps-10 py-3">
                 商品類別
               </th>
               <th scope="col" className="p-3">

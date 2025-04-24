@@ -1,16 +1,15 @@
-import logoImg from '../assets/images/layout/Logo.png';
-import smallLogoImg from '../assets/images/layout/Logo-sm.png';
-import smallBrownLogoImg from '../assets/images/layout/Logo-sm-brown.png';
-import menuBtn from '../assets/images/layout/Menu-Button.png';
-import userBtn from '../assets/images/layout/user-circle.png';
-import userBtnBlack from '../assets/images/layout/user-circle-black.png';
-import cartBtn from '../assets/images/layout/shopping-cart.png';
-
 import { useEffect, useRef, useState } from 'react';
 import { Offcanvas } from 'bootstrap';
 import { useLocation, NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCartList } from '../slice/cartSlice';
+import { getCartList } from '@/slice/cartSlice';
+import logoImg from '@/assets/images/layout/Logo.svg';
+import smallLogoImg from '@/assets/images/layout/Logo-sm.svg';
+import smallBrownLogoImg from '@/assets/images/layout/Logo-sm-brown.svg';
+import menuBtn from '@/assets/images/layout/Menu-Button.svg';
+import userBtn from '@/assets/images/layout/user-circle-light.svg';
+import userBtnBlack from '@/assets/images/layout/user-circle-black.png';
+import cartBtn from '@/assets/images/layout/shopping-cart.svg';
 
 export default function TheHeader() {
   const location = useLocation();
@@ -87,7 +86,7 @@ export default function TheHeader() {
         <NavLink className="navbar-brand" to="/">
           <picture>
             <source srcSet={logoImg} media="(min-width: 796px)" />
-            <img src={smallLogoImg} />
+            <img src={smallLogoImg} alt="smallLogo"/>
           </picture>
         </NavLink>
         <div className="d-flex align-items-center">

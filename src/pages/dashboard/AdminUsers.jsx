@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { Modal } from "bootstrap";
 import {
@@ -5,10 +6,9 @@ import {
   toastAlert,
   alertError,
 } from "../../../util/sweetAlert";
-import AdminUserModal from "../../components/dashboard/AdminUserModal";
-import Pagination from "../../components/Pagination";
-import Loading from "../../components/Loading";
-import axios from "axios";
+import AdminUserModal from "@/components/dashboard/AdminUserModal";
+import Pagination from "@/components/Pagination";
+import Loading from "@/components/Loading";
 
 export default function AdminUsers() {
   const [users, setUsers] = useState([]);

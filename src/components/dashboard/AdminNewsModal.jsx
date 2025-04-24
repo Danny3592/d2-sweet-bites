@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
 import axios from "axios";
+import PropTypes from 'prop-types';
+import { useState, useEffect } from "react";
 import { toastAlert, alertError } from "../../../util/sweetAlert";
 import { getToday, checkInputFill } from '../../../util/tools';
-import PropTypes from 'prop-types';
 export default function AdminNewsModal({ modalRef, closeNewsModal, getNews, type, tempNews, currentPage }) {
   const [tempData, setTempData] = useState({
     title: "", // 文章名稱

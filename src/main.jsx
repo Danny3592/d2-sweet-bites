@@ -1,10 +1,10 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import router from './routes/index.jsx';
-import { RouterProvider } from 'react-router-dom';
-import { store } from './store';
-import { Provider } from 'react-redux';
 import axios from 'axios';
+import { StrictMode } from 'react';
+import { RouterProvider } from 'react-router-dom';
+import { createRoot } from 'react-dom/client';
+import { Provider } from 'react-redux';
+import router from './routes/index.jsx';
+import { store } from './store';
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 

@@ -1,6 +1,6 @@
-import TheHeader from "../components/TheHeader";
-import TheFooter from "../components/TheFooter";
 import { Link } from "react-router-dom";
+import TheHeader from "@/components/TheHeader";
+import TheFooter from "@/components/TheFooter";
 export default function NotFound() {
   return (
     <>

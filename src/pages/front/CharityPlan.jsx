@@ -5,20 +5,19 @@ import { alertError } from '../../../util/sweetAlert';
 
 export default function CharityPlan() {
   const { title } = useParams();
-
   const [charityPlanData, setCharityPlanData] = useState({});
-  const getPlanData = async () => {
-    try {
-      const res = await axios.get(`/products?category=慈善&title=${title}`);
-      setCharityPlanData(res.data[0]);
-    } catch (error) {
-      alertError(`取得公益方案失敗 ${error}`);
-    }
-  };
 
   useEffect(() => {
+    const getPlanData = async () => {
+      try {
+        const res = await axios.get(`/products?category=慈善&title=${title}`);
+        setCharityPlanData(res.data[0]);
+      } catch (error) {
+        alertError(`取得公益方案失敗 ${error}`);
+      }
+    };
     getPlanData();
-  }, []);
+  }, [title]);
 
   return (
     <>

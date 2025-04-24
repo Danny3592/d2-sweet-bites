@@ -1,11 +1,9 @@
+import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
-
 import { alertError } from "../../../util/sweetAlert";
-
-import Loading from "../../components/Loading";
-import Breadcrumb from "../../components/front/Breadcrumb";
+import Loading from "@/components/Loading";
+import Breadcrumb from "@/components/front/Breadcrumb";
 
 export default function NewsDetail() {
   const { id } = useParams(); // 取得 URL 參數中的新聞 ID
@@ -27,31 +25,30 @@ export default function NewsDetail() {
   // 搜尋最新消息
   const searchNews = () => {};
 
-  // 取得單一新聞內容getNewsDetail
-  const getNewsDetail = async ({ id }) => {
-    setIsLoading(true);
-    try {
-      let url = `/news/${id}`; // API 請求單一新聞
-
-      if (searchText) {
-        url = `/news?name_like=${searchText}`;
-      }
-
-      const res = await axios.get(url);
-      setNewsData(res.data);
-    } catch (error) {
-      alertError("無法取得新聞內容");
-      setError(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
+    // 取得單一新聞內容getNewsDetail
+    const getNewsDetail = async ({ id }) => {
+      setIsLoading(true);
+      try {
+        let url = `/news/${id}`; // API 請求單一新聞
+
+        if (searchText) {
+          url = `/news?name_like=${searchText}`;
+        }
+
+        const res = await axios.get(url);
+        setNewsData(res.data);
+      } catch (error) {
+        alertError("無法取得新聞內容");
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
     if (id) {
       getNewsDetail({ id });
     }
-  }, [id]);
+  }, [id, searchText]);
 
   return (
     <>

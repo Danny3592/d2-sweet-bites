@@ -3,11 +3,14 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import ReactLoading from 'react-loading';
+import { HiEye, HiEyeOff } from 'react-icons/hi';
 
 export default function Register() {
   const [isRegistered, setIsRegistered] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isEyeOpen, setIsEyeOpen] = useState(false);
+  const [isConfirmEyeOpen, setIsConfirmEyeOpen] = useState(false);
   const navigate = useNavigate();
 
   const {
@@ -96,18 +99,26 @@ export default function Register() {
               <label htmlFor="password" className="form-label">
                 密碼
               </label>
-              <input
-                {...register('password', {
-                  required: '密碼欄位必填',
-                  minLength: { value: 6, message: '密碼長度至少為 6 個字元' },
-                })}
-                id="password"
-                type="password"
-                className={`form-control ${
-                  errors.password ? 'is-invalid' : ''
-                } custom-form`}
-                placeholder="******************"
-              />
+              <div className='position-relative'>
+                <input
+                  {...register('password', {
+                    required: '密碼欄位必填',
+                    minLength: { value: 6, message: '密碼長度至少為 6 個字元' },
+                  })}
+                  id="password"
+                  type={isEyeOpen ? 'text' : 'password'}
+                  className={`form-control ${
+                    errors.password ? 'is-invalid' : ''
+                  } custom-form`}
+                  placeholder="******************"
+                />
+                <button type="button"
+                  className='position-absolute top-50 end-0 translate-middle-y p-0 btn me-3'
+                  onClick={() => setIsEyeOpen(!isEyeOpen)}
+                  tabIndex={-1} >
+                  { isEyeOpen ? <HiEye size={24} /> : <HiEyeOff size={24} /> }  
+                </button>
+              </div>
               {errors.password && (
                 <p className="text-danger my-2">{errors.password.message}</p>
               )}
@@ -117,19 +128,27 @@ export default function Register() {
               <label htmlFor="confirmPassword" className="form-label">
                 確認密碼
               </label>
-              <input
-                {...register('confirmPassword', {
-                  required: '請再次輸入密碼',
-                  validate: (value) =>
-                    value === password || '兩次輸入的密碼不一致',
-                })}
-                id="confirmPassword"
-                type="password"
-                className={`form-control ${
-                  errors.confirmPassword ? 'is-invalid' : ''
-                }`}
-                placeholder="再次輸入密碼"
-              />
+              <div className='position-relative'>
+                <input
+                  {...register('confirmPassword', {
+                    required: '請再次輸入密碼',
+                    validate: (value) =>
+                      value === password || '兩次輸入的密碼不一致',
+                  })}
+                  id="confirmPassword"
+                  type={isConfirmEyeOpen ? 'text' : 'password'}
+                  className={`form-control ${
+                    errors.confirmPassword ? 'is-invalid' : ''
+                  }`}
+                  placeholder="再次輸入密碼"
+                />
+                <button type="button"
+                  className='position-absolute top-50 end-0 translate-middle-y p-0 btn me-3'
+                  onClick={() => setIsConfirmEyeOpen(!isConfirmEyeOpen)}
+                  tabIndex={-1} >
+                  { isConfirmEyeOpen ? <HiEye size={24} /> : <HiEyeOff size={24} /> }  
+                </button>
+              </div>
               {errors.confirmPassword && (
                 <p className="text-danger my-2">
                   {errors.confirmPassword.message}
@@ -151,11 +170,11 @@ export default function Register() {
                 })}
                 id="userName"
                 type="text"
-                className={`form-control ${errors.name ? 'is-invalid' : ''}`}
+                className={`form-control ${errors.userName ? 'is-invalid' : ''}`}
                 placeholder="請輸入用戶名"
               />
-              {errors.name && (
-                <p className="text-danger my-2">{errors.name.message}</p>
+              {errors.userName && (
+                <p className="text-danger my-2">{errors.userName.message}</p>
               )}
             </div>
 

@@ -1,10 +1,10 @@
+import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { Modal } from 'bootstrap';
 import { alertDeleteConfirm, toastAlert, alertError } from '../../../util/sweetAlert';
-import AdminNewsModal from '../../components/dashboard/AdminNewsModal';
-import Pagination from '../../components/Pagination';
-import Loading from '../../components/Loading';
-import axios from 'axios';
+import AdminNewsModal from '@/components/dashboard/AdminNewsModal';
+import Pagination from '@/components/Pagination';
+import Loading from '@/components/Loading';
 
 export default function AdminProducts() {
   const [news, setNews] = useState([]);

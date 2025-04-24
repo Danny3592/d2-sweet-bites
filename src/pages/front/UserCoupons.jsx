@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import { alertError } from '../../../util/sweetAlert';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { alertError } from '../../../util/sweetAlert';
 
 // Components
-import Pagination from '../../components/Pagination';
-import Loading from '../../components/Loading';
+import Pagination from '@/components/Pagination';
+import Loading from '@/components/Loading';
 
 const UserCoupons = () => {
   const navigate = useNavigate();
@@ -56,44 +56,46 @@ const UserCoupons = () => {
         <h2>管理優惠券</h2>
       </div>
       <div className="container mt-4 user-coupon mb-10">
-        <table className="w-100">
-          <thead>
-            <tr>
-              <th>標題</th>
-              <th>優惠碼</th>
-              <th>到期日</th>
-              <th>折扣</th>
-              <th>狀態</th>
-              <th>操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            {coupons.length > 0 ? (
-              coupons.map((coupon) => (
-                
-                <tr key={coupon.id}>
-                  <td>{coupon.title}</td>
-                  <td>{coupon.code}</td>
-                  <td>{coupon.due_date}</td>
-                  <td>{coupon.percent}%</td>
-                  <td>{coupon.is_enabled ? '啟用' : '禁用'}</td>
-                  <td>
-                    <button
-                      onClick={() => navigate('/product-list')}
-                      className="px-3 py-1 bg-dark text-white rounded-1"
-                    >
-                      立即使用
-                    </button>
-                  </td>
-                </tr>
-              ))
-            ) : (
+        <div className="table-responsive">
+          <table className="tabel w-100">
+            <thead>
               <tr>
-                <td colSpan="6" className="text-center">目前沒有優惠券</td>
+                <th className="ps-10 py-3">標題</th>
+                <th className="p-3">優惠碼</th>
+                <th className="p-3">到期日</th>
+                <th className="p-3">折扣</th>
+                <th className="p-3">狀態</th>
+                <th className="p-3">操作</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {coupons.length > 0 ? (
+                coupons.map((coupon) => (
+                  
+                  <tr key={coupon.id}>
+                    <td className="p-3">{coupon.title}</td>
+                    <td className="p-3">{coupon.code}</td>
+                    <td className="p-3">{coupon.due_date}</td>
+                    <td className="p-3">{coupon.percent}%</td>
+                    <td className="p-3">{coupon.is_enabled ? '啟用' : '禁用'}</td>
+                    <td className="p-3">
+                      <button
+                        onClick={() => navigate('/product-list')}
+                        className="px-3 py-1 bg-dark text-white rounded-1"
+                      >
+                        立即使用
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="6" className="text-center">目前沒有優惠券</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {totalPages > 1 && (

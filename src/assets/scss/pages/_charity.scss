@@ -43,13 +43,8 @@
   }
   .thanks{
     width: 100%;
-    height: 1200px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-image: url('../images/index-charity/section05_background.png');
-  
-    @include media-breakpoint-up(md) {
-      height: 1094px;
-    }
   }

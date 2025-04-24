@@ -1,18 +1,18 @@
+import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 
 //Redux action
-import { clearCheckoutItem, clearMsg } from '../../slice/checkoutSlice';
-import { deleteAllCart, getCartList } from '../../slice/cartSlice';
-import { makePayment } from '../../slice/checkoutSlice';
+import { clearCheckoutItem, clearMsg } from '@/slice/checkoutSlice';
+import { deleteAllCart, getCartList } from '@/slice/cartSlice';
+import { makePayment } from '@/slice/checkoutSlice';
 
 //Component
-// import Loading from '../../components/Loading';
-import continueshopping from '../../assets/images/icons/chevron-left.svg';
-import axios from 'axios';
-
+// import Loading from '@/components/Loading';
+import continueshopping from '@/assets/images/icons/chevron-left.svg';
+import CartStepper from '../../components/front/CartStepper';
 //Utilities
 import { generateRandomID } from '../../../util/http';
 
@@ -55,16 +55,16 @@ const Checkout = () => {
     }
   }, [paymentMethod, setValue]);
 
-  let token;
   useEffect(() => {
-    if (!token) {
-      token = document.cookie
-        .split('; ')
-        .find((row) => row.startsWith('dessertToken='))
-        ?.split('=')[1];
+    const token = document.cookie
+      .split('; ')
+      .find((row) => row.startsWith('dessertToken='))
+      ?.split('=')[1];
+
+    if (token) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }
-  }, [token]);
+  }, []);
 
   //取得購物車資訊 & 卻保有商品可以結帳
   useEffect(() => {
@@ -203,7 +203,7 @@ const Checkout = () => {
           <div className="col-12">
             <Link
               to="/order-check"
-              className="continue-shopping text-gray-600 text-decoration-none d-flex align-items-center w-25 my-4 my-md-19"
+              className="continue-shopping text-gray-600 text-decoration-none d-flex align-items-center w-25 my-4 my-md-6"
             >
               <img
                 src={continueshopping}
@@ -212,21 +212,24 @@ const Checkout = () => {
                 width="16"
                 height="16"
               />
-              返回訂單確認
+              返回使用優惠券
             </Link>
           </div>
+        </div>
+        <div className="mb-6">
+          <CartStepper active={3} />
         </div>
         <div className="row">
           <div className="col-12 col-md-7">
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="order-info bg-white mb-8">
+              <div className="order-info bg-white mb-8 rounded-0 border-gray-300">
                 <h3 className="mb-10">填寫訂購資訊</h3>
                 <div className="d-flex flex-column mb-6">
                   <label className="mb-5" htmlFor="name">
-                    訂購人/收件人姓名
+                    訂購人/收件人姓名 <span className='text-danger'>*</span>
                   </label>
                   <input
-                    className="input py-3 ps-3"
+                    className="form-control border-gray-500 py-3 ps-3"
                     id="name"
                     type="text"
                     placeholder="名字"
@@ -239,10 +242,10 @@ const Checkout = () => {
 
                 <div className="d-flex flex-column mb-6">
                   <label className="mb-5" htmlFor="address">
-                    寄送地址
+                    寄送地址 <span className='text-danger'>*</span>
                   </label>
                   <input
-                    className="input py-3 ps-3"
+                    className="form-control border-gray-500 py-3 ps-3"
                     id="address"
                     type="text"
                     placeholder="住址"
@@ -255,10 +258,10 @@ const Checkout = () => {
 
                 <div className="d-flex flex-column mb-6">
                   <label className="mb-5" htmlFor="tel">
-                    聯絡電話
+                    聯絡電話 <span className='text-danger'>*</span>
                   </label>
                   <input
-                    className="input py-3 ps-3"
+                    className="form-control border-gray-500 py-3 ps-3"
                     id="tel"
                     type="number"
                     placeholder="聯絡電話"
@@ -271,10 +274,10 @@ const Checkout = () => {
 
                 <div className="d-flex flex-column mb-6">
                   <label className="mb-5" htmlFor="email">
-                    電子郵件信箱
+                    電子郵件信箱 <span className='text-danger'>*</span>
                   </label>
                   <input
-                    className="input py-3 ps-3"
+                    className="form-control border-gray-500 py-3 ps-3"
                     id="email"
                     type="email"
                     placeholder="電子郵件信箱"
@@ -286,8 +289,10 @@ const Checkout = () => {
                 </div>
               </div>
 
-              <div className="credit-card-info bg-white mb-8">
-                <h3 className="mb-10">付款方式</h3>
+              <div className="credit-card-info bg-white mb-8 rounded-0 border-gray-300">
+                <h3 className="mb-10">
+                  付款方式 <span className='text-danger'>*</span>
+                </h3>
                 {errors.paymentMethod && (
                   <p style={{ color: 'red' }}>{errors.paymentMethod.message}</p>
                 )}
@@ -302,7 +307,7 @@ const Checkout = () => {
                       })}
                       value="creditcard"
                     />
-                    <label className="ms-5" htmlFor="is_creditcard">
+                    <label className="ms-2" htmlFor="is_creditcard">
                       信用卡付款
                     </label>
                   </div>
@@ -317,7 +322,7 @@ const Checkout = () => {
                       })}
                       value="cash"
                     />
-                    <label className="ms-5" htmlFor="is_cash">
+                    <label className="ms-2" htmlFor="is_cash">
                       貨到付款
                     </label>
                   </div>
@@ -330,7 +335,7 @@ const Checkout = () => {
                         信用卡卡號
                       </label>
                       <input
-                        className="input py-3 ps-3 "
+                        className="form-control border-gray-500 py-3 ps-3"
                         id="card-number"
                         type="text"
                         placeholder="0000 0000 0000 0000"
@@ -356,7 +361,7 @@ const Checkout = () => {
                         有效期限（月/年）
                       </label>
                       <input
-                        className="input py-3 ps-3"
+                        className="form-control border-gray-500 py-3 ps-3"
                         id="valid-date"
                         type="text"
                         placeholder="MM/YY"
@@ -387,7 +392,7 @@ const Checkout = () => {
                       </label>
                       <input
                         maxLength="3"
-                        className="input py-3 ps-3"
+                        className="form-control border-gray-500 py-3 ps-3"
                         id="CVC"
                         type="text"
                         placeholder="CVC"
@@ -424,13 +429,13 @@ const Checkout = () => {
                       <strong>
                         <span className="fs-7 text-primary-800">NT$</span>
                         <span className="fs-6 text-primary-800">
-                          {totalPrice}
+                          {totalPrice.toLocaleString()}
                         </span>
                       </strong>
                     </li>
                     <li className="list-group-item d-flex justify-content-between border-bottom-0">
                       <span className="text-dark">優惠券</span>
-                      <span>-NT${discount}</span>
+                      <span>-NT${discount.toLocaleString()}</span>
                     </li>
                     <li className="list-group-item d-flex justify-content-between">
                       <span className="text-dark">運費</span>
@@ -442,7 +447,7 @@ const Checkout = () => {
                         <span className="fs-5 text-primary-800">NT$</span>
 
                         <span className="fs-3 text-primary-800">
-                          {finalPrice}
+                          {finalPrice.toLocaleString()}
                         </span>
                       </strong>
                     </li>

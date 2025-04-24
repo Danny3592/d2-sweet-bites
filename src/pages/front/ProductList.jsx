@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import CardProduct from "../../components/front/CardProduct";
-import Pagination from "../../components/Pagination";
-import Breadcrumb from "../../components/front/Breadcrumb";
-import SearchInput from "../../components/SearchInput";
-import Loading from "../../components/Loading";
+import { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from 'react-redux';
+import CardProduct from "@/components/front/CardProduct";
+import Pagination from "@/components/Pagination";
+import Breadcrumb from "@/components/front/Breadcrumb";
+import SearchInput from "@/components/SearchInput";
+import Loading from "@/components/Loading";
 import {
   getProducts as getProductAllList,
   getProductsByPage,
@@ -29,9 +29,9 @@ export default function ProductList() {
   const pageLimit = 6;
   const products = useSelector(selectProductsByPage);
   const productsTotalPages = useSelector(selectProductsTotalPages);
-  const getProducts = ({ page, category, searchText }) => {
+  const getProducts = useCallback(({ page, category, searchText }) => {
     dispatch(getProductsByPage({ page, category, searchText, pageLimit }));
-  }
+  }, [dispatch])
   
   // 商品類別
   const allProducts = useSelector(selectProducts);
@@ -57,7 +57,7 @@ export default function ProductList() {
   useEffect(() => {
     window.scrollTo({ top: 0 });
     getProducts({ page: currentPage, category: currentCategory });
-  }, [currentPage, currentCategory]);
+  }, [currentPage, currentCategory, getProducts]);
 
   return (
     <>
