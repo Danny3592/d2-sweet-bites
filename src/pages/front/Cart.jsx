@@ -1,13 +1,13 @@
-import { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { alertError, alertDeleteConfirm } from "../../../util/sweetAlert";
-import Loading from "../../components/Loading";
+import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { getCartList, addCart, updateCart, deleteCart, deleteAllCart } from '../../slice/cartSlice';
-
-import continueshopping from "../../assets/images/icons/chevron-left.svg";
-import shoppingCartIcon from "../../assets/images/icons/shopping-cart.svg";
 import { useNavigate, Link } from "react-router-dom";
+import { alertError, alertDeleteConfirm } from "../../../util/sweetAlert";
+import Loading from "@/components/Loading";
+import CartStepper from '../../components/front/CartStepper';
+import { getCartList, addCart, updateCart, deleteCart, deleteAllCart } from '@/slice/cartSlice';
+import continueshopping from "@/assets/images/icons/chevron-left.svg";
+import shoppingCartIcon from "@/assets/images/icons/shopping-cart.svg";
 
 export default function CartPage() {
   const navigate = useNavigate()
@@ -109,217 +109,229 @@ export default function CartPage() {
   return (
     <>
       { cartStatus === 'loading' && (<Loading type="spin" color="#D4A58E"/>)  }
-      <div className="cart-page pb-md-33 pb-18">
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              <Link
-                to="/product-list"
-                className="continue-shopping text-gray-600 text-decoration-none d-flex align-items-center my-4 my-md-19"
-              >
-                <img
-                  src={continueshopping}
-                  alt="Back"
-                  className="me-1 back-icon"
-                  width="16"
-                  height="16"
-                />
-                繼續購物
-              </Link>
+      { carts.length ? (
+        <div className="cart-page pb-md-33 pb-18">
+          <div className="container">
+            <div className="row">
+              <div className="col-12">
+                <Link
+                  to="/product-list"
+                  className="continue-shopping text-gray-600 text-decoration-none d-flex align-items-center my-4 my-md-6"
+                >
+                  <img
+                    src={continueshopping}
+                    alt="Back"
+                    className="me-1 back-icon"
+                    width="16"
+                    height="16"
+                  />
+                  繼續購物
+                </Link>
+              </div>
             </div>
-          </div>
-
-          <div className="row ">
-            {/* 購物車列表 */}
-            <div className="col-12 col-md-7">
-              <div className="cart-section mb-3">
-                <div className="card">
-                  <div className="card-body">
-                    <div className="d-flex justify-content-between align-items-center mb-3">
-                      <h5 className="mb-0 text-dark fs-5">我的購物車</h5>
-                      {carts.length > 0 && (
-                        <button
-                          className="btn btn-outline-danger btn-sm custom-outlined-button"
-                          onClick={deleteAllCartItems} // 清空購物車
-                          type="button"
-                        >
-                          全部清空
-                        </button>
+            <div className="mb-6">
+              <CartStepper active={1} />
+            </div>
+            <div className="row ">
+              {/* 購物車列表 */}
+              <div className="col-12 col-md-7">
+                <div className="cart-section mb-3">
+                  <div className="card">
+                    <div className="card-body">
+                      <div className="d-flex justify-content-between align-items-center mb-3">
+                        <h5 className="mb-0 text-dark fs-5">我的購物車</h5>
+                        {carts.length > 0 && (
+                          <button
+                            className="btn btn-outline-danger btn-sm custom-outlined-button"
+                            onClick={deleteAllCartItems} // 清空購物車
+                            type="button"
+                          >
+                            全部清空
+                          </button>
+                        )}
+                      </div>
+                      {carts.length === 0 ? (
+                        <p>購物車是空的</p>
+                      ) : (
+                        carts.map((cart, index) => (
+                          <div
+                            key={cart.id}
+                            className={`d-flex justify-content-between align-items-center py-3
+                              ${index !== carts.length - 1 ? "border-bottom" : ""}`}
+                          >
+                            <div className="d-flex align-items-center">
+                              <img
+                                src={cart.product.imageUrl}
+                                alt="圖片"
+                                className="cart-item-image me-3"
+                              />
+                              <div>
+                                <h6 className="mb-3 text-dark">{cart.product.title}</h6>
+                                <div className="input-group input-group-sm">
+                                  <button
+                                    type="button"
+                                    className={`btn btn-outline-gray-400 ${
+                                      cart.qty === 1
+                                        ? "bg-gray-100 text-gray-400"
+                                        : "text-dark"
+                                    } quantity-btn`}
+                                    disabled={cart.qty === 1}
+                                    onClick={() => updateCartItem(cart.id, 'minus')}
+                                  >
+                                    -
+                                  </button>
+                                  <input
+                                    type="number"
+                                    className="form-control text-center"
+                                    value={cart.qty}
+                                    readOnly
+                                  />
+                                  <button
+                                    type="button"
+                                    className="btn btn-outline-gray-400 text-dark quantity-btn"
+                                    onClick={() => updateCartItem(cart.id, 'add')}
+                                  >
+                                    +
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="text-end">
+                              <h6 className="mb-3 text-primary-800">
+                                NT${cart.product.price}
+                              </h6>
+                              <button
+                                className="btn btn-link text-danger btn-sm"
+                                onClick={() => deleteCartItem(cart.id, cart.product.title)} // 刪除單一購物車品項
+                                type="button"
+                              >
+                                刪除
+                              </button>
+                            </div>
+                          </div>
+                        ))
                       )}
                     </div>
-                    {carts.length === 0 ? (
-                      <p>購物車是空的</p>
-                    ) : (
-                      carts.map((cart, index) => (
+                  </div>
+                </div>
+
+                {/* 慈善產品區塊 */}
+                <div className="donation-section mb-3">
+                  <div className="card">
+                    <div className="card-body">
+                      <h5 className="mb-3 text-dark fs-5">
+                        甜蜜訂單，邀您一起暖心加購
+                      </h5>
+                      {charityProducts.map((item, index) => (
                         <div
-                          key={cart.id}
-                          className={`d-flex justify-content-between align-items-center py-3
-                            ${index !== carts.length - 1 ? "border-bottom" : ""}`}
+                          key={item.id}
+                          className={`d-flex justify-content-between align-items-center py-3 ${
+                            index !== charityProducts.length - 1
+                              ? "border-bottom"
+                              : ""
+                          }`}
                         >
                           <div className="d-flex align-items-center">
                             <img
-                              src={cart.product.imageUrl}
-                              alt="圖片"
-                              className="cart-item-image me-3"
+                              src={item.imageUrl}
+                              alt={item.title}
+                              className="donation-item-image me-3"
                             />
                             <div>
-                              <h6 className="mb-3 text-dark">{cart.product.title}</h6>
-                              <div className="input-group input-group-sm">
-                                <button
-                                  type="button"
-                                  className={`btn btn-outline-gray-400 ${
-                                    cart.qty === 1
-                                      ? "bg-gray-100 text-gray-400"
-                                      : "text-dark"
-                                  } quantity-btn`}
-                                  disabled={cart.qty === 1}
-                                  onClick={() => updateCartItem(cart.id, 'minus')}
-                                >
-                                  -
-                                </button>
-                                <input
-                                  type="number"
-                                  className="form-control text-center"
-                                  value={cart.qty}
-                                  readOnly
-                                />
-                                <button
-                                  type="button"
-                                  className="btn btn-outline-gray-400 text-dark quantity-btn"
-                                  onClick={() => updateCartItem(cart.id, 'add')}
-                                >
-                                  +
-                                </button>
-                              </div>
+                              <h6 className="mb-3 text-dark">{item.title}</h6>
+                              <p className="text-primary-800 fs-8">數量: 1</p>
                             </div>
                           </div>
                           <div className="text-end">
                             <h6 className="mb-3 text-primary-800">
-                              NT${cart.product.price}
+                              NT${item.price}
                             </h6>
                             <button
-                              className="btn btn-link text-danger btn-sm"
-                              onClick={() => deleteCartItem(cart.id, cart.product.title)} // 刪除單一購物車品項
                               type="button"
+                              className="btn btn-outline-danger custom-outlined-button d-flex align-items-center justify-content-center btn-sm"
+                              onClick={() => addCartItem(item.id)}
+                              disabled={isLoading}
                             >
-                              刪除
+                              <img
+                                src={shoppingCartIcon}
+                                alt="購物車"
+                                className="me-2 red-icon"
+                              />
+                              放入購物車
                             </button>
                           </div>
                         </div>
-                      ))
-                    )}
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* 慈善產品區塊 */}
-              <div className="donation-section mb-3">
-                <div className="card">
-                  <div className="card-body">
-                    <h5 className="mb-3 text-dark fs-5">
-                      甜蜜訂單，邀您一起暖心加購
-                    </h5>
-                    {charityProducts.map((item, index) => (
-                      <div
-                        key={item.id}
-                        className={`d-flex justify-content-between align-items-center py-3 ${
-                          index !== charityProducts.length - 1
-                            ? "border-bottom"
-                            : ""
-                        }`}
+              {/* 訂單摘要 */}
+              <div className="col-12 col-md-5">
+                <div className="cart-summary mb-3">
+                  <div className="card">
+                    <div className="card-body">
+                      <h5 className="mb-3 text-dark fs-5">訂單明細</h5>
+                      <ul className="list-group list-group-flush">
+                        <li className="list-group-item d-flex justify-content-between border-bottom-0">
+                          <span className="text-dark">訂單總計</span>
+                          <strong>
+                            <span className="fs-7 text-primary-800">NT$</span>
+                            <span className="fs-6 text-primary-800">
+                              {carts.reduce(
+                                (total, item) => total + item.product.price * item.qty,
+                                0
+                              ).toLocaleString()}
+                            </span>
+                          </strong>
+                        </li>
+                        <li className="list-group-item d-flex justify-content-between border-bottom-0">
+                          <span className="text-dark">優惠券</span>
+                          <span>-</span>
+                        </li>
+                        <li className="list-group-item d-flex justify-content-between">
+                          <span className="text-dark">運費</span>
+                          <span className="text-primary-800">免運</span>
+                        </li>
+                        <li className="list-group-item d-flex justify-content-between align-items-center">
+                          <strong className="text-dark">應付金額</strong>
+                          <strong>
+                            <span className="fs-5 text-primary-800">NT$</span>
+
+                            <span className="fs-3 text-primary-800">
+                              {carts.reduce(
+                                (total, item) => total + item.product.price * item.qty,
+                                0
+                              ).toLocaleString()}
+                            </span>
+                          </strong>
+                        </li>
+                      </ul>
+                      <button
+                        className="btn btn-danger w-100 mt-3 custom-button"
+                        type="button"
+                        disabled={!carts.length}
+                        onClick={handleOrderCheck}
                       >
-                        <div className="d-flex align-items-center">
-                          <img
-                            src={item.imageUrl}
-                            alt={item.title}
-                            className="donation-item-image me-3"
-                          />
-                          <div>
-                            <h6 className="mb-3 text-dark">{item.title}</h6>
-                            <p className="text-primary-800 fs-8">數量: 1</p>
-                          </div>
-                        </div>
-                        <div className="text-end">
-                          <h6 className="mb-3 text-primary-800">
-                            NT${item.price}
-                          </h6>
-                          <button
-                            type="button"
-                            className="btn btn-outline-danger custom-outlined-button d-flex align-items-center justify-content-center btn-sm"
-                            onClick={() => addCartItem(item.id)}
-                            disabled={isLoading}
-                          >
-                            <img
-                              src={shoppingCartIcon}
-                              alt="購物車"
-                              className="me-2 red-icon"
-                            />
-                            放入購物車
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* 訂單摘要 */}
-            <div className="col-12 col-md-5">
-              <div className="cart-summary mb-3">
-                <div className="card">
-                  <div className="card-body">
-                    <h5 className="mb-3 text-dark fs-5">訂單明細</h5>
-                    <ul className="list-group list-group-flush">
-                      <li className="list-group-item d-flex justify-content-between border-bottom-0">
-                        <span className="text-dark">訂單總計</span>
-                        <strong>
-                          <span className="fs-7 text-primary-800">NT$</span>
-                          <span className="fs-6 text-primary-800">
-                            {carts.reduce(
-                              (total, item) => total + item.product.price * item.qty,
-                              0
-                            )}
-                          </span>
-                        </strong>
-                      </li>
-                      <li className="list-group-item d-flex justify-content-between border-bottom-0">
-                        <span className="text-dark">優惠券</span>
-                        <span>-</span>
-                      </li>
-                      <li className="list-group-item d-flex justify-content-between">
-                        <span className="text-dark">運費</span>
-                        <span className="text-primary-800">免運</span>
-                      </li>
-                      <li className="list-group-item d-flex justify-content-between align-items-center">
-                        <strong className="text-dark">應付金額</strong>
-                        <strong>
-                          <span className="fs-5 text-primary-800">NT$</span>
-
-                          <span className="fs-3 text-primary-800">
-                            {carts.reduce(
-                              (total, item) => total + item.product.price * item.qty,
-                              0
-                            )}
-                          </span>
-                        </strong>
-                      </li>
-                    </ul>
-                    <button
-                      className="btn btn-danger w-100 mt-3 custom-button"
-                      type="button"
-                      disabled={!carts.length}
-                      onClick={handleOrderCheck}
-                    >
-                      確認訂單
-                    </button>
+                        確認訂單
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="cart-page-noProduct d-flex flex-column justify-content-center align-items-center">
+          <h2 className="mb-6 fs-6">購物車沒商品</h2>
+          <Link className="btn btn-primary btn-lg px-8 py-3"
+            to="/product-list">
+            去購物吧
+          </Link>
+        </div>
+      )}
     </>
   );
 }

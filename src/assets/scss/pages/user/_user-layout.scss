@@ -1,0 +1,16 @@
+.user-layout {
+  @include  media-breakpoint-up(lg) {
+    margin-left: 240px;
+  }
+
+  th, td {
+    white-space: nowrap;
+  }
+
+  .link-text {
+    color: $gray-600;
+    &.active {
+      color: $primary;
+    }
+  }
+}

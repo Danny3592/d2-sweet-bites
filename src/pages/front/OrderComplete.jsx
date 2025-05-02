@@ -1,5 +1,5 @@
 import { useLocation, Link } from 'react-router-dom';
-import background from '../../assets/images/index-charity/section04_background.png';
+import background from '@/assets/images/index-charity/section04_background.png';
 
 export default function OrderComplete() {
   const location = useLocation();
@@ -11,14 +11,13 @@ export default function OrderComplete() {
       <div
         style={{
           width: '100%',
-          height: '1200px',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
           backgroundImage: `url(${background})`,
         }}
       >
-        <div className="container pt-40">
+        <div className="container py-20">
           <div className="row justify-content-center align-items-center">
             <div className="col bg-white d-flex flex-column justify-content-center align-items-center rounded-4 py-20">
               <h2 className="text-black">感謝選擇我們，幸福即將送達!</h2>

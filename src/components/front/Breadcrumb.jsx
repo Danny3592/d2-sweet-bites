@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
-import { Fragment } from "react";
 import PropTypes from 'prop-types';
+import { Fragment } from "react";
+import { Link } from "react-router-dom";
 export default function Breadcrumb({ currentCategory, breadcrumbPath }) {
   return (
     <nav aria-label="breadcrumb">

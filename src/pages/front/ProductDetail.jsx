@@ -1,7 +1,7 @@
+import axios from 'axios';
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
 
 // React Icons
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
@@ -9,30 +9,30 @@ import { FiHeart } from 'react-icons/fi';
 import { FaHeart } from 'react-icons/fa';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
-import arrowRightLight from '../../assets/images/icons/chevron-right-light.svg';
-import arrowLeftLight from '../../assets/images/icons/chevron-left-light.svg';
+import arrowRightLight from '@/assets/images/icons/chevron-right-light.svg';
+import arrowLeftLight from '@/assets/images/icons/chevron-left-light.svg';
 
 // Components & Styles
-import CharityCard from '../../components/front/product-detail/CharityCard';
-import Notification from '../../components/front/product-detail/Notification';
-import Breadcrumb from '../../components/front/Breadcrumb';
+import CharityCard from '@/components/front/product-detail/CharityCard';
+import Notification from '@/components/front/product-detail/Notification';
+import Breadcrumb from '@/components/front/Breadcrumb';
 import {
   mainProdImgStyle,
   similarProdsImgStyle,
-} from '../../components/front/product-detail/product-detail-style';
-import Loading from '../../components/Loading';
+} from '@/components/front/product-detail/product-detail-style';
+import Loading from '@/components/Loading';
 
 // Redux Actions
-import { addCart, getCartList, updateCart } from '../../slice/cartSlice';
+import { addCart, getCartList, updateCart } from '@/slice/cartSlice';
 import {
   getFavorites,
   removeFavorite,
   addFavorite,
-} from '../../slice/favoriteSlice';
-import { setCheckoutItem } from '../../slice/checkoutSlice';
+} from '@/slice/favoriteSlice';
+import { setCheckoutItem } from '@/slice/checkoutSlice';
 
 // Utils
-import { alertError } from '../../../util/sweetAlert';
+import { alertError, toastAlert } from '../../../util/sweetAlert';
 
 const ProductDetail = () => {
   const navigate = useNavigate();
@@ -191,17 +191,14 @@ const ProductDetail = () => {
     }
   }, [position]);
 
-  /* =====================
-   *  加入或更新購物車
-   * ===================== */
-  const updateCartItem = async (cartId, productId, newQty) => {
-    if (newQty < 1) return; // 防止數量小於 1
-    await dispatch(updateCart({ cartId, productId, qty: newQty }));
-    dispatch(getCartList(userInfo.current.id));
-  };
 
   const addCartItem = useCallback(
     async (prodId, newQty = 1) => {
+      const updateCartItem = async (cartId, productId, newQty) => {
+        if (newQty < 1) return; // 防止數量小於 1
+        await dispatch(updateCart({ cartId, productId, qty: newQty }));
+        dispatch(getCartList(userInfo.current.id));
+      };
       try {
         // 如果 slice 狀態最新，實際上可以不用再 getCartList，但保險起見可保留
         const { data: product } = await axios.get(`/products/${prodId}`);
@@ -249,8 +246,7 @@ const ProductDetail = () => {
       }
       // 再加入主商品
       await addCartItem(id, qty);
-      // 前往購物車
-      navigate('/cart');
+      toastAlert('已加入購物車', true);
     } catch (error) {
       alertError(error);
     } finally {
@@ -396,10 +392,10 @@ const ProductDetail = () => {
                   ))}
                 </div>
                 <div className="swiper-button-prev-banner">
-                  <img src={arrowLeftLight} alt="" />
+                  <img src={arrowLeftLight} alt="arrowLeftLightIcon" />
                 </div>
                 <div className="swiper-button-next-banner">
-                  <img src={arrowRightLight} alt="" />
+                  <img src={arrowRightLight} alt="rrowRightLightIcon" />
                 </div>
               </Swiper>
               <div className="d-none d-lg-block">
@@ -407,26 +403,25 @@ const ProductDetail = () => {
               </div>
             </div>
             {/* ===================== 右區：商品內容 ===================== */}
-            <div className="col-12 col-lg-6 px-lg-8 px-3 py-lg-0 py-6 position-relative">
-              {/* 手機板收藏按鈕 */}
-              {isFavorite ? (
-                <FaHeart
-                  className="d-block d-lg-none position-absolute heart"
-                  onClick={() => handleToggleFavorite(productDetails.id)}
-                />
-              ) : (
-                <FiHeart
-                  className="d-block d-lg-none position-absolute heart"
-                  onClick={() => handleToggleFavorite(productDetails.id)}
-                />
-              )}
-
-              <h3 className="text-primary fw-medium mb-6 fs-2">
+            <div className="col-12 col-lg-6 px-lg-8 px-3 py-lg-0 py-6">
+              <h3 className="text-primary-800 fw-medium mb-6 fs-2 position-relative">
                 {productDetails?.title}
+                {/* 手機板收藏按鈕 */}
+                {isFavorite ? (
+                  <FaHeart
+                    className="d-block d-lg-none position-absolute heart top-50 end-0 translate-middle-y"
+                    onClick={() => handleToggleFavorite(productDetails.id)}
+                  />
+                ) : (
+                  <FiHeart
+                    className="d-block d-lg-none position-absolute heart top-50 end-0 translate-middle-y"
+                    onClick={() => handleToggleFavorite(productDetails.id)}
+                  />
+                )}
               </h3>
-              <p className="mb-8">成分: {productDetails.ingredient}</p>
-              <p className="mb-8">{productDetails?.description}</p>
-              <p className="fs-2 price">
+              <p className="mb-8 text-dark">成分: {productDetails.ingredient}</p>
+              <p className="mb-8 text-dark">{productDetails?.description}</p>
+              <p className="fs-2 price noto-serif-tc">
                 <span>NT$</span>
                 {productDetails?.price}
               </p>
@@ -540,12 +535,12 @@ const ProductDetail = () => {
                             >
                               <img
                                 src={product.imageUrl}
-                                alt=""
+                                alt="productImage"
                                 style={mainProdImgStyle('100%', '100%')}
                               />
                             </div>
-                            <h3 className="fs-6 mt-4 mb-3">{product.title}</h3>
-                            <p className="fs-7 mb-32">{product.description}</p>
+                            <h3 className="fs-6 mt-4 mb-3 text-dark fw-medium">{product.title}</h3>
+                            <p className="fs-8 mb-32">{product.description}</p>
                           </SwiperSlide>
                         </Link>
                       );
@@ -581,13 +576,13 @@ const ProductDetail = () => {
                         >
                           <li className="position-relative similar-item">
                             <div className="similar-item-box">
-                              <img src={product.imageUrl} alt="" />
+                              <img src={product.imageUrl} alt="productImage" />
                             </div>
 
-                            <p className="mt-4 mb-3 text-dark">
+                            <p className="mt-4 mb-3 text-dark fs-6 noto-serif-tc fw-medium">
                               {product.title}
                             </p>
-                            <p>{product.description}</p>
+                            <p className='fs-7 text-gray-600'>{product.description}</p>
                           </li>
                         </Link>
                       );

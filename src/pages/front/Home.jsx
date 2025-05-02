@@ -1,28 +1,25 @@
-import charityHeart from '../../assets/images/index-charity/heart.png';
-import charityHeartSmall from '../../assets/images/index-charity/heart_mobile.png';
-import charityCorner from '../../assets/images/index-charity/corner.png';
-import charityPlanKid from '../../assets/images/index-charity/donation01_kids.png';
-import charityPlanPet from '../../assets/images/index-charity/donation02_pets.png';
-import charityPlanTrees from '../../assets/images/index-charity/donation03_trees.png';
-import charitySchoolIcon from '../../assets/images/index-charity/school.png';
-import charityDogIcon from '../../assets/images/index-charity/dog.png';
-import charityPlantIcon from '../../assets/images/index-charity/plant.png';
-
-import thanksAchievement from '../../assets/images/index-charity/achievement_background.svg';
-import thanksJoin from '../../assets/images/index-charity/join_background.svg';
-
-import buttonIconBrown from '../../assets/images/icons/button-arrow-brown.png';
-import buttonIconWhite from '../../assets/images/icons/button-arrow-white.png';
-import { Link } from 'react-router-dom';
-
-import { useSelector, useDispatch } from 'react-redux';
-import { getProducts, selectProducts } from '../../slice/productSlice';
-import { getNews, selectNews } from '../../slice/newsSlice';
 import { useEffect } from 'react';
-import CardProduct from '../../components/front/CardProduct';
-import { getRandomProducts } from '../../../util/tools';
+import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import AOS from 'aos';
 import 'aos/dist/aos.css'; // 引入 AOS 樣式
+import charityHeart from '@/assets/images/index-charity/heart.png';
+import charityHeartSmall from '@/assets/images/index-charity/heart_mobile.png';
+import charityCorner from '@/assets/images/index-charity/corner.png';
+import charityPlanKid from '@/assets/images/index-charity/donation01_kids.png';
+import charityPlanPet from '@/assets/images/index-charity/donation02_pets.png';
+import charityPlanTrees from '@/assets/images/index-charity/donation03_trees.png';
+import charitySchoolIcon from '@/assets/images/index-charity/school.png';
+import charityDogIcon from '@/assets/images/index-charity/dog.png';
+import charityPlantIcon from '@/assets/images/index-charity/plant.png';
+import thanksAchievement from '@/assets/images/index-charity/achievement_background.svg';
+import thanksJoin from '@/assets/images/index-charity/join_background.svg';
+import buttonIconBrown from '@/assets/images/icons/button-arrow-brown.png';
+import buttonIconWhite from '@/assets/images/icons/button-arrow-white.png';
+import { getProducts, selectProducts } from '@/slice/productSlice';
+import { getNews, selectNews } from '@/slice/newsSlice';
+import { getRandomProducts } from '../../../util/tools';
+import CardProduct from '@/components/front/CardProduct';
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -38,7 +35,7 @@ export default function Home() {
       once: true, // 滑動回到頂部時不會再次觸發
       easing: 'ease-in', // 動畫效果
     });
-  }, []);
+  }, [dispatch]);
   return (
     <main>
       <section className="index-banner d-flex justify-content-center flex-column  w-100">
@@ -254,7 +251,7 @@ export default function Home() {
             </p>
             <picture className="heart-icon mb-2 mb-md-0">
               <source srcSet={charityHeart} media="(min-width: 796px)" />
-              <img src={charityHeartSmall} />
+              <img src={charityHeartSmall} alt="heart-icon" />
             </picture>
             <img
               src={charityCorner}
@@ -275,12 +272,12 @@ export default function Home() {
                 <img
                   className="main-img w-100 h-100 object-fit-cover"
                   src={charityPlanKid}
-                  alt=""
+                  alt="charityPlanKid"
                 />
               </div>
               <div className="index-charity-plan-content position-absolute top-50 start-50 translate-middle text-white text-center z-1">
                 <div className="text-content">
-                  <img src={charitySchoolIcon} alt="" />
+                  <img src={charitySchoolIcon} alt="charitySchoolIcon" />
                   <h3>甜蜜助學計畫</h3>
                   <p>捐助營養餐</p>
                 </div>
@@ -297,12 +294,12 @@ export default function Home() {
                 <img
                   className="main-img w-100 h-100 object-fit-cover"
                   src={charityPlanPet}
-                  alt=""
+                  alt="charityPlanPet"
                 />
               </div>
               <div className="index-charity-plan-content position-absolute top-50 start-50 translate-middle text-white text-center z-1">
                 <div className="text-content">
-                  <img src={charityDogIcon} alt="" />
+                  <img src={charityDogIcon} alt="charityDogIcon" />
                   <h3>幸福愛寵行動</h3>
                   <p>捐助罐罐</p>
                 </div>
@@ -318,12 +315,12 @@ export default function Home() {
                 <img
                   className="main-img w-100 h-100 object-fit-cover"
                   src={charityPlanTrees}
-                  alt=""
+                  alt="charityPlanTrees"
                 />
               </div>
               <div className="index-charity-plan-content position-absolute top-50 start-50 translate-middle text-white text-center z-1">
                 <div className="text-content">
-                  <img src={charityPlantIcon} alt="" />
+                  <img src={charityPlantIcon} alt="charityPlantIcon" />
                   <h3>綠色希望專案</h3>
                   <p>保護環境永續</p>
                 </div>
@@ -351,7 +348,7 @@ export default function Home() {
           <ul className="list-unstyled row flex-column g-4 align-items-center align-items-md-start ps-0 flex-md-row mt-12 mt-lg-20 noto-serif-tc"
             data-aos="fade-up">
             <li className="col text-center text-black position-relative mt-md-50">
-              <img src={thanksAchievement} alt="" />
+              <img src={thanksAchievement} alt="thanksAchievement" />
               <div className="fs-6 position-absolute top-50 start-50 translate-middle">
                 <p className="mb-6">
                   <span className="fs-2 text-primary-800">300</span>多隻
@@ -360,7 +357,7 @@ export default function Home() {
               </div>
             </li>
             <li className="col text-center text-black position-relative">
-              <img src={thanksAchievement} alt="" />
+              <img src={thanksAchievement} alt="thanksAchievement" />
               <div className="fs-6 position-absolute top-50 start-50 translate-middle">
                 <p className="mb-6 fw-medium">已募集愛心</p>
                 <p>
@@ -369,7 +366,7 @@ export default function Home() {
               </div>
             </li>
             <li className="col text-center text-black position-relative mt-md-50">
-              <img src={thanksAchievement} alt="" />
+              <img src={thanksAchievement} alt="thanksAchievement" />
               <div className="fs-6 position-absolute top-50 start-50 translate-middle">
                 <p className="mb-6">
                   <span className="fs-2 text-primary-800">500</span>位
@@ -378,7 +375,7 @@ export default function Home() {
               </div>
             </li>
             <li className="col text-center text-black position-relative">
-              <img src={thanksAchievement} alt="" />
+              <img src={thanksAchievement} alt="thanksAchievement" />
               <div className="fs-6 position-absolute top-50 start-50 translate-middle">
                 <p className="mb-6">
                   <span className="fs-2 text-primary-800">200</span>顆
@@ -393,7 +390,7 @@ export default function Home() {
         <img
           className="position-absolute top-0 start-50 translate-middle"
           src={thanksJoin}
-          alt=""
+          alt="thanksJoin"
         />
         <div className="w-100 text-white text-center position-absolute top-0 start-50 translate-middle">
           <p className="mb-3">想要加入愛心行列嗎？</p>

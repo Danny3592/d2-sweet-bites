@@ -34,7 +34,6 @@ export default function AdminRegister() {
       password: data.password,
       terms: data.terms
     }
-    console.log(requestData)
 
     try {
       await axios.post("/register", {

@@ -1,20 +1,20 @@
+import axios from 'axios';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Modal } from 'bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   alertDeleteConfirm,
   toastAlert,
   alertError,
 } from '../../../util/sweetAlert';
-import { useSelector, useDispatch } from 'react-redux';
 import {
   getProducts,
   selectProducts,
-} from "../../slice/productSlice";
-import Pagination from '../../components/Pagination';
-import Loading from '../../components/Loading';
-import axios from 'axios';
-import AdminOrderModal from '../../components/dashboard/AdminOrderModal';
-import C3PieChart from '../../components/C3PieChart';
+} from "@/slice/productSlice";
+import Pagination from '@/components/Pagination';
+import Loading from '@/components/Loading';
+import AdminOrderModal from '@/components/dashboard/AdminOrderModal';
+import C3PieChart from '@/components/C3PieChart';
 
 export default function AdminProducts() {
   const [orders, setOrders] = useState([]);
