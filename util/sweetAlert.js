@@ -25,17 +25,27 @@ export const alertDeleteConfirm = (title) => {
     title,
     icon: "warning",
     showCancelButton: true,
-    confirmButtonColor: "#D4A58E",
-    cancelButtonColor: "#D1104D",
-    confirmButtonText: "確認",
-    cancelButtonText: "取消"
+    confirmButtonColor: "#D1104D",
+    confirmButtonText: "刪除",
+    cancelButtonText: "取消",
+    reverseButtons: true
   });
 }
 
 // toast 提示
-export const toastAlert = (text) => {
-  Toast.fire({
-    icon: "success",
-    title: text
-  })
+export const toastAlert = (text, toTop) => {
+  if (toTop) {
+    Toast.fire({
+      icon: "success",
+      title: text,
+      didOpen: (toast) => {
+        toast.style.top = '90px';
+      }
+    });
+  } else {
+    Toast.fire({
+      icon: "success",
+      title: text
+    });
+  }
 }

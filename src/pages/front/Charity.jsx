@@ -1,12 +1,12 @@
-import charityCorner from '../../assets/images/index-charity/corner.png';
-import charityPlanKid from '../../assets/images/index-charity/donation01_kids.png';
-import charityPlanPet from '../../assets/images/index-charity/donation02_pets.png';
-import charityPlanTrees from '../../assets/images/index-charity/donation03_trees.png';
-import charitySchoolIcon from '../../assets/images/index-charity/school.png';
-import charityDogIcon from '../../assets/images/index-charity/dog.png';
-import charityPlantIcon from '../../assets/images/index-charity/plant.png';
-import userDefault from '../../assets/images/layout/user-circle.svg';
 import { Link } from 'react-router-dom';
+import charityCorner from '@/assets/images/index-charity/corner.png';
+import charityPlanKid from '@/assets/images/index-charity/donation01_kids.png';
+import charityPlanPet from '@/assets/images/index-charity/donation02_pets.png';
+import charityPlanTrees from '@/assets/images/index-charity/donation03_trees.png';
+import charitySchoolIcon from '@/assets/images/index-charity/school.png';
+import charityDogIcon from '@/assets/images/index-charity/dog.png';
+import charityPlantIcon from '@/assets/images/index-charity/plant.png';
+import userDefault from '@/assets/images/layout/user-circle.svg';
 
 export default function Charity() {
   const thanksMessages = [
@@ -62,10 +62,10 @@ export default function Charity() {
               <img
                 className="w-100 h-100 object-fit-cover"
                 src={charityPlanKid}
-                alt=""
+                alt="charity-image"
               />
               <div className="charity-plan-content position-absolute top-50 start-50 translate-middle text-white text-center z-1">
-                <img src={charitySchoolIcon} alt="" />
+                <img src={charitySchoolIcon} alt="charity-image" />
                 <h3>甜蜜助學計畫</h3>
                 <p>捐助營養餐</p>
               </div>
@@ -76,10 +76,10 @@ export default function Charity() {
               <img
                 className="w-100 h-100 object-fit-cover"
                 src={charityPlanPet}
-                alt=""
+                alt="charity-image"
               />
               <div className="charity-plan-content position-absolute top-50 start-50 translate-middle text-white text-center z-1">
-                <img src={charityDogIcon} alt="" />
+                <img src={charityDogIcon} alt="charity-image" />
                 <h3>幸福愛寵行動</h3>
                 <p>捐助罐罐</p>
               </div>
@@ -90,10 +90,10 @@ export default function Charity() {
               <img
                 className="w-100 h-100 object-fit-cover"
                 src={charityPlanTrees}
-                alt=""
+                alt="charity-image"
               />
               <div className="charity-plan-content position-absolute top-50 start-50 translate-middle text-white text-center z-1">
-                <img src={charityPlantIcon} alt="" />
+                <img src={charityPlantIcon} alt="charity-image" />
                 <h3>綠色希望專案</h3>
                 <p>保護環境永續</p>
               </div>
@@ -108,20 +108,22 @@ export default function Charity() {
             在幸享屋，每一份愛心都值得被看見，因為有您，幸福在延續。
           </p>
         </div>
-        <div className="container mt-12 mt-lg-40">
+        <div className="container mt-12 mt-lg-40 pb-18 pb-lg-36">
           <ul className="list-unstyled row flex-md-row g-4 flex-column">
             {thanksMessages.map((message) => (
               <li className="col-lg-6"
                 key={message.message}>
-                <div className="d-flex align-items-center bg-white rounded-4 p-4" style={{ height: 150 }}>
-                  <img
-                    className="me-2 rounded-circle object-fit-cover"
-                    src={message.avatar ? message.avatar : userDefault}
-                    style={{ width: 50, height: 50 }}
-                    alt="avatar"
-                  />
-                  <strong className="fs-7 fs-md-5 me-4">{message.name}</strong>
-                  <p>{message.message}</p>
+                <div className="bg-white rounded-4 p-4" style={{ height: 150 }}>
+                  <div className="d-flex align-items-center mb-4">
+                    <img
+                      className="me-2 rounded-circle object-fit-cover"
+                      src={message.avatar ? message.avatar : userDefault}
+                      style={{ width: 50, height: 50 }}
+                      alt="avatar"
+                    />
+                    <strong className="fs-7 fs-md-5 me-4">{message.name}</strong>
+                  </div>
+                  <p className='ps-lg-2'>{message.message}</p>
                 </div>
               </li>
             ))}

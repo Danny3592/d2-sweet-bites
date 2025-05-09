@@ -4,12 +4,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import ReactLoading from 'react-loading';
 import { useDispatch } from 'react-redux';
-import { loginSuccess } from '../../slice/authSlice';
+import { HiEye, HiEyeOff } from 'react-icons/hi';
+import { loginSuccess } from '@/slice/authSlice';
 
 export default function Login() {
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isEyeOpen, setIsEyeOpen] = useState(false);
   const navigate = useNavigate();
 
   const {
@@ -98,16 +100,24 @@ export default function Login() {
             <label htmlFor="password" className="form-label">
               密碼
             </label>
-            <input
-              {...register('password', {
-                required: '密碼欄位必填',
-                minLength: { value: 6, message: '密碼長度至少為 6 個字元' },
-              })}
-              id="password"
-              type="password"
-              className={`form-control ${errors.password ? 'is-invalid' : ''}`}
-              placeholder="******************"
-            />
+            <div className='position-relative'>
+              <input
+                {...register('password', {
+                  required: '密碼欄位必填',
+                  minLength: { value: 6, message: '密碼長度至少為 6 個字元' },
+                })}
+                id="password"
+                type={isEyeOpen ? 'text' : 'password'}
+                className={`form-control ${errors.password ? 'is-invalid' : ''}`}
+                placeholder="******************"
+              />
+              <button type="button"
+                className='position-absolute top-50 end-0 translate-middle-y p-0 btn me-3'
+                onClick={() => setIsEyeOpen(!isEyeOpen)}
+                tabIndex={-1} >
+                { isEyeOpen ? <HiEye size={24} /> : <HiEyeOff size={24} /> }  
+              </button>
+            </div>
             {errors.password && (
               <p className="text-danger my-2">{errors.password.message}</p>
             )}

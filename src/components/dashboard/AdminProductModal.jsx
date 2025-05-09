@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
 import axios from "axios";
+import PropTypes from 'prop-types';
+import { useState, useEffect } from "react";
 import { toastAlert, alertError } from "../../../util/sweetAlert";
 import { checkInputFill } from '../../../util/tools';
-import PropTypes from 'prop-types';
 export default function AdminProductModal({ modalRef, closeProductModal, getProducts, type, tempProduct, currentPage }) {
   const [tempData, setTempData] = useState({
     title: "", //商品名稱

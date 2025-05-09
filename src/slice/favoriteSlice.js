@@ -1,5 +1,5 @@
-import { createSlice, isAnyOf, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { createSlice, isAnyOf, createAsyncThunk } from '@reduxjs/toolkit';
 import { alertError } from '../../util/sweetAlert';
 
 export const getFavorites = createAsyncThunk(

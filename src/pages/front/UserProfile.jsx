@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { useEffect, useState, useRef } from 'react';
-import { alertError, toastAlert } from '../../../util/sweetAlert';
-import userLogo from '../../assets/images/user/user-logo.svg';
-import Loading from '../../components/Loading';
 import { useDispatch } from "react-redux";
-import { loginSuccess } from '../../slice/authSlice';
+import { alertError, toastAlert } from '../../../util/sweetAlert';
+import Loading from '@/components/Loading';
+import { loginSuccess } from '@/slice/authSlice';
+import userLogo from '@/assets/images/user/user-logo.svg';
 export default function UserProfile() {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);

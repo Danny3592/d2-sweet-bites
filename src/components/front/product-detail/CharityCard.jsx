@@ -1,5 +1,5 @@
-import CheckBox from './Checkbox';
 import PropTypes from 'prop-types';
+import CheckBox from './Checkbox';
 
 const CharityCard = ({ title, price, img, id, setCharitySet, charitySet }) => {
   const handleAddCharity = (id) => {
@@ -21,11 +21,11 @@ const CharityCard = ({ title, price, img, id, setCharitySet, charitySet }) => {
       />
 
       <div style={{ height: '100px', width: '150px' }}>
-        <img src={img} alt="" className="charity-img" />
+        <img src={img} alt="charity-img" className="charity-img" />
       </div>
       <div className="h-100 d-flex flex-column justify-content-between">
-        <p className="text-dark mb-6 fs-6">{title}</p>
-        <p className="text-primary fs-6">
+        <p className="text-dark mb-6 fs-6 noto-serif-tc">{title}</p>
+        <p className="text-primary-800 fs-6 noto-serif-tc">
           <span className="fs-7 me-1">NT$</span>
           {price}
         </p>

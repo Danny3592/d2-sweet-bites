@@ -1,10 +1,10 @@
+import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { Modal } from 'bootstrap';
 import { alertDeleteConfirm, toastAlert, alertError } from '../../../util/sweetAlert';
-import AdminCouponModal from '../../components/dashboard/AdminCouponModal';
-import Pagination from '../../components/Pagination';
-import Loading from '../../components/Loading';
-import axios from 'axios';
+import AdminCouponModal from '@/components/dashboard/AdminCouponModal';
+import Pagination from '@/components/Pagination';
+import Loading from '@/components/Loading';
 
 export default function AdminProducts() {
   const [coupons, setCoupons] = useState([]);

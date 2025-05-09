@@ -1,7 +1,7 @@
-import { useEffect, useRef, memo } from "react"
+import PropTypes from 'prop-types';
 import * as c3 from "c3";
 import "c3/c3.css";
-import PropTypes from 'prop-types';
+import { useEffect, useRef, memo } from "react"
 
 function C3PieChart({ data }) {
   const chartRef = useRef(null);

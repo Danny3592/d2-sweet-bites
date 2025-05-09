@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
 import axios from "axios";
-import { alertError } from "../../../util/sweetAlert";
-import Loading from "../../components/Loading";
-import NewsSwiper from "../../components/NewsSwiper";
-import Breadcrumb from "../../components/front/Breadcrumb";
-import buttonIconBrown from '../../assets/images/icons/button-arrow-brown.png';
-import arrowWhite from "../../assets/images/news-list/arrow_right_white.svg";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { alertError } from "../../../util/sweetAlert";
+import Loading from "@/components/Loading";
+import NewsSwiper from "@/components/NewsSwiper";
+import Breadcrumb from "@/components/front/Breadcrumb";
+import buttonIconBrown from '@/assets/images/icons/button-arrow-brown.png';
+import arrowWhite from "@/assets/images/news-list/arrow_right_white.svg";
 
 export default function NewsList() {
   // breadcrumb 路徑

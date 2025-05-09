@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 // Components
-import Pagination from '../../components/Pagination';
-import Loading from '../../components/Loading';
-import { useDispatch, useSelector } from 'react-redux';
-import { getPaymentForOneUser } from '../../slice/checkoutSlice';
+import Pagination from '@/components/Pagination';
+import Loading from '@/components/Loading';
+import { getPaymentForOneUser } from '@/slice/checkoutSlice';
 
 const UserCharity = () => {
 
@@ -60,41 +60,43 @@ const UserCharity = () => {
         <h2>管理捐款</h2>
       </div>
       <div className="container mt-4 user-coupon mb-10">
-        <table className="w-100">
-          <thead>
-            <tr>
-              <th>捐款ID</th>
-              <th>捐款金額</th>
-              <th>捐款日期</th>
-              <th>狀態</th>
-            </tr>
-          </thead>
-          <tbody>
-            {displayedItems.length > 0 ? (
-              displayedItems.map((item) => {
-                const formattedPrice = item.price.toLocaleString('zh-TW', {
-                  style: 'currency',
-                  currency: 'TWD',
-                  minimumFractionDigits: 0,
-                });
-                return (
-                  <tr key={item.id}>
-                    <td>{item.id}</td>
-                    <td>NT{formattedPrice}</td>
-                    <td>{item.donationDate}</td>
-                    <td>{item.paymentStatus ? '已完成' : '待確認'}</td>
-                  </tr>
-                );
-              })
-            ) : (
+        <div className="table-responsive">
+          <table className="tabel w-100">
+            <thead>
               <tr>
-                <td colSpan="4" className="text-center">
-                  目前沒有捐款紀錄
-                </td>
+                <th className="ps-10 py-3">捐款ID</th>
+                <th className="p-3">捐款金額</th>
+                <th className="p-3">捐款日期</th>
+                <th className="p-3">狀態</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {displayedItems.length > 0 ? (
+                displayedItems.map((item) => {
+                  const formattedPrice = item.price.toLocaleString('zh-TW', {
+                    style: 'currency',
+                    currency: 'TWD',
+                    minimumFractionDigits: 0,
+                  });
+                  return (
+                    <tr key={item.id}>
+                      <td className="p-3">{item.id}</td>
+                      <td className="p-3">NT{formattedPrice}</td>
+                      <td className="p-3">{item.donationDate}</td>
+                      <td className="p-3">{item.paymentStatus ? '已完成' : '待確認'}</td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan="4" className="text-center">
+                    目前沒有捐款紀錄
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {totalPages > 1 && (

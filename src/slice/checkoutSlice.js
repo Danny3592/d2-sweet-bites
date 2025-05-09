@@ -1,6 +1,6 @@
+import axios from 'axios';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { alertError } from '../../util/sweetAlert';
-import axios from 'axios';
 
 //送出表單，取得所購商品資訊、購買人資訊、付款資訊
 export const makePayment = createAsyncThunk(

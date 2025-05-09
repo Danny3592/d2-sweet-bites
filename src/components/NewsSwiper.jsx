@@ -1,12 +1,12 @@
-import chevronLeft from "../../src/assets/images/news-list/chevron-left.svg";
-import chevronRight from "../../src/assets/images/news-list/chevron-right.svg";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
+import chevronLeft from "@/assets/images/news-list/chevron-left.svg";
+import chevronRight from "@/assets/images/news-list/chevron-right.svg";
 
 export default function NewsSwiper({ carouselData }) {
   return (

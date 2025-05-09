@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { alertError } from '../../../util/sweetAlert';
 import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
+import { alertError } from '../../../util/sweetAlert';
 
 export default function AdminOrderModal({
   modalRef,
@@ -94,6 +94,7 @@ export default function AdminOrderModal({
                             <img
                               src={item.imageUrl}
                               style={{ width: '100%', height: '100%' }}
+                              alt="productImage"
                             />
                           </div>
                         </div>

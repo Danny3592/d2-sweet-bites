@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
 import axios from "axios";
-import { toastAlert, alertError } from "../../../util/sweetAlert";
 import PropTypes from 'prop-types';
+import { useEffect, useState } from "react";
+import { toastAlert, alertError } from "../../../util/sweetAlert";
 
 export default function AdminUserModal({
   modalRef,

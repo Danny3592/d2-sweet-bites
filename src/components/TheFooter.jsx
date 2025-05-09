@@ -1,7 +1,7 @@
-import logoImg from '../assets/images/layout/Logo.png';
-import fbIcon from '../assets/images/layout/icon-fb.png';
-import xIcon from '../assets/images/layout/icon-twitter.png';
-import igIcon from '../assets/images/layout/icon-instagram.png';
+import logoImg from '@/assets/images/layout/Logo.png';
+import fbIcon from '@/assets/images/layout/icon-fb.png';
+import xIcon from '@/assets/images/layout/icon-twitter.png';
+import igIcon from '@/assets/images/layout/icon-instagram.png';
 
 export default function TheFooter() {
   return (

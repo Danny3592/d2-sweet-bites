@@ -1,6 +1,6 @@
+import axios from 'axios';
 import { createSlice, createAsyncThunk, isAnyOf } from '@reduxjs/toolkit';
 import { alertError } from '../../util/sweetAlert';
-import axios from 'axios';
 
 
 export const couponSlice = createSlice({

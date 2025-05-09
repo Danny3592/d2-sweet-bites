@@ -1,6 +1,6 @@
+import PropTypes from 'prop-types';
 import { useState } from "react"
 import { compareDateExpired } from "../../../util/tools";
-import PropTypes from 'prop-types';
 
 export default function CouponModal({ modalRef, coupons, closeCouponModal, setCouponCode }) {
   const [selectCoupon, setSelectCoupon] = useState('');
